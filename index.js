@@ -6,11 +6,13 @@ var app = express();
 // Serve URLs like /ftp/thing as public/ftp/thing
 // The express.static serves the file contents
 // The serveIndex is this module serving the directory
-app.use('/', 
+app.use('/creative', 
 	express.static(__dirname), 
 	serveIndex(__dirname, {
-		stylesheet: './views/static/server.css',
-		icons: true
+		template: './views/directory/index.html',
+		stylesheet: './views/directory/styles.css',
+		icons: true,
+		view: 'details'
 	})
 );
 

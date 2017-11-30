@@ -68,10 +68,16 @@ a:hover {
 .directory h1 {
 	margin: 0;
 	font-size: 2em;
-	line-height: 1.5em;
-	color: #fff;
+	line-height: 1em;
+	color: #aaa;
 	background: #000;
 	padding: 15px 10px;
+}
+.directory h1 a {
+	color: #fff;
+}
+.directory h1 a:hover {
+	color: #aaa;
 }
 ul#files {
 	width: 100%;
@@ -149,10 +155,9 @@ ul#files li a.highlight {
 #files .name {
 	background-repeat: no-repeat;
 	background-position: 0 50%;
-}
-#files .icon .name {
 	text-indent: 30px;
 }
+
 
 /*tiles*/
 .view-tiles .name {
@@ -177,27 +182,32 @@ ul#files.view-details li {
 	width: 90%;
 }
 ul#files.view-details li.header {
-	height: 25px;
-	background: #000;
+	float: none;
+	display: block;
+	width: 90%;
+	background: #444;
 	color: #fff;
 	font-weight: bold;
+  padding: 8px 15px 0px;
+  overflow: hidden;
+  white-space: nowrap;
 }
 .view-details .header {
-	border-radius: 5px;
+
 }
 .view-details .name {
-	width: 60%;
-	background-position: 8px 5px;
+	display: inline-block;
+	width: 50%;
 }
 .view-details .size {
-	width: 10%;
-}
-.view-details .date {
-	width: 30%;
-}
-.view-details .size,
-.view-details .date {
+	display: inline-block;
+	width: 20%;
 	text-align: right;
-	direction: rtl;
 }
+.view-details .date {
+	display: inline-block;
+	width: 30%;
+	text-align: right;
+}
+
 
