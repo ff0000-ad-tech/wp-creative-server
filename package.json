@@ -1,0 +1,19 @@
+{
+  "name": "wp-creative-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ff0000-ad-tech/wp-creative-server.git"
+  },
+  "author": "RED Interactive Agency",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "serve-index": "^1.9.1"
+  }
+}
