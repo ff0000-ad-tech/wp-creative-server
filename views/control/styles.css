@@ -1,0 +1,52 @@
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+.clear {
+	clear: both;
+}
+
+.clear-after:after {
+	display: block;
+	content: '';
+	clear: both;
+}
+
+
+
+#content {
+}
+#content h1 {
+	padding: 10px;
+	font-size: 1.5em;
+	background: #fff;
+	color: #aaa;
+	height: 12px;
+}
+#content h1 a {
+	color: #000;
+}
+#content h1 a:hover {
+	color: #666;
+}
+#content h1 {
+
+}
+
+.next-child {
+	background-image: url('/control/images/next-child.png');
+	width: 30px;
+	height: 20px;
+	margin-right: 5px;
+}
+
+.last-child {
+	background-image: url('/control/images/last-child.png');
+	width: 30px;
+	height: 20px;
+	margin-right: 5px;
+}

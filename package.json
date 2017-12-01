@@ -13,7 +13,10 @@
   "author": "RED Interactive Agency",
   "license": "ISC",
   "dependencies": {
+    "debug": "git://github.com/gmcdev/debug.git",
+    "ejs": "^2.5.7",
     "express": "^4.16.2",
+    "minimist": "^1.2.0",
     "serve-index": "^1.9.1"
   }
 }
