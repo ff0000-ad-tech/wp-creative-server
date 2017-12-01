@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+var moment = require('moment');
 
 const debug = require('debug');
 var log = debug('wp-creative-server:controllers:control');
@@ -28,10 +29,14 @@ function getBuildTargets() {
 			const sizeItems = fs.readdirSync(
 				`${buildPath}/${buildItem}`
 			);
-			sizeItems.forEach((sizeItem) => {
-				// location index files
+			sizeItems.forEach((sizeItem, i) => {
+				// locate index files
 				if (sizeItem.match(/index/)) {
-					targets[buildItem].push(sizeItem);
+					targets[buildItem].push({
+						name: sizeItem,
+						isWatching: i % 2,
+						lastDeployAt: moment(Date.now() - 10000).from(Date.now())
+					});
 				}
 			});
 		}

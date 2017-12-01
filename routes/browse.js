@@ -13,7 +13,7 @@ module.exports = (app, express) => {
 	 *
 	 *
 	 */
-	app.use('/browse', 
+	app.use('/', 
 		express.static(global.servePath), 
 		serveIndex(global.servePath, {
 			template: `${global.appPath}/views/directory/index.html`,

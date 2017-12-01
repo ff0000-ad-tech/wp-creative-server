@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<title></title>
-	<link rel="stylesheet" href="/directory/styles.css">
+	<link rel="stylesheet" href="/shared/styles.css">
 	<link rel="stylesheet" href="/control/styles.css">
 
 	<script>
@@ -12,38 +12,47 @@
 </head>
 
 <body>
-	<div id="content">
+	<div id="panel">
 		<h1><a href=""><%= creativeName; %></a></h1>
 		<ul id="files" class="view-details">
 			<li class="header">
-				<span class="name">Ads</span>
-				<span class="size">Compiling</span>
-				<span class="date">Deployed</span>
+				<span class="index-col column">Builds</span>
+				<span class="hierarchy-grid"></span>
+				<span class="watching-col column">Compiling</span>
+				<span class="last-deploy-col column">Deployed</span>
 			</li>
 
 			<%
 			Object.keys(targets).forEach((size) => {
 			%>
-			<li>
-				<a href="/creative/_assets" class="icon icon-directory" title="_assets">
-					<div class="ad-size"><%= size; %></div>
+		</ul>
+		<div class="ads">
+			<div class="ad">
+				<div class="ad-size"><%= size; %></div>
 				<%
 				targets[size].forEach((index, i) => {	
-					var childCss = i < targets[size].length - 1 ? 'next-child' : 'last-child';			
+					var childCss = i < targets[size].length - 1 ? 'next-child' : 'last-child';
+					var watchingCss = index.isWatching ? 'watching' : 'not-watching';			
 				%>
-					<div class="ad-index clear-after">
-						<div class="<%= childCss; %> left"></div>
-						<div class="left"><%= index; %></div>
+				<div class="ad-index clear-after">
+					<div class="hierarchy-grid <%= childCss; %>"></div>
+					<div class="index-col column">
+						<div class="col-vert-nudge"><%= index.name; %></div>
 					</div>
+					<div class="watching-col <%= watchingCss; %> column"></div>
+					<div class="deploy-col column"></div>
+					<div class="last-deploy-col column">
+						<div class="col-vert-nudge"><%= index.lastDeployAt; %></div>
+					</div>
+				</div>
 				<%
 				});
 				%>
-				</a>
-			</li>
+			</div>
 			<%
 			});			
 			%>
-		</ul>
+		</div>
 
 	</div>
 </body>

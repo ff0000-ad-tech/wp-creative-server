@@ -4,6 +4,7 @@
 		<meta charset='utf-8'> 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 		<title>Creative Server - {directory}</title>
+		<link rel="stylesheet" href="/shared/styles.css">
 		<style>{style}</style>
 		<script>
 		</script>
@@ -18,10 +19,13 @@
 				<iframe src="/control"></iframe>
 			</div>
 
-			<div id="wrapper" class="left">
-				<h1><a href="/browse">~</a>{linked-path}</h1>
-				{files}
+			<div id="browser" class="left">
+				<div id="panel">
+					<h1><a href="/">~</a>{linked-path}</h1>
+					{files}
+				</div>
 			</div>
+
 		</div>
 	</body>
 </html>
