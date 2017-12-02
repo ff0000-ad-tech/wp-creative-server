@@ -67,7 +67,7 @@ module.exports = (app, express) => {
 		validateSize(req.query.size);
 		validateIndex(req.query.index); 
 		//
-		control.startWatching(
+		control.stopWatching(
 			req.query.size, 
 			req.query.index
 		);

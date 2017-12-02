@@ -26,18 +26,20 @@ function getBuildTargets() {
 	buildItems.forEach((buildItem) => {
 		// locate build-size folders
 		if (buildItem.match(/[0-9]+x[0-9]/)) {
-			targets[buildItem] = [];
+			const size = buildItem;
+			targets[size] = [];
 
 			// iterate build-size folder, looking for index files
 			const sizeItems = fs.readdirSync(
-				`${buildPath}/${buildItem}`
+				`${buildPath}/${size}`
 			);
 			sizeItems.forEach((sizeItem, i) => {
 				// locate index files
 				if (sizeItem.match(/index/)) {
-					targets[buildItem].push({
-						name: sizeItem,
-						isWatching: i % 2,
+					const index = sizeItem;
+					targets[size].push({
+						name: index,
+						isWatching: getWatchProcess(size, index) ? true : false,
 						lastDeployAt: moment(Date.now() - 10000).from(Date.now())
 					});
 				}
@@ -51,11 +53,11 @@ function getBuildTargets() {
 var watching = [];
 
 function getWatchProcess(size, index) {
-	watching.forEach((watch) => {
-		if (watch.size == size && watch.index == index) {
-			return watch;
+	for(var i in watching) {
+		if (watching[i].size == size && watching[i].index == index) {
+			return watching[i];
 		}
-	});
+	}
 }
 
 
@@ -76,13 +78,16 @@ function startWatching(size, index) {
 	};
 
 	// start webpack with settings
-
 	const args = [
-		'webpack', '--config', `${global.servePath}/webpack.config.js`, '--env', ${JSON.stringify(env)
+		'--config', 'webpack.config.js', 
+		'--env', JSON.stringify(env)
 	];
-	const p = wp.run(args, handleWatchExit);
+	const p = wp.run(
+		'webpack', args,
+		global.servePath
+	);
 
-	// watch webpack process
+	// watch webpack process, TODO: pipe process outputs back to application
 	const watch = {
 		size: size,
 		index: index,
@@ -95,19 +100,18 @@ function startWatching(size, index) {
 
 
 function stopWatching(size, index) {
-	const watch = getWatchProcess(size, index);
-	if (watch) {
-		log('Stop watching:');
-		log(watch);
-		watch.process.kill();
+	for(var i in watching) {
+		if (watching[i].size == size && watching[i].index == index) {
+			log(`Stop watching: ${size}/${index}`);
+			watching[i].process.kill();
+			watching.splice(i, 1)
+		}
 	}
 }
 
 
 
-function handleWatchExit(err) {
-	log('!!! Watch Process EXIT !!!');
-}
+
 
 
 module.exports = {

@@ -36,6 +36,7 @@
 	width: 16px;
 	height: 16px;
 	margin: 0pt auto;
+	padding-top: 5px;
 }
 .watching {
 	background-image: url('/control/images/watching.png');
@@ -44,6 +45,7 @@
 	width: 16px;
 	height: 16px;
 	margin: 0pt auto;
+	padding-top: 5px;
 }
 
 .column {

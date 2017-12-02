@@ -18,6 +18,7 @@
     "express": "^4.16.2",
     "minimist": "^1.2.0",
     "moment": "^2.19.3",
-    "serve-index": "^1.9.1"
+    "serve-index": "^1.9.1",
+    "shell-escape": "^0.2.0"
   }
 }

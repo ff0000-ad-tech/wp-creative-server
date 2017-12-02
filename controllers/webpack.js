@@ -8,10 +8,12 @@ var log = debug('wp-creative-server:controllers:webpack');
 
 
 
-function run(args, callback) {
-	const command = shellescape(args);
-	log('run ->', command);
-	var p = cp.spawn(command);
+function run(command, args, cwd, callback) {
+	callback = callback || handleError;
+	log('run ->', command, args);
+	log(args);
+
+	var p = cp.spawn(command, args, { cwd });
 	// handle process events
 	p.stdout.on('data', (data) => {
 		log(data);
@@ -27,6 +29,11 @@ function run(args, callback) {
 		callback(err);
 	});
 	return p;
+}
+
+
+function handleError(err) {
+	log(err);
 }
 
 
