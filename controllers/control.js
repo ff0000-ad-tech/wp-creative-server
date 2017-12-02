@@ -1,6 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-var moment = require('moment');
+const moment = require('moment');
+
+const wp = require('./webpack.js');
 
 const debug = require('debug');
 var log = debug('wp-creative-server:controllers:control');
@@ -11,6 +13,7 @@ function getCreativeName() {
 }
 
 
+// analyze the file-system
 function getBuildTargets() {
 	log('getBuildTargets()');
 
@@ -41,12 +44,76 @@ function getBuildTargets() {
 			});
 		}
 	});
-
 	return targets;
+}
+
+
+var watching = [];
+
+function getWatchProcess(size, index) {
+	watching.forEach((watch) => {
+		if (watch.size == size && watch.index == index) {
+			return watch;
+		}
+	});
+}
+
+
+function startWatching(size, index) {
+	// already watching
+	if (getWatchProcess(size, index)) {
+		return;
+	}
+
+	// build settings, TODO: integrate with Ad App for client/project, saved profiles, etc
+	const env = {
+		deploy: {
+			source: {
+				size: size,
+				index: index
+			} 
+		}
+	};
+
+	// start webpack with settings
+
+	const args = [
+		'webpack', '--config', `${global.servePath}/webpack.config.js`, '--env', ${JSON.stringify(env)
+	];
+	const p = wp.run(args, handleWatchExit);
+
+	// watch webpack process
+	const watch = {
+		size: size,
+		index: index,
+		process: p
+	};
+	watching.push(watch);
+	log(`Watching: ${size}/${index}`);
+}
+
+
+
+function stopWatching(size, index) {
+	const watch = getWatchProcess(size, index);
+	if (watch) {
+		log('Stop watching:');
+		log(watch);
+		watch.process.kill();
+	}
+}
+
+
+
+function handleWatchExit(err) {
+	log('!!! Watch Process EXIT !!!');
 }
 
 
 module.exports = {
 	getCreativeName,
-	getBuildTargets
+	getBuildTargets,
+
+	startWatching,
+	stopWatching
 };
