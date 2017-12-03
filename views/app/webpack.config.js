@@ -12,7 +12,7 @@ module.exports = {
   module: {
     rules: [{
       test: /\.js$/,
-      exclude: /app\/node_modules/,
+      exclude: /wp-creative-server\/node_modules/,
       use: [{ 
         loader: 'babel-loader', 
         options: { 
