@@ -8,12 +8,13 @@ var log = debug('wp-creative-server');
 // set app-path
 global.appPath = __dirname;
 
-// set creative-path
+// set creative-path with --context, 
+// ex: `node node_modules/wp-creative-server/index.js --context ./`
 global.servePath = path.resolve(
 	'context' in argv ? argv.context : global.appPath
 );
-log(argv.context);
-log(`Serve path is: ${global.servePath}`);
+log(`Requested --context ${argv.context}`);
+log(` Serve path is: ${global.servePath}`);
 
 
 /* -- Setup -----------------------------------------------

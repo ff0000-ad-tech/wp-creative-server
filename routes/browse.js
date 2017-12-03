@@ -16,15 +16,15 @@ module.exports = (app, express) => {
 	app.use('/', 
 		express.static(global.servePath), 
 		serveIndex(global.servePath, {
-			template: `${global.appPath}/views/directory/index.html`,
-			stylesheet: `${global.appPath}/views/directory/styles.css`,
+			template: `${global.appPath}/views/browse/index.html`,
+			stylesheet: `${global.appPath}/views/browse/styles.css`,
 			icons: true,
 			view: 'details'
 		})
 	);
 
-	app.use('/directory', express.static(
-		`${global.appPath}/views/directory`
+	app.use('/browse', express.static(
+		`${global.appPath}/views/browse`
 	));
 
 

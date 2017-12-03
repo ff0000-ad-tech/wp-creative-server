@@ -6,20 +6,21 @@
 		<title>Creative Server - {directory}</title>
 		<link rel="stylesheet" href="/shared/styles.css">
 		<style>{style}</style>
-		<script>
-		</script>
+		<script src="/browse/js/utils.js"></script>
 	</head>
 	<body>
 		<div id="header">
 			<h1>Creative Server</h1>
 		</div>
 
-		<div class="columns clear-after">
-			<div id="control" class="left">
+		<div class="columns">
+			<div id="control">
 				<iframe src="/control"></iframe>
 			</div>
 
-			<div id="browser" class="left">
+			<div id="resize"></div>
+
+			<div id="browser">
 				<div id="panel">
 					<h1><a href="/">~</a>{linked-path}</h1>
 					{files}
@@ -28,4 +29,10 @@
 
 		</div>
 	</body>
+	<script type="text/javascript">
+		resizableColumns(
+			document.getElementById('control'), 
+			document.getElementById('resize')
+		);
+	</script>
 </html>

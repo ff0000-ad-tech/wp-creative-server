@@ -96,16 +96,23 @@ a:hover {
 	background: #fff;
 	color: #aaa;
 	height: 12px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 #panel h1 a {
 	color: #000;
+  display: inline-block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;	
 }
 #panel h1 a:hover {
 	color: #666;
 }
 
 .header {
-	height: 22px;
+	height: 22px;	
 }
 
 ul#files {
@@ -187,7 +194,7 @@ ul#files.view-details li.header {
 	float: none;
 	display: block;
 	width: 90%;
-	background: #444;
+	background: #555;
 	color: #fff;
 	font-weight: bold;
   padding: 4px 15px 0px;
