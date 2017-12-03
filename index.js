@@ -36,6 +36,7 @@ app.set('view engine', 'ejs');
  *
  *
  */
+require('./routes/app')(app, express);
 require('./routes/control')(app, express);
 require('./routes/browse')(app, express);
 require('./routes/api')(app, express);
