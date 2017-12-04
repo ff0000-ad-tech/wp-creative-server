@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "server": "node index.js",
+    "server": "NODE_ENV=development DEBUG=* node index.js",
     "build": "webpack --config views/app/webpack.config.js"
   },
   "repository": {
