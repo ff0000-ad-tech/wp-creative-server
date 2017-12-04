@@ -7,20 +7,20 @@ let state = {};
 
 
 // server connection
-import dnode from 'dnode';
-import net from 'net';
+// import dnode from 'dnode';
+// import net from 'net';
 
-// rpc
-const d = dnode();
-d.on('remote', function (remote) {
-	remote.getState('targets', function (t) {
-		state.targets = t;
-		// --> react
-		console.log(state.targets);
-	});
-});
-var c = net.connect(5004);
-c.pipe(d).pipe(c);
+// // rpc
+// const d = dnode();
+// d.on('remote', function (remote) {
+// 	remote.getState('targets', function (t) {
+// 		state.targets = t;
+// 		// --> react
+// 		console.log(state.targets);
+// 	});
+// });
+// var c = net.connect(5004);
+// c.pipe(d).pipe(c);
 
 
 // view
