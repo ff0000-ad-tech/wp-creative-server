@@ -2,13 +2,24 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Main from './Main';
 
-import '../public/remote.bundle.js';
+import * as control from './lib/control.js';
 
-// server connection
-window.remote.connect();
 
-// React State
-let state = window.remote.getState();
+// initial state
+let state = {};
+
+
+// server connection (connect-remote included via bundle)
+window.connectRemote((err, remote) => {
+	if (err) {
+		throw('Unable to connect-remote!');
+	}
+	control.init({
+		remote: remote,
+		state: state
+	});
+	control.startUpdates();
+});
 
 
 // view

@@ -21,6 +21,7 @@ module.exports = {
       }]
     }]
   },
+  watch: true,
   // plugins: debug ? [] : [
     // new webpack.optimize.DedupePlugin(),
     // new webpack.optimize.OccurenceOrderPlugin(),

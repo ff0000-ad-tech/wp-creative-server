@@ -21,9 +21,9 @@
     "lodash": "^4.17.4",
     "minimist": "^1.2.0",
     "moment": "^2.19.3",
-    "net": "^1.0.2",
     "serve-index": "^1.9.1",
-    "shell-escape": "^0.2.0"
+    "shell-escape": "^0.2.0",
+    "shoe": "0.0.15"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -34,7 +34,6 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
-    "shoe": "0.0.15",
     "webpack": "^3.8.1"
   }
 }
