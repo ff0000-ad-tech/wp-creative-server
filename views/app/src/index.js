@@ -1,28 +1,31 @@
+import { createStore, combineReducers } from 'redux'
+import configureStore from './store.js'
+
+import debug from 'debug'
+const log = debug('wp-cs:index')
+
+// create redux store
+log('Configuring Redux Store')
+let store = configureStore({
+	targets: {}
+})
+
+
+// server connection
+log('Connecting Server RPC')
+import * as rpc from './lib/rpc.js'
+rpc.init({
+	store: store
+})
+rpc.connect()
+
+
+// view
+log('Rendering Main')
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Main from './Main';
 
-import * as control from './lib/control.js';
-
-
-// initial state
-let state = {};
-
-
-// server connection (connect-remote included via bundle)
-window.connectRemote((err, remote) => {
-	if (err) {
-		throw('Unable to connect-remote!');
-	}
-	control.init({
-		remote: remote,
-		state: state
-	});
-	control.startUpdates();
-});
-
-
-// view
 ReactDOM.render(
 	<Main/>, 
 	document.getElementById('root')
