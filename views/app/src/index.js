@@ -2,25 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Main from './Main';
 
-// React State
-let state = {};
-
+import '../public/remote.bundle.js';
 
 // server connection
-// import dnode from 'dnode';
-// import net from 'net';
+window.remote.connect();
 
-// // rpc
-// const d = dnode();
-// d.on('remote', function (remote) {
-// 	remote.getState('targets', function (t) {
-// 		state.targets = t;
-// 		// --> react
-// 		console.log(state.targets);
-// 	});
-// });
-// var c = net.connect(5004);
-// c.pipe(d).pipe(c);
+// React State
+let state = window.remote.getState();
 
 
 // view

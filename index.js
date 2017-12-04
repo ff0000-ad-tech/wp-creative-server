@@ -42,19 +42,19 @@ var state = require('./lib/state.js');
  *
  *
  */
-// var dnode = require('dnode');
-// var net = require('net');
+var dnode = require('dnode');
+var net = require('net');
 
-// var server = net.createServer(function (c) {
-// 	var d = dnode({
-// 		getState: function (name, cb) {
-// 			cb({ data:'<3- You will receive  -->' });
-// 		}
-// 	});
-// 	c.pipe(d).pipe(c);
-// });
+var server = net.createServer(function (c) {
+	var d = dnode({
+		getState: function (name, cb) {
+			cb({ data:'<3- You will receive  -->' });
+		}
+	});
+	c.pipe(d).pipe(c);
+});
 
-// server.listen(5004);
+server.listen(5004);
 
 
 
