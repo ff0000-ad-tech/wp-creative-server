@@ -22,47 +22,42 @@
 				<span class="last-deploy-col column">Deployed</span>
 			</li>
 
-			<%
-			Object.keys(targets).forEach((size) => {
-			%>
+<%
+	const ids = Object.keys(targets);
+	ids.forEach((id) => {
+		const target = targets[id];
+		var childCss = i < ids.length - 1 ? 'next-child' : 'last-child';
+		var toggleRoute, watchingCss;
+		if (target.watching) {
+			toggleRoute = '/api/stop-watching?size=' + target.size + '&index=' + target.index;
+			watchingCss = 'watching';
+		}
+		else {
+			toggleRoute = '/api/start-watching?size=' + target.size + '&index=' + target.index;
+			watchingCss = 'not-watching';
+		}
+%>
 		</ul>
 		<div class="ads">
 			<div class="ad">
-				<div class="ad-size"><%= size; %></div>
-				<%
-				targets[size].forEach((index, i) => {	
-					var childCss = i < targets[size].length - 1 ? 'next-child' : 'last-child';
-					var toggleRoute, watchingCss;
-					if (index.isWatching) {
-						toggleRoute = '/api/stop-watching?size=' + size + '&index=' + index.name;
-						watchingCss = 'watching';
-					}
-					else {
-						toggleRoute = '/api/start-watching?size=' + size + '&index=' + index.name;
-						watchingCss = 'not-watching';
-					}
-
-				%>
+				<div class="ad-size"><%= target.size; %></div>
 				<div class="ad-index clear-after">
 					<div class="hierarchy-grid <%= childCss; %>"></div>
 					<div class="index-col column">
-						<div class="col-vert-nudge"><%= index.name; %></div>
+						<div class="col-vert-nudge"><%= target.index; %></div>
 					</div>
 					<div class="watching-col column">
 						<a href="<%= toggleRoute; %>"><div class="<%= watchingCss; %>"></div></a>
 					</div>
 					<div class="deploy-col column"></div>
 					<div class="last-deploy-col column">
-						<div class="col-vert-nudge"><%= index.lastDeployAt; %></div>
+						<div class="col-vert-nudge"><%= target.lastDeployAt; %></div>
 					</div>
 				</div>
-				<%
-				});
-				%>
 			</div>
-			<%
-			});			
-			%>
+<%
+	});			
+%>
 		</div>
 
 	</div>

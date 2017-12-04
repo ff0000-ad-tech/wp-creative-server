@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const control = require('../controllers/control.js');
+const targets = require('../lib/targets.js');
+const state = require('../lib/state.js');
 
 const debug = require('debug');
 var log = debug('wp-creative-server:route:control');
@@ -16,15 +17,15 @@ module.exports = (app, express) => {
 	 */
 	app.get('/control', (req, res) => {
 		// creative name
-		const creativeName = control.getCreativeName();
+		const creativeName = targets.getCreativeName();
 
-		// build targets are size-folders containing indexes
-		const targets = control.getBuildTargets();
+		// refresh targets and update state
+		targets.readTargets()
 
 		res.render(
 			`${global.appPath}/views/control/index`, {
 				creativeName: creativeName,
-				targets: targets
+				targets: state.getTargets()
 			}
 		);	
 	});

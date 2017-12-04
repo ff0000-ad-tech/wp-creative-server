@@ -29,6 +29,35 @@ var app = express();
 app.set('view engine', 'ejs');
 
 
+/* -- STATE ----------------------------------------------
+ *
+ *
+ *
+ */
+var state = require('./lib/state.js');
+
+
+/* -- RPC ----------------------------------------------
+ *
+ *
+ *
+ */
+// var dnode = require('dnode');
+// var net = require('net');
+
+// var server = net.createServer(function (c) {
+// 	var d = dnode({
+// 		getState: function (name, cb) {
+// 			cb({ data:'<3- You will receive  -->' });
+// 		}
+// 	});
+// 	c.pipe(d).pipe(c);
+// });
+
+// server.listen(5004);
+
+
+
 
 
 /* -- ROUTES ----------------------------------------------

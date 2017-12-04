@@ -1,8 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 
-const control = require('../controllers/control.js');
-
 const debug = require('debug');
 var log = debug('wp-creative-server:route:app');
 

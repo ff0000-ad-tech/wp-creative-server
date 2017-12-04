@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const control = require('../controllers/control.js');
+const targets = require('../lib/targets.js');
+const webpack = require('../lib/webpack.js');
 
 const debug = require('debug');
 var log = debug('wp-creative-server:route:api');
@@ -39,8 +40,32 @@ module.exports = (app, express) => {
 		}
 	}
 
-	/* -- CONTROL -----------------------------------
+
+	/**
+	 * VALIDATION
 	 *
+	 *
+	 */
+	function validateSize(size) {
+		if (!size) {
+			throw(`Does not specify 'size'. Please see /api endpoint for more info.`);
+		}
+		return size;
+	}
+	function validateIndex(index) {
+		if (!index) {
+			throw(`Does not specify 'index'. Please see /api endpoint for more info.`);
+		}	
+		return index;
+	}
+
+
+
+
+
+
+	/**
+	 * VALIDATION
 	 *
 	 *
 	 */
@@ -52,39 +77,40 @@ module.exports = (app, express) => {
 
 	// start watching: size / index
 	app.get('/api/start-watching', (req, res) => {
-		validateSize(req.query.size);
-		validateIndex(req.query.index); 
-		//
-		control.startWatching(
-			req.query.size, 
-			req.query.index
+		const size = validateSize(req.query.size);
+		const index = validateIndex(req.query.index); 
+		
+		// get target
+		const target = state.getTarget(
+			targets.generateId(size, index)
 		);
-		res.redirect('/control');
+		if (target) {
+			// build settings, ** TODO: integrate with Ad App for client/project, saved profiles, etc
+			const options = { size, index };
+			//
+			state.updateTarget(target, {
+				proc: webpack.start(options)
+			});
+		}
 	});
 
 	// stop watching: size / index
 	app.get('/api/stop-watching', (req, res) => {
-		validateSize(req.query.size);
-		validateIndex(req.query.index); 
-		//
-		control.stopWatching(
-			req.query.size, 
-			req.query.index
+		const size = validateSize(req.query.size);
+		const index = validateIndex(req.query.index); 
+
+		// get target
+		const target = state.getTarget(
+			targets.generateId(size, index)
 		);
-		res.redirect('/control');
+		if (target) {
+			webpack.stop(target.proc);
+		}
 	});
 
 
 
-	function validateSize(size) {
-		if (!size) {
-			throw(`Does not specify 'size'. Please see /api endpoint for more info.`);
-		}
-	}
-	function validateIndex(index) {
-		if (!index) {
-			throw(`Does not specify 'index'. Please see /api endpoint for more info.`);
-		}	
-	}
+
+
 
 };
