@@ -42,19 +42,20 @@ var state = require('./lib/state.js');
  *
  *
  */
-// var dnode = require('dnode');
-// var net = require('net');
+var dnode = require('dnode');
+var shoe = require('shoe');
 
-// var server = net.createServer(function (c) {
-// 	var d = dnode({
-// 		getState: function (name, cb) {
-// 			cb({ data:'<3- You will receive  -->' });
-// 		}
-// 	});
-// 	c.pipe(d).pipe(c);
-// });
+var sock = shoe(function (stream) {
+	log('dnode connect');
+	var d = dnode({
+		getState: function (name, cb) {
+			log('getState() requested');
+			cb({ data:'<3- You will receive  -->' });
+		}
+	});
+	d.pipe(stream).pipe(d);
+});
 
-// server.listen(5004);
 
 
 
@@ -90,4 +91,4 @@ app.use('/shared', express.static(
  *
  *
  */
-app.listen(3000);
+sock.install(app.listen(3000), '/dnode');
