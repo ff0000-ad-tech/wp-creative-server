@@ -5,6 +5,11 @@ import Main from './Main';
 // React State
 let state = {};
 
+/*
+
+ TODO: connect with lib/targets:21
+ // sort in alpha-numeric manner
+*/ 
 
 // server connection
 // import dnode from 'dnode';
