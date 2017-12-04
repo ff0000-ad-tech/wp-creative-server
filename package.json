@@ -21,6 +21,7 @@
     "lodash": "^4.17.4",
     "minimist": "^1.2.0",
     "moment": "^2.19.3",
+    "net": "^1.0.2",
     "serve-index": "^1.9.1",
     "shell-escape": "^0.2.0"
   },
