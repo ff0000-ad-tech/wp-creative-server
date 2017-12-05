@@ -16,6 +16,22 @@ module.exports = (app, express) => {
 	app.use('/', 
 		express.static(global.servePath), 
 		serveIndex(global.servePath, {
+			template: `${global.appPath}/views/app/public/browse-template/index.html`,
+			stylesheet: `${global.appPath}/views/app/public/browse-template/styles.css`,
+			icons: true,
+			view: 'details'
+		})
+	);
+
+	app.use('/browse', express.static(
+		`${global.appPath}/views/app/public/browse-template`
+	));
+
+	/** DEPRECATED --->
+	 */
+	app.use('/browse-panel', 
+		express.static(global.servePath), 
+		serveIndex(global.servePath, {
 			template: `${global.appPath}/views/browse/index.html`,
 			stylesheet: `${global.appPath}/views/browse/styles.css`,
 			icons: true,
@@ -23,7 +39,7 @@ module.exports = (app, express) => {
 		})
 	);
 
-	app.use('/browse', express.static(
+	app.use('/browse-panel', express.static(
 		`${global.appPath}/views/browse`
 	));
 

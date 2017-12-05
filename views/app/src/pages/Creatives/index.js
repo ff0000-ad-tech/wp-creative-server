@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import CreativePanel from './CreativePanel'
-import DirectoryPanel from './DirectoryPanel'
+import BrowsePanel from './BrowsePanel'
 import DragBar from './DragBar'
 
 import './style.scss'
@@ -35,7 +35,7 @@ class Creatives extends Component {
       <div className="page creatives">
         <CreativePanel style={creativeStyle} />
         <DragBar parentResizePanels={this.resizePanels} />
-        <DirectoryPanel />
+        <BrowsePanel />
       </div>
     )
   }
