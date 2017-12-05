@@ -18,6 +18,11 @@ export function connect() {
 
 }
 
+/* -- RPC METHODS/CALLBACKS -------------------------
+ *
+ *
+ *
+ */
 export function updateTargets() {
 	remote.getState('targets', function (targets) {
 		store.dispatch(update(targets))

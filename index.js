@@ -25,8 +25,13 @@ log(` Serve path is: ${global.servePath}`);
 // express set up
 var app = express();
 
-// set view engine
+// set view engine -- DEPRECATED
 app.set('view engine', 'ejs');
+
+
+
+
+
 
 
 /* -- STATE ----------------------------------------------
@@ -36,24 +41,23 @@ app.set('view engine', 'ejs');
  */
 var state = require('./lib/state.js');
 
+// read targets on start-up
+const targets = require('./lib/targets.js');
+targets.readTargets();
 
-/* -- RPC ----------------------------------------------
+
+
+
+
+
+/* -- RPC API ----------------------------------------------
  *
  *
  *
  */
-var dnode = require('dnode');
-var shoe = require('shoe');
-
-var sock = shoe(function (stream) {
-	log('dnode connect');
-	var d = dnode({
-		getState: function (name, cb) {
-			log('getState() requested');
-			cb({ data:'<3- You will receive  -->' });
-		}
-	});
-	d.pipe(stream).pipe(d);
+var rpcApi = require('./lib/rpc-api.js');
+var sock = rpcApi.connect({
+	state: state
 });
 
 
@@ -75,6 +79,8 @@ require('./routes/api')(app, express);
 
 
 
+
+
 /* -- SHARED STATIC ----------------------------------------------
  *
  *
@@ -83,6 +89,34 @@ require('./routes/api')(app, express);
 app.use('/shared', express.static(
 	`${global.appPath}/views/static`
 ));
+
+
+
+
+
+/* -- CLEANUP ----------------------------------------------
+ *
+ *
+ *
+ */
+process.stdin.resume(); //so the program will not close instantly
+
+
+function cleanup() {
+	log('cleanup')
+	targets.stopWatchingAll();
+	process.exit();
+}
+process.on('SIGINT', cleanup);
+process.on('SIGUSR1', cleanup);
+process.on('SIGUSR2', cleanup);
+process.on('exit', (code) => {
+	log(`Exit code: ${code}`)
+});
+process.on('uncaughtException', (err) => {
+	log(err);
+	cleanup();
+});
 
 
 

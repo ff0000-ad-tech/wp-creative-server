@@ -23,7 +23,9 @@
     "moment": "^2.19.3",
     "serve-index": "^1.9.1",
     "shell-escape": "^0.2.0",
-    "shoe": "0.0.15"
+    "shoe": "0.0.15",
+    "unix-path": "git://github.com/gmcdev/unix-path.git",
+    "unix-path-literal": "git://github.com/gmcdev/unix-path.git"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
