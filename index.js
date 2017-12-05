@@ -55,7 +55,7 @@ targets.readTargets();
  *
  *
  */
-var rpcApi = require('./lib/rpc-api.js');
+var rpcApi = require('./routes/rpc-api.js');
 var sock = rpcApi.connect({
 	state: state
 });
