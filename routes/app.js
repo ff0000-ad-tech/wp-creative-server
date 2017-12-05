@@ -12,12 +12,14 @@ module.exports = (app, express) => {
 	 *
 	 *
 	 */
-	app.get('/app', (req, res) => {
+	app.use('/app-public', express.static(
+		`${global.appPath}/views/app/public/`
+	));
+
+	app.get('/app*', (req, res) => {
 		res.sendFile(`${global.appPath}/views/app/public/index.html`)	
 	});
 
-	app.use('/app', express.static(
-		`${global.appPath}/views/app/public/`
-	));
+
 
 };
