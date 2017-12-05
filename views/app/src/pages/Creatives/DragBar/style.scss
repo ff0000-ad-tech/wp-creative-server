@@ -1,3 +1,8 @@
 .creatives .drag-bar {
+	$border: 1px #aaa solid;
 
+	width: 4px;
+	border-right: $border;
+	border-left: $border;
+	cursor: col-resize;
 }
