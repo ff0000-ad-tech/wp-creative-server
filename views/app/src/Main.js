@@ -5,8 +5,8 @@ import {
   HashRouter
 } from 'react-router-dom'
 
-import Header from 'Components/Header/index'
-import Creatives from 'Pages/Creatives'
+import Header from 'components/Header/index'
+import Creatives from 'pages/Creatives'
 
 import 'reset-css/reset.css'
 import './styles/main.scss'
