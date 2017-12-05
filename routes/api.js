@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
+const state = require('../lib/state.js');
 const targets = require('../lib/targets.js');
 const webpack = require('../lib/webpack.js');
 
@@ -81,16 +82,13 @@ module.exports = (app, express) => {
 		const index = validateIndex(req.query.index); 
 		
 		// get target
-		const target = state.getTarget(
+		const target = state.getTargets(
 			targets.generateId(size, index)
 		);
 		if (target) {
 			// build settings, ** TODO: integrate with Ad App for client/project, saved profiles, etc
 			const options = { size, index };
-			//
-			state.updateTarget(target, {
-				proc: webpack.start(options)
-			});
+			targets.startWatching(target, options);
 		}
 	});
 
@@ -100,11 +98,11 @@ module.exports = (app, express) => {
 		const index = validateIndex(req.query.index); 
 
 		// get target
-		const target = state.getTarget(
+		const target = state.getTargets(
 			targets.generateId(size, index)
 		);
 		if (target) {
-			webpack.stop(target.proc);
+			targets.stopWatching(target);
 		}
 	});
 

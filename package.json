@@ -21,9 +21,11 @@
     "lodash": "^4.17.4",
     "minimist": "^1.2.0",
     "moment": "^2.19.3",
-    "net": "^1.0.2",
     "serve-index": "^1.9.1",
-    "shell-escape": "^0.2.0"
+    "shell-escape": "^0.2.0",
+    "shoe": "0.0.15",
+    "unix-path": "git://github.com/gmcdev/unix-path.git",
+    "unix-path-literal": "git://github.com/gmcdev/unix-path.git"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -38,6 +40,9 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0",
     "reset-css": "^2.2.1",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.0",

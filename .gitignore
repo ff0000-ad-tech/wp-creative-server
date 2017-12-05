@@ -57,8 +57,6 @@ node_modules/
 # Compass
 .sass-cache
 
-# Compiled
-views/app/public/index.min.js
 
 !.gitkeep
 
