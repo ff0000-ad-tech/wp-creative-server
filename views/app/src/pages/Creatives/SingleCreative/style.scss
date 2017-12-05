@@ -1,0 +1,19 @@
+.creatives .single-creative {
+	display: flex;
+	flex-direction: row;
+	min-height: 70px;
+	padding: 10px 0;
+	border-bottom: #e0e0e0 solid 1px;
+
+	.compile-btn {
+		$size: 12px;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		width: $size;
+		height: $size;
+		border: #b1afaf solid 1px;
+		border-radius: 50% 50%;
+		transform: translate(-50%, -50%);
+	}
+}
