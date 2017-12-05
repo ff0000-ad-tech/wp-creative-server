@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import CreativePanel from './CreativePanel'
-import DirectoryPanel from './DirectoryPanel'
+import BrowsePanel from './BrowsePanel'
 import DragBar from './DragBar'
 
 import './style.scss'
@@ -26,6 +26,10 @@ class Creatives extends Component {
     })
   }
 
+  onDragChanged = state => {
+    this.browsePanle.onDragChanged(state)
+  }
+
   render() {
     const creativeStyle = {
       width: `${this.state.leftWidthPerc}%`
@@ -34,8 +38,11 @@ class Creatives extends Component {
     return (
       <div className="page creatives">
         <CreativePanel style={creativeStyle} />
-        <DragBar parentResizePanels={this.resizePanels} />
-        <DirectoryPanel />
+        <DragBar
+          parentResizePanels={this.resizePanels}
+          parentOnDragChanged={this.onDragChanged}
+        />
+        <BrowsePanel ref={el => (this.browsePanle = el)} />
       </div>
     )
   }
