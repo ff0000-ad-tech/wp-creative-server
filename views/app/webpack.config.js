@@ -1,5 +1,5 @@
-const debug = require('debug');
-var log = debug('wp-creative-server-app');
+const debug = require('debug')
+var log = debug('wp-creative-server-app')
 
 module.exports = {
   context: __dirname,
@@ -10,52 +10,57 @@ module.exports = {
     filename: 'index.min.js'
   },
   module: {
-    rules: [{
-      test: /\.js$/,
-      exclude: /wp-creative-server\/node_modules/,
-      use: [
-        { 
-          loader: 'babel-loader', 
-          options: { 
-            presets: ['es2015', 'react']
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /wp-creative-server\/node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['react', 'stage-3', 'es2015'],
+              plugins: ['transform-class-properties']
+            }
           }
-        }
-      ]
-    }, {
-      test: /\.scss$/,
-      use: [
-        {
-          loader: 'style-loader' // creates style nodes from JS strings
-        }, {
-          loader: 'css-loader' // translates CSS into CommonJS
-        }, {
-          loader: 'sass-loader' // compiles Sass to CSS
-        }
-      ]
-    }, {
-      test: /\.css$/,
-      use: [
-        {
-          loader: 'style-loader'
-        }, {
-          loader: 'css-loader'
-        }
-      ]
-    }]
+        ]
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          {
+            loader: 'style-loader' // creates style nodes from JS strings
+          },
+          {
+            loader: 'css-loader' // translates CSS into CommonJS
+          },
+          {
+            loader: 'sass-loader' // compiles Sass to CSS
+          }
+        ]
+      },
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader'
+          }
+        ]
+      }
+    ]
   },
   watch: true,
   resolve: {
-    modules: [
-      '../../node_modules/',
-      'src/'
-    ],
+    modules: ['../../node_modules/', 'src/'],
     alias: {
       styles: 'src/styles/'
     }
   }
   // plugins: debug ? [] : [
-    // new webpack.optimize.DedupePlugin(),
-    // new webpack.optimize.OccurenceOrderPlugin(),
-    // new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
+  // new webpack.optimize.DedupePlugin(),
+  // new webpack.optimize.OccurenceOrderPlugin(),
+  // new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
   // ],
-};
+}
