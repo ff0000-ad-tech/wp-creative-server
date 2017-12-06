@@ -27,6 +27,9 @@ module.exports = (app, express) => {
 		`${global.appPath}/views/app/public/browse-template`
 	));
 
+
+
+
 	/** DEPRECATED --->
 	 */
 	app.use('/browse-panel', 

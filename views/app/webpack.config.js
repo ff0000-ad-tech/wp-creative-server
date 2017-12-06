@@ -51,13 +51,13 @@ module.exports = {
       }
     ]
   },
-  watch: true,
   resolve: {
     modules: ['../../node_modules/', 'src/'],
     alias: {
       styles: 'src/styles/'
     }
-  }
+  },
+  watch: true,
   // plugins: debug ? [] : [
   // new webpack.optimize.DedupePlugin(),
   // new webpack.optimize.OccurenceOrderPlugin(),

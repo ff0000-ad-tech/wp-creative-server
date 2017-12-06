@@ -10,6 +10,14 @@ import './styles/main.scss'
 class Main extends Component {
   render() {
     return (
+        <div>
+          <Header />
+          <div className="content">
+            <Creatives />
+          </div>
+        </div>
+    )
+/*    return (
       <HashRouter>
         <div>
           <Header />
@@ -19,6 +27,7 @@ class Main extends Component {
         </div>
       </HashRouter>
     )
+    */
   }
 }
 
