@@ -9,6 +9,7 @@ import Header from 'components/Header/index'
 import Creatives from 'pages/Creatives'
 
 import 'reset-css/reset.css'
+import '../public/styles.css'
 import './styles/main.scss'
 
 

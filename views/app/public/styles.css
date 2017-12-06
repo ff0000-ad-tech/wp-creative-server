@@ -1,28 +1,4 @@
 * {
-	box-sizing: border-box;
-}
-
-
-.page {
-	width: 1000vh;
-	padding-top: 53px;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-* {
 	margin: 0;
 	padding: 0;
 	outline: 0;
@@ -40,4 +16,22 @@ body {
 	background-repeat: no-repeat;
 	color: #555;
 	-webkit-font-smoothing: antialiased;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+.clear {
+	clear: both;
+}
+
+.clear-after:after {
+	display: block;
+	content: '';
+	clear: both;
 }

@@ -81,14 +81,6 @@ require('./routes/api')(app, express);
 
 
 
-/* -- SHARED STATIC ----------------------------------------------
- *
- *
- *
- */
-app.use('/shared', express.static(
-	`${global.appPath}/views/static`
-));
 
 
 
