@@ -52,8 +52,6 @@ class BrowsePanel extends PureComponent {
 	}
 
 
-
-
 	handleIframeLoad(e) {
 		// let the next reload alter the history
 		// if (this.popping) {
