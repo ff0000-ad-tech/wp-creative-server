@@ -6,31 +6,65 @@ const log = debug('wp-cs:BrowsePanel')
 import './style.scss'
 
 class BrowsePanel extends PureComponent {
+	constructor() {
+		super()
+		// dissect current location for history management
+		this.componentPaths = this.getComponentPaths(document.location)
+
+		// prevent iframe onload when popping
+		// this.popping = false
+		// // listen for pop-state
+		// window.onpopstate = (e) => {
+		// 	log('popped to:', document.location)
+		// 	const paths = this.getComponentPaths(document.location)
+		// 	this.popping = true
+		// 	this.refs['browse-iframe'].src = `${this.componentPaths.origin + paths.browseRoute}`
+		// }
+	}
+
 	render() {
-		this.paths = this.getPaths(window.location.href);
 		return (
 			<div className="browse-panel">
-				<iframe id="browse-iframe" src={`/${this.paths.browseRoute}`} onLoad={this.handleBrowse.bind(this)}></iframe>
+				<iframe ref="browse-iframe" 
+					src={`${this.componentPaths.origin + this.componentPaths.browseRoute}`} 
+					onLoad={this.handleIframeLoad.bind(this)}
+				></iframe>
 			</div>
 		)
 	}
 
-	getPaths(href) {
-		const protocolDomainPort = href.match(/^.+?:\/\/.+?\//)[0]
-		const appRoute = href.slice(protocolDomainPort.length).match(/.+?#\//)[0]
-		const browseRoute = href.slice((protocolDomainPort + appRoute).length)
-		return {
-			protocolDomainPort,
+
+	getComponentPaths(location) {
+		const origin = location.origin
+
+		// app route like: "app", "app/", "app#/"
+		const appRoute = location.href.slice(origin.length).match(/^\/[^\/]*/)[0]
+
+		// browse route like: "build/300x250"
+		const browseRoute = location.href.slice((origin + appRoute).length)
+		
+		const componentPaths = {
+			origin,
 			appRoute,
 			browseRoute
 		}
+		return componentPaths
 	}
 
-	handleBrowse(e) {
-		const location = e.target.contentWindow.location;
-		const uri = location.href.replace(/^[^:]+:\/\/[^\/]+\//, '');
-		log(uri);
-		history.pushState({}, '', 'app#/' + uri);
+
+
+
+	handleIframeLoad(e) {
+		// let the next reload alter the history
+		// if (this.popping) {
+		// 	log('<<<<< popping complete')
+		// 	log(window.history)
+		// 	this.popping = false
+		// 	return
+		// }
+		const paths = this.getComponentPaths(e.target.contentWindow.location)
+		const browseRoute = e.target.contentWindow.location.href.slice(paths.origin.length)
+		window.history.replaceState({}, '', this.componentPaths.appRoute + browseRoute);
 	}
 }
 
