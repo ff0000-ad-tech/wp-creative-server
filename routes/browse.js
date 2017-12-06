@@ -21,7 +21,7 @@ module.exports = (app, express) => {
       view: 'details'
     })
   )
-
+	
   
 
   /** DEPRECATED --->

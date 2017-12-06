@@ -15,5 +15,4 @@ module.exports = (app, express) => {
     res.sendFile(`${global.appPath}/views/app/public/index.html`);
   });
 
-  app.use('/', express.static(`${global.servePath}/`));
 };
