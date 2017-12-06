@@ -8,15 +8,14 @@
 	background: #000;
 	z-index: 10;
 
+	.logo-container {
+		margin-top: 10px;
+	}
+
 	h1 {
-		position: relative;
-		align-self: center;
-		padding: 3px 40px;
+		padding: 7px 10px;
 		color: #aaa;
 		font-size: 24px;
-		font-weight: 500;
-		background-image: url(/browse/icon_32.png);
-		background-repeat: no-repeat;
-		background-size: auto 100%;
+		font-weight: bold;
 	}
 }

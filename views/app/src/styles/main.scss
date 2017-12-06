@@ -10,3 +10,33 @@ body {
 	width: 1000vh;
 	padding-top: 53px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+.clear {
+	clear: both;
+}
+
+.clear-after:after {
+	display: block;
+	content: '';
+	clear: both;
+}
+

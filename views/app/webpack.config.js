@@ -14,41 +14,39 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /wp-creative-server\/node_modules/,
-        use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              presets: ['react', 'stage-3', 'es2015'],
-              plugins: ['transform-class-properties']
-            }
-          }
-        ]
-      },
-      {
+        use: [{
+					loader: 'babel-loader',
+					options: {
+						presets: ['react', 'stage-3', 'es2015'],
+						plugins: ['transform-class-properties']
+					}
+				}]
+      }, {
         test: /\.scss$/,
-        use: [
-          {
-            loader: 'style-loader' // creates style nodes from JS strings
-          },
-          {
-            loader: 'css-loader' // translates CSS into CommonJS
-          },
-          {
-            loader: 'sass-loader' // compiles Sass to CSS
-          }
-        ]
-      },
-      {
+        use: [{
+					loader: 'style-loader' // creates style nodes from JS strings
+				}, {
+					loader: 'css-loader' // translates CSS into CommonJS
+				}, {
+					loader: 'sass-loader' // compiles Sass to CSS
+				}]
+      }, {
         test: /\.css$/,
-        use: [
-          {
+        use: [{
             loader: 'style-loader'
-          },
-          {
+          }, {
             loader: 'css-loader'
           }
         ]
-      }
+			}, {
+				test: /\.(png|jpg|gif|svg)$/,
+				use: [{
+					loader: 'url-loader',
+					options: {
+						emitFile: false
+					}
+				}]
+			},
     ]
   },
   resolve: {
