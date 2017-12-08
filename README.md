@@ -3,8 +3,9 @@
 Webpack - Creative Server
 ===============
 #### Interface for concurrent webpack process management
-- watch states
-- production bundles
+- 1-to-many size/index paradigm
+- watch states for each
+- production bundles for each
 
 #### Local server for navigating and rendering output in-browser
 
