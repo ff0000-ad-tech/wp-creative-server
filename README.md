@@ -22,10 +22,10 @@ Enables navigation & preview of assets/outputs.
 # Usage
 `npm run server --context ./ --src build --webpack ./webpack.config.js --env '[src]/[size]/[index]_settings.json'`
 
-`context` the root serve directory.
-`src` path to a directory containing size folders.
-`webpack` path to webpack config, optionally unique-per-index.
-`env` path to specific compile settings, likely unique-per-index.
+- `context` the root serve directory.
+- `src` path to a directory containing size folders.
+- `webpack` path to webpack config, optionally unique-per-index.
+- `env` path to specific compile settings, likely unique-per-index.
 
 #### Size Folders
 Will match any folder like `/[0-9]+x[0-9]+/`.
