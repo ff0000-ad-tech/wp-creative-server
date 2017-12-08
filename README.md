@@ -22,17 +22,18 @@ Enables navigation & preview of assets/outputs.
 # Usage
 `npm run server --servePath ./`
 
-## Banner Production, Tech Challenges
+# Some Reasons
+## Banner Production Tech Challenges
 Ad Creative are generated on a campaign-by-campaign basis. Their characteristics:
  - any number of sizes/formats (ex. 970x250 YouTube Masthead, 300x250 DCM Standard, 2x1 IAB Standard)
  - a similar "look and feel"
  - able to advance their state (data & creative) across all units
  
 #### Code Redundancy
-Similarly executing code can be centralized, leaving only functions specific to a particular ad with that unit - the beauty of modularity! But the setup to achieve this are opinionated, ranging from cognitive overload to creative restriction to undue repetition.
+Similarly executing code can be centralized, leaving only functions specific to a particular ad with that unit - the beauty of modularity! But the setup to achieve this are opinionated, ranging from cognitive overload, to creative restriction, to undue repetition...etc, ad nauseum.
 
 #### Optimization & Performance
-Ads run across all devices, platforms, systems, containers. This is a hostile, untestable, restricted environment in which the unit will need to run, easily, several hundred million impressions over its flight of a couple days (or much longer).
+Ads must run across all devices, platforms, systems, containers. This is a hostile, untestable, restricted environment in which the unit will need to run, easily, several hundred million impressions over its flight of a couple days (or much longer).
 
 #### Budget & Timing
 Despite expectations on par with longer-lived applications, the reality does not afford ROI on campaign-spanning infrastructure.
