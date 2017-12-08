@@ -28,10 +28,10 @@ Enables navigation & preview of assets/outputs.
 - `env` path to specific compile settings, likely unique-per-index.
 
 #### Size Folders
-Will match any folder like `/[0-9]+x[0-9]+/`.
+Will match any folder in `[context]/[src]` like `/[0-9]+x[0-9]+/`.
 
 #### Index Targets
-Will match any file, inside a size folder, like `/index/`.
+Will match any file in `[context]/[src]/[size]` like `/index/`.
 
 
 # Some Reasons
