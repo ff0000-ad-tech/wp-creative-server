@@ -2,13 +2,17 @@
 
 Webpack - Creative Server
 ===============
+##### Interface for concurrent webpack process management
 
+##### Local server for navigating and rendering output in-browser.
+
+ 
+## Banner Production, Tech Challenges
 Ad Creative are generated on a campaign-by-campaign basis. Their characteristics:
  - any number of sizes/formats (ex. 970x250 YouTube Masthead, 300x250 DCM Standard, 2x1 IAB Standard)
  - a similar "look and feel"
  - able to advance their state (data & creative) across all units
  
-## Banner Production, Tech Challenges
 #### Code Redundancy
 Similarly executing code can be centralized, leaving only functions specific to a particular ad with that unit - the beauty of modularity! But the setup to achieve this are opinionated, ranging from cognitive overload to creative restriction to undue repetition.
 
