@@ -1,13 +1,20 @@
 ##### RED Interactive Agency - Ad Technology
 
 Webpack - Creative Server
-===============
-#### Interface for concurrent webpack process management
-- 1-to-many size/index paradigm
-- watch states for each
-- production bundles for each
+=============== 
+#### Webpack
+Implements Webpack in a browser interface for banner development.
+- 1-size-to-many-index paradigm
+- watch states for each, optionally concurrent
+- unique production bundles for each
 
-#### Local server for navigating and rendering output in-browser
+The spawned webpack scripts are connected to the reactive view over an RPC pipe of the stdout/stderr of each script.
+
+States returned to the view are
+- 
+
+#### Creative Server
+Enables navigation & preview of assets/outputs
 
  
 ## Banner Production, Tech Challenges
