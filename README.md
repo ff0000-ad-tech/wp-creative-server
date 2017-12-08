@@ -22,7 +22,7 @@ Enables navigation & preview of assets/outputs.
 # Usage
 `npm run server --context ./ --src build --webpack ./webpack.config.js --env '[src]/[size]/[index]_settings.json'`
 
-- `context` the root serve directory.
+- `context` base path for subpathing, and root path of the browser directory.
 - `src` path to a directory containing size folders.
 - `webpack` path to webpack config, optionally unique-per-index.
 - `env` path to specific compile settings, likely unique-per-index.
