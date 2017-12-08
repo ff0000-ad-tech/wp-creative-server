@@ -2,9 +2,11 @@
 
 Webpack - Creative Server
 ===============
-##### Interface for concurrent webpack process management
+#### Interface for concurrent webpack process management
+- watch states
+- production bundles
 
-##### Local server for navigating and rendering output in-browser.
+#### Local server for navigating and rendering output in-browser
 
  
 ## Banner Production, Tech Challenges
