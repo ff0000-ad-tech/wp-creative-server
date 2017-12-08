@@ -20,7 +20,17 @@ Enables navigation & preview of assets/outputs.
 `npm install --save-dev git://github.com/ff0000-ad-tech/wp-creative-server.git`
 
 # Usage
-`npm run server --servePath ./`
+`npm run server --context ./ --src build`
+
+`context` indicates the root serve directory.
+`src` indicates a subpath to a directory containing size folders.
+
+#### Size Folders
+Will match any folder like `/[0-9]+x[0-9]+/`.
+
+#### Index Targets
+Will match any file, inside a size folder, like `/index/`.
+
 
 # Some Reasons
 ## Banner Production Tech Challenges
