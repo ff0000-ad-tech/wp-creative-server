@@ -2,18 +2,15 @@
 
 Webpack - Creative Server
 =============== 
-#### Webpack
+### Webpack
 Implements Webpack in a browser interface for banner development.
 - 1-size-to-many-index paradigm
 - watch states for each, optionally concurrent
 - unique production bundles for each
 
-The spawned webpack scripts are connected to the reactive view over an RPC pipe of the stdout/stderr of each script.
+The spawned webpack scripts are connected to the reactive view over an RPC pipe of the stdout/stderr of each script, providing low-latency indication of 1) busy-state, 2) error-state, 3) last update time, and 4) a link to run the command in a shell manually. 
 
-States returned to the view are
-- 
-
-#### Creative Server
+### Creative Server
 Enables navigation & preview of assets/outputs
 
  
