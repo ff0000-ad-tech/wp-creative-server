@@ -12,11 +12,16 @@ The spawned webpack scripts are connected to the reactive view over an RPC pipe 
 
 ### Creative Server
 Enables navigation & preview of assets/outputs.
-- Run compiled units in browswer
+- Run compiled units in browser
 - Open any path in associated editor app
 - Link any path out to the system file manager
 
- 
+# Install
+`npm install --save-dev git://github.com/ff0000-ad-tech/wp-creative-server.git`
+
+# Usage
+`npm run server --servePath ./`
+
 ## Banner Production, Tech Challenges
 Ad Creative are generated on a campaign-by-campaign basis. Their characteristics:
  - any number of sizes/formats (ex. 970x250 YouTube Masthead, 300x250 DCM Standard, 2x1 IAB Standard)
