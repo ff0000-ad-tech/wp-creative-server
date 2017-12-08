@@ -20,10 +20,12 @@ Enables navigation & preview of assets/outputs.
 `npm install --save-dev git://github.com/ff0000-ad-tech/wp-creative-server.git`
 
 # Usage
-`npm run server --context ./ --src build`
+`npm run server --context ./ --src build --webpack ./webpack.config.js --env '[src]/[size]/[index]_settings.json'`
 
-`context` indicates the root serve directory.
-`src` indicates a subpath to a directory containing size folders.
+`context` the root serve directory.
+`src` path to a directory containing size folders.
+`webpack` path to webpack config, optionally unique-per-index.
+`env` path to specific compile settings, likely unique-per-index.
 
 #### Size Folders
 Will match any folder like `/[0-9]+x[0-9]+/`.
