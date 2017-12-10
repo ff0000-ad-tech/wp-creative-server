@@ -93,12 +93,12 @@ ul#files li {
 	font-size: 1.2em;
 }
 ul#files li:nth-child(odd) {
-	background: #e0e0e0;
+	background: #f3f3f3;
 }
 ul#files li a {
 	display: block;
 	height: auto;
-	padding: 8px 15px;
+	padding: 5px 15px;
 	overflow: hidden;
 	white-space: nowrap;
 }
@@ -149,6 +149,11 @@ ul#files li a.highlight {
 	display: inline-block;
 	width: 160px;
 	text-align: right;
+}
+.view-details .date.modified {
+	font-style: italic;
+	color: #777;
+	font-size: 92%;
 }
 
 /*details*/
