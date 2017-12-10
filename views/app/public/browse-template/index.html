@@ -7,11 +7,24 @@
 		<link rel="stylesheet" href="/app-public/styles.css">
 		<style>{style}</style>
 		<script type="text/javascript">
+			// open directory
 			function openInFinder(target) {
-				alert(target)
+				xhr('/api/open-directory/?target=' + encodeURIComponent(target), () => {})
 			}
+			// edit file
 			function editInApp(target) {
-				alert(target)
+				xhr('/api/edit-file/?target=' + encodeURIComponent(target), () => {})
+			}
+			// xhr util
+			function xhr(url, callback) {
+				var request = new XMLHttpRequest();
+				request.onreadystatechange = function() {
+					if (request.readyState == 4 && request.status == 200) {
+						callback(request.responseText);
+					}
+				}; 
+				request.open('GET', url);
+				request.send();
 			}
 		</script>
 	</head>

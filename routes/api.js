@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const open = require('open')
 
 const state = require('../lib/state.js')
 const targets = require('../lib/targets.js')
@@ -42,6 +43,26 @@ module.exports = (app, express) => {
 				{
 					name: 'index',
 					description: 'Matches a file in `./build/size/` that is an ad.'
+				}
+			]
+		},
+		'/api/open-directory': {
+			description: 'Open the target in the file-system navigator.',
+			type: 'GET',
+			params: [
+				{
+					name: 'target',
+					description: 'A path relative to the server context.'
+				}
+			]
+		},
+		'/api/edit-file': {
+			description: 'Open the target in the application set to handle this type of file.',
+			type: 'GET',
+			params: [
+				{
+					name: 'target',
+					description: 'A path relative to the server context.'
 				}
 			]
 		}
@@ -100,6 +121,20 @@ module.exports = (app, express) => {
 		if (target) {
 			targets.stopWatching(target)
 		}
+		res.sendStatus(200)
+	})
+
+	// open directory
+	app.get('/api/open-directory', (req, res) => {
+		const target = decodeURIComponent(req.query.target)
+		open(path.resolve(`${global.servePath}/${target}`))
+		res.sendStatus(200)
+	})
+
+	// edit file
+	app.get('/api/edit-file', (req, res) => {
+		const target = decodeURIComponent(req.query.target)
+		open(path.resolve(`${global.servePath}/${target}`))
 		res.sendStatus(200)
 	})
 }
