@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
-import CreativePanel from './CreativePanel'
-import BrowsePanel from './BrowsePanel'
-import DragBar from './DragBar'
+import CreativePanel from './components/CreativePanel'
+import BrowsePanel from './components/BrowsePanel'
+import DragBar from './components/DragBar'
+
+import debug from 'debug'
+const log = debug('wp-cs:app:Creatives')
 
 import './style.scss'
 

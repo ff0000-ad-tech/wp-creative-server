@@ -1,15 +1,15 @@
 import { createStore, combineReducers } from 'redux'
+import { Provider } from 'react-redux'
 import configureStore from './store.js'
 
 import debug from 'debug'
-const log = debug('wp-cs:index')
+const log = debug('wp-cs:app:index')
 
 // create redux store
 log('Configuring Redux Store')
 let store = configureStore({
 	targets: {}
 })
-
 
 // server connection
 log('Connecting Server RPC')
@@ -19,14 +19,15 @@ rpc.init({
 })
 rpc.connect()
 
-
 // view
 log('Rendering Main')
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Main from './Main';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import Main from './Main'
 
 ReactDOM.render(
-	<Main/>, 
+	<Provider store={store}>
+		<Main />
+	</Provider>,
 	document.getElementById('root')
-);
+)

@@ -4,21 +4,24 @@ import { Route, NavLink, HashRouter } from 'react-router-dom'
 import Header from 'components/Header/index'
 import Creatives from 'pages/Creatives'
 
+import debug from 'debug'
+const log = debug('wp-cs:app:Main')
+
 import 'reset-css/reset.css'
 import '../public/styles.css'
 import './styles/main.scss'
 
 class Main extends Component {
-  render() {
-    return (
-        <div>
-          <Header />
-          <div className="content">
-            <Creatives />
-          </div>
-        </div>
-    )
-/*    return (
+	render() {
+		return (
+			<div>
+				<Header />
+				<div className="content">
+					<Creatives />
+				</div>
+			</div>
+		)
+		/*    return (
       <HashRouter>
         <div>
           <Header />
@@ -29,7 +32,7 @@ class Main extends Component {
       </HashRouter>
     )
     */
-  }
+	}
 }
 
 export default Main
