@@ -130,18 +130,24 @@ ul#files li a.highlight {
 .view-details .name,
 .view-tiles .name {
 	display: inline-block;
-	width: 50%;
 }
+.view-details .actions,
+.view-tiles .actions {
+	display: inline-block;
+	width: 80px;
+	text-align: center;
+}
+
 .view-details .size,
 .view-tiles .size {
 	display: inline-block;
-	width: 20%;
+	width: 80px;
 	text-align: right;
 }
 .view-details .date,
 .view-tiles .date {
 	display: inline-block;
-	width: 30%;
+	width: 160px;
 	text-align: right;
 }
 
