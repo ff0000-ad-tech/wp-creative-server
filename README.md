@@ -13,8 +13,8 @@ The spawned webpack scripts are connected to a Reactive view over an RPC pipe of
 ### Creative Server
 Enables navigation & preview of assets/outputs.
 - Run compiled units in browser
-- Open any path in associated editor app
-- Link any path out to the system file manager
+- Open files in associated editor app
+- Open directories in system file manager
 
 # Install
 `npm install --save-dev git://github.com/ff0000-ad-tech/wp-creative-server.git`
