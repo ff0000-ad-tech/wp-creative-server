@@ -10,6 +10,17 @@ class CompileButton extends PureComponent {
 	constructor(props) {
 		super(props)
 	}
+	xhr(url, callback) {
+		callback = callback || function() {}
+		var request = new XMLHttpRequest()
+		request.onreadystatechange = function() {
+			if (request.readyState == 4 && request.status == 200) {
+				callback(request.responseText)
+			}
+		}
+		request.open('GET', url)
+		request.send()
+	}
 
 	render() {
 		if (this.props.ad.watching) {
@@ -23,16 +34,18 @@ class CompileButton extends PureComponent {
 
 	getNotWatching() {
 		return (
-			<a href={`/api/start-watching?size=${this.props.ad.size}&index=${this.props.ad.index}`}>
-				<div className="not-watching" />
-			</a>
+			<div
+				className="not-watching"
+				onClick={this.xhr(`/api/start-watching?size=${this.props.ad.size}&index=${this.props.ad.index}`)}
+			/>
 		)
 	}
 	getWatching() {
 		return (
-			<a href={`/api/stop-watching?size=${this.props.ad.size}&index=${this.props.ad.index}`}>
-				<div className="watching" />
-			</a>
+			<div
+				className="watching"
+				onClick={this.xhr(`/api/stop-watching?size=${this.props.ad.size}&index=${this.props.ad.index}`)}
+			/>
 		)
 	}
 	getProcessing() {

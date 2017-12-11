@@ -23,7 +23,11 @@ class CreativePanel extends PureComponent {
 		// render
 		return (
 			<div className="creative-panel" style={this.props.style}>
-				<div className="title">{this.props.creative.name}</div>
+				<div className="title">
+					<h1>
+						<a>{this.props.creative.name}</a>
+					</h1>
+				</div>
 				<ul className="header-row">
 					<li className="build-col col">Builds</li>
 					<li className="compile-col col">Compiling</li>

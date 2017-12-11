@@ -51,24 +51,23 @@ a:hover {
 	margin-top: 15px;
 }
 
-#panel h1 {
+.title h1 {
 	padding: 10px;
 	font-size: 1.5em;
+	font-weight: bold;
 	background: #fff;
 	color: #aaa;
-	height: 12px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
-#panel h1 a {
+.title h1 a {
 	color: #000;
   display: inline-block;
-	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;	
 }
-#panel h1 a:hover {
+.title h1 a:hover {
 	color: #666;
 }
 
@@ -120,6 +119,7 @@ ul#files li a.highlight {
 	display: inline-block;
 }
 #files .name {
+	float: left;
 	background-repeat: no-repeat;
 	background-position: 0 50%;
 	text-indent: 30px;
