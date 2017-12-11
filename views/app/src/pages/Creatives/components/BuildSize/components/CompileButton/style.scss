@@ -1,0 +1,27 @@
+.not-watching {
+	$size: 12px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: $size;
+	height: $size;
+	border: #b1afaf solid 1px;
+	border-radius: 50% 50%;
+	transform: translate(-50%, -50%);
+	cursor: pointer;
+}
+
+
+.watching {
+	$size: 12px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: $size;
+	height: $size;
+	background-color: #8acb40;
+	border: #b1afaf solid 1px;
+	border-radius: 50% 50%;
+	transform: translate(-50%, -50%);
+	cursor: pointer;
+}

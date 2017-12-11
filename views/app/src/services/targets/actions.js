@@ -1,5 +1,4 @@
-export const UPDATE = 'UPDATE'
-
+export const UPDATE = 'TARGETS-UPDATE'
 
 export function update(targets) {
 	return {

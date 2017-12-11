@@ -1,21 +1,22 @@
-import { update } from '../services/targets/actions.js';
+import { update as creativeUpdate } from '../services/creative/actions.js'
+import { update as targetsUpdate } from '../services/targets/actions.js'
 
-let remote, store;
+let remote, store
 
 export function init(options) {
-	store = options.store;
+	store = options.store
 }
 
 // connect-remote is browserified and <script>-loaded
 export function connect() {
 	window.connectRemote((err, r) => {
 		if (err) {
-			throw('Unable to connect-remote!');
+			throw 'Unable to connect-remote!'
 		}
-		remote = r;
-		updateTargets();
-	});
-
+		remote = r
+		getCreative()
+		getTargets()
+	})
 }
 
 /* -- RPC METHODS/CALLBACKS -------------------------
@@ -23,8 +24,13 @@ export function connect() {
  *
  *
  */
-export function updateTargets() {
-	remote.getState('targets', function (targets) {
-		store.dispatch(update(targets))
-	});
+export function getCreative() {
+	remote.getCreative(creative => {
+		store.dispatch(creativeUpdate(creative))
+	})
+}
+export function getTargets() {
+	remote.getTargets(targets => {
+		store.dispatch(targetsUpdate(targets))
+	})
 }
