@@ -17,7 +17,18 @@ import * as rpc from './lib/rpc.js'
 rpc.init({
 	store: store
 })
-rpc.connect()
+rpc.connect(() => {
+	// get creative
+	rpc.getCreative()
+
+	// get targets
+	rpc.getTargets()
+
+	// update cycle
+	setInterval(() => {
+		rpc.getTargets()
+	}, 3000)
+})
 
 // view
 log('Rendering Main')

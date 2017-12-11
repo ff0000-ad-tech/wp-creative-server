@@ -4,13 +4,15 @@ import './style.scss'
 import debug from 'debug'
 const log = debug('wp-cs:app:CompileButton')
 
-import * as processingGif from './images/preloader.gif'
+import processingGif from './images/preloader.gif'
+import errorIcon from './images/error.png'
 
 class CompileButton extends PureComponent {
 	constructor(props) {
 		super(props)
 	}
 	xhr(url, callback) {
+		log(url)
 		callback = callback || function() {}
 		var request = new XMLHttpRequest()
 		request.onreadystatechange = function() {
@@ -23,10 +25,12 @@ class CompileButton extends PureComponent {
 	}
 
 	render() {
-		if (this.props.ad.watching) {
-			return this.getWatching()
+		if (this.props.ad.error) {
+			return this.getError()
 		} else if (this.props.ad.processing) {
 			return this.getProcessing()
+		} else if (this.props.ad.watching) {
+			return this.getWatching()
 		} else {
 			return this.getNotWatching()
 		}
@@ -36,7 +40,9 @@ class CompileButton extends PureComponent {
 		return (
 			<div
 				className="not-watching"
-				onClick={this.xhr(`/api/start-watching?size=${this.props.ad.size}&index=${this.props.ad.index}`)}
+				onClick={() => {
+					this.xhr(`/api/start-watching?size=${this.props.ad.size}&index=${this.props.ad.index}`)
+				}}
 			/>
 		)
 	}
@@ -44,12 +50,21 @@ class CompileButton extends PureComponent {
 		return (
 			<div
 				className="watching"
-				onClick={this.xhr(`/api/stop-watching?size=${this.props.ad.size}&index=${this.props.ad.index}`)}
+				onClick={() => {
+					this.xhr(`/api/stop-watching?size=${this.props.ad.size}&index=${this.props.ad.index}`)
+				}}
 			/>
 		)
 	}
 	getProcessing() {
 		return <img src={processingGif} width="16" height="16" />
+	}
+	getError() {
+		return (
+			<div className="error">
+				<img src={errorIcon} width="16" height="16" />
+			</div>
+		)
 	}
 }
 

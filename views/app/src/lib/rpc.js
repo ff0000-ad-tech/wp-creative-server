@@ -8,14 +8,13 @@ export function init(options) {
 }
 
 // connect-remote is browserified and <script>-loaded
-export function connect() {
+export function connect(cb) {
 	window.connectRemote((err, r) => {
 		if (err) {
 			throw 'Unable to connect-remote!'
 		}
 		remote = r
-		getCreative()
-		getTargets()
+		cb()
 	})
 }
 
