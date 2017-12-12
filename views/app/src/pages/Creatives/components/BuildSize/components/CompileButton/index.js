@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 import './style.scss'
 
 import debug from 'debug'
@@ -6,6 +7,7 @@ const log = debug('wp-cs:app:CompileButton')
 
 import processingGif from './images/preloader.gif'
 import errorIcon from './images/error.png'
+import shellIcon from './images/shell.png'
 
 class CompileButton extends PureComponent {
 	constructor(props) {
@@ -38,31 +40,67 @@ class CompileButton extends PureComponent {
 
 	getNotWatching() {
 		return (
-			<div
-				className="not-watching"
-				onClick={() => {
-					this.xhr(`/api/start-watching?size=${this.props.ad.size}&index=${this.props.ad.index}`)
-				}}
-			/>
+			<div style={{ marginTop: '4px' }}>
+				<div className="not-watching">
+					<div
+						className="icon"
+						onClick={() => {
+							this.xhr(`/api/start-watching?size=${this.props.ad.size}&index=${this.props.ad.index}`)
+						}}
+					/>
+				</div>
+				{this.getTerminalWatch()}
+			</div>
 		)
 	}
 	getWatching() {
 		return (
-			<div
-				className="watching"
-				onClick={() => {
-					this.xhr(`/api/stop-watching?size=${this.props.ad.size}&index=${this.props.ad.index}`)
-				}}
-			/>
+			<div style={{ marginTop: '4px' }}>
+				<div className="watching">
+					<div
+						className="icon"
+						onClick={() => {
+							this.xhr(`/api/stop-watching?size=${this.props.ad.size}&index=${this.props.ad.index}`)
+						}}
+					/>
+				</div>
+				{this.getTerminalWatch()}
+			</div>
 		)
 	}
 	getProcessing() {
-		return <img src={processingGif} width="16" height="16" />
+		return (
+			<div style={{ marginTop: '2px' }}>
+				<div className="processing">
+					<div className="icon">
+						<img src={processingGif} width="14" height="14" />
+					</div>
+				</div>
+				{this.getTerminalWatch()}
+			</div>
+		)
 	}
 	getError() {
 		return (
-			<div className="error">
-				<img src={errorIcon} width="16" height="16" />
+			<div className="clear-after">
+				<div className="error left">
+					<img src={errorIcon} width="16" height="16" />
+				</div>
+				{this.getTerminalWatch()}
+			</div>
+		)
+	}
+	getTerminalWatch() {
+		return (
+			<div className="shell" title="Copy command and run in shell">
+				<CopyToClipboard
+					text={this.props.ad.watchCommand}
+					onCopy={() => {
+						log('copied')
+					}}
+				>
+					<img src={shellIcon} width="12" height="12" />
+				</CopyToClipboard>
 			</div>
 		)
 	}

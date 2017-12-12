@@ -13,7 +13,6 @@ class BuildSize extends PureComponent {
 	}
 
 	render() {
-		log(this.props.ads)
 		if (!this.props.ads.length) {
 			return
 		}
@@ -24,22 +23,25 @@ class BuildSize extends PureComponent {
 				{this.props.ads.map(ad => {
 					const key = `${ad.size}/${ad.index}`
 					return (
-						<div key={key} className="ad-index">
-							<div className="build-col col">
-								<div className="index-info">
-									<div className="hierarchy-grid last-child" />
-									<div className="col-vert-nudge">{ad.index}</div>
+						<div key={key}>
+							<div className="ad-index">
+								<div className="build-col col">
+									<div className="index-info">
+										<div className="hierarchy-grid last-child" />
+										<div className="col-vert-nudge">{ad.index}</div>
+									</div>
+								</div>
+								<div className="compile-col col">
+									<CompileButton ad={ad} />
+								</div>
+								<div className="deploy-col col">
+									<DeployButton ad={ad} />
+								</div>
+								<div className="last-deploy-col col">
+									<div className="col-vert-nudge" />
 								</div>
 							</div>
-							<div className="compile-col col">
-								<CompileButton ad={ad} />
-							</div>
-							<div className="deploy-col col">
-								<DeployButton ad={ad} />
-							</div>
-							<div className="last-deploy-col col">
-								<div className="col-vert-nudge" />
-							</div>
+							<div>{ad.error}</div>
 						</div>
 					)
 				})}

@@ -1,31 +1,59 @@
+
 .not-watching {
 	$size: 12px;
-	position: absolute;
-	left: 50%;
-	top: 50%;
+	display: inline-block;
+	margin-right: 12px;
+	position: relative;
 	width: $size;
 	height: $size;
-	border: #b1afaf solid 1px;
-	border-radius: 50% 50%;
-	transform: translate(-50%, -50%);
 	cursor: pointer;
+
+	.icon {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		width: $size;
+		height: $size;
+		border: #b1afaf solid 1px;
+		border-radius: 50% 50%;
+		transform: translate(-50%, -50%);
+	}
 }
 
+.shell {
+	display: inline-block;
+	cursor: pointer;
+}
 
 .watching {
 	$size: 12px;
-	position: absolute;
-	left: 50%;
-	top: 50%;
+	display: inline-block;
+	margin-right: 12px;
+	position: relative;
 	width: $size;
 	height: $size;
-	background-color: #8acb40;
-	border: #8acb40 solid 1px;
-	border-radius: 50% 50%;
-	transform: translate(-50%, -50%);
 	cursor: pointer;
+
+	.icon {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		width: $size;
+		height: $size;
+		background-color: #8acb40;
+		border: #8acb40 solid 1px;
+		border-radius: 50% 50%;
+		transform: translate(-50%, -50%);
+	}
 }
+
+
 
 .error {
 	margin-top: 2px;
+}
+
+.processing {
+	display: inline-block;
+	margin-right: 10px;
 }

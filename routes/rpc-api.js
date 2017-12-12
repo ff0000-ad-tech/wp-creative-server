@@ -6,6 +6,8 @@ const targets = require('../lib/targets.js')
 
 const debug = require('debug')
 var log = debug('wp-creative-server:rpc-api')
+//
+// debug.disable('wp-creative-server:rpc-api')
 
 const api = {
 	getCreative: getCreative,
@@ -73,6 +75,9 @@ function getTargets(cb) {
 					},
 					deployAt: value => {
 						return moment(value).from(Date.now())
+					},
+					watchCommand: value => {
+						return value.execLiteral
 					}
 				})
 			}
