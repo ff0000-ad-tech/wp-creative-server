@@ -22,9 +22,6 @@ log(` Serve path is: ${global.servePath}`)
 // express set up
 var app = express()
 
-// set view engine -- DEPRECATED
-app.set('view engine', 'ejs')
-
 /* -- STATE ----------------------------------------------
  *
  *
