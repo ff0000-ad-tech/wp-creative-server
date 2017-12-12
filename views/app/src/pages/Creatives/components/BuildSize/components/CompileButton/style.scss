@@ -24,6 +24,34 @@
 	display: inline-block;
 	cursor: pointer;
 }
+.action-dialog {
+	$bgColor: #222;
+
+	left: 27px;
+	position: absolute;
+	top: -12px;
+	display: none;
+	background-color: #222;
+	padding: 4px 8px;
+	overflow: visible;
+	font-weight: bold;
+	color: #eee;
+	border-radius: 4px;
+	z-index: 100;
+
+	&:after {
+		position: absolute;
+    bottom: -10px;
+    left: 8px;
+    content: '';
+    border: 5px transparent solid;
+		border-top: 5px #222 solid;
+	}
+
+	&.show {
+		display: block;
+	}
+}
 
 .watching {
 	$size: 12px;

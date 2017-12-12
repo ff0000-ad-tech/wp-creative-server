@@ -12,6 +12,10 @@ import shellIcon from './images/shell.png'
 class CompileButton extends PureComponent {
 	constructor(props) {
 		super(props)
+
+		this.state = {
+			showCopiedText: false
+		}
 	}
 	xhr(url, callback) {
 		log(url)
@@ -38,21 +42,40 @@ class CompileButton extends PureComponent {
 		}
 	}
 
+	/**
+	 * NOT WATCHING
+	 */
 	getNotWatching() {
+		const dialog = this.state.showWatchingDialog ? 'show' : ''
 		return (
-			<div style={{ marginTop: '4px' }}>
-				<div className="not-watching">
+			<div>
+				<div style={{ marginTop: '4px' }}>
 					<div
-						className="icon"
+						className="not-watching"
 						onClick={() => {
+							this.notWatchingOnClick()
 							this.xhr(`/api/start-watching?size=${this.props.ad.size}&index=${this.props.ad.index}`)
 						}}
-					/>
+					>
+						<div className="icon" />
+					</div>
+					{this.getTerminalWatch()}
 				</div>
-				{this.getTerminalWatch()}
+				<div className={`action-dialog ${dialog}`}>Watch process started!</div>
 			</div>
 		)
 	}
+	notWatchingOnClick = e => {
+		this.setState({
+			showWatchingDialog: true
+		})
+		setTimeout(() => {
+			this.setState({
+				showWatchingDialog: false
+			})
+		}, 700)
+	}
+
 	getWatching() {
 		return (
 			<div style={{ marginTop: '4px' }}>
@@ -90,19 +113,38 @@ class CompileButton extends PureComponent {
 			</div>
 		)
 	}
+
+	/**
+	 * TERMINAL WATCH
+	 */
 	getTerminalWatch() {
+		const dialog = this.state.showTerminalWatchDialog ? 'show' : ''
+
 		return (
 			<div className="shell" title="Copy command and run in shell">
-				<CopyToClipboard
-					text={this.props.ad.watchCommand}
-					onCopy={() => {
-						log('copied')
-					}}
-				>
-					<img src={shellIcon} width="12" height="12" />
-				</CopyToClipboard>
+				<div onClick={this.terminalWatchOnClick}>
+					<CopyToClipboard
+						text={this.props.ad.watchCommand}
+						onCopy={() => {
+							this.xhr(`/api/stop-watching?size=${this.props.ad.size}&index=${this.props.ad.index}`)
+						}}
+					>
+						<img src={shellIcon} width="12" height="12" />
+					</CopyToClipboard>
+				</div>
+				<div className={`action-dialog ${dialog}`}>Copied!</div>
 			</div>
 		)
+	}
+	terminalWatchOnClick = e => {
+		this.setState({
+			showTerminalWatchDialog: true
+		})
+		setTimeout(() => {
+			this.setState({
+				showTerminalWatchDialog: false
+			})
+		}, 700)
 	}
 }
 
