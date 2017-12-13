@@ -123,12 +123,7 @@ class CompileButton extends PureComponent {
 		return (
 			<div className="shell" title="Copy command and run in shell">
 				<div onClick={this.terminalWatchOnClick}>
-					<CopyToClipboard
-						text={this.props.ad.watchCommand}
-						onCopy={() => {
-							this.xhr(`/api/stop-watching?size=${this.props.ad.size}&index=${this.props.ad.index}`)
-						}}
-					>
+					<CopyToClipboard text={this.props.ad.webpack.shell} onCopy={() => {}}>
 						<img src={shellIcon} width="12" height="12" />
 					</CopyToClipboard>
 				</div>

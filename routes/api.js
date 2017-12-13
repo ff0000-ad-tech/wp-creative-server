@@ -96,17 +96,19 @@ module.exports = (app, express) => {
 		res.send(JSON.stringify(routes))
 	})
 
-	// start watching: size / index
-	app.get('/api/spy/:size/:index/:pid', (req, res) => {
-		const size = validateSize(req.params.size)
-		const index = validateIndex(req.params.index)
-		const pid = req.params.pid
-
-		// get target
+	// start watching
+	app.get('/api/watch-start/:size/:index', (req, res) => {
 		targets.startWatching({
-			size: size,
-			index: index,
-			pid: pid
+			size: req.params.size,
+			index: req.params.index
+		})
+		res.sendStatus(200)
+	})
+	// stop watching
+	app.get('/api/watch-stop/:size/:index', (req, res) => {
+		targets.stopWatching({
+			size: req.params.size,
+			index: req.params.index
 		})
 		res.sendStatus(200)
 	})

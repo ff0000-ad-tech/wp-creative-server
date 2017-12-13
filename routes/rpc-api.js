@@ -76,8 +76,11 @@ function getTargets(cb) {
 					deployAt: value => {
 						return moment(value).from(Date.now())
 					},
-					watchCommand: value => {
-						return value.execLiteral
+					webpack: value => {
+						return {
+							shell: value.shell,
+							out: value.out
+						}
 					}
 				})
 			}

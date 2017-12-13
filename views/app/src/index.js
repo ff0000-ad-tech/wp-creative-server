@@ -27,7 +27,7 @@ rpc.connect(() => {
 	// update cycle
 	setInterval(() => {
 		rpc.getTargets()
-	}, 500)
+	}, 5000)
 })
 
 // view
