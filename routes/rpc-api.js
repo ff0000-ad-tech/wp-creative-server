@@ -6,7 +6,7 @@ const targets = require('../lib/targets.js')
 
 const debug = require('debug')
 var log = debug('wp-creative-server:rpc-api')
-//
+// SILENCE
 debug.disable('wp-creative-server:rpc-api')
 
 const api = {

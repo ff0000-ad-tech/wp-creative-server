@@ -41,7 +41,6 @@ class BuildSize extends PureComponent {
 									<div className="col-vert-nudge" />
 								</div>
 							</div>
-							<div>{ad.error}</div>
 						</div>
 					)
 				})}

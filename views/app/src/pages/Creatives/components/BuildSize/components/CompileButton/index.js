@@ -84,7 +84,7 @@ class CompileButton extends PureComponent {
 		return (
 			<div className="clear-after">
 				{this.getTerminalWatch()}
-				<div className="error left">
+				<div className="error">
 					<img src={errorIcon} width="16" height="16" />
 				</div>
 			</div>
