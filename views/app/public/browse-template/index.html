@@ -9,11 +9,11 @@
 		<script type="text/javascript">
 			// open directory
 			function openInFinder(target) {
-				xhr('/api/open-directory/?target=' + encodeURIComponent(target), () => {})
+				xhr('/api/open-directory/?target=' + encodeURIComponent(target), function() {})
 			}
 			// edit file
 			function editInApp(target) {
-				xhr('/api/edit-file/?target=' + encodeURIComponent(target), () => {})
+				xhr('/api/edit-file/?target=' + encodeURIComponent(target), function() {})
 			}
 			// xhr util
 			function xhr(url, callback) {
