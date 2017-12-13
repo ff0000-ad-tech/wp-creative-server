@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const open = require('open')
 
+const rpcApi = require('./rpc-api.js')
 const state = require('../lib/state.js')
 const targets = require('../lib/targets.js')
 const webpack = require('../lib/webpack.js')
@@ -96,20 +97,24 @@ module.exports = (app, express) => {
 		res.send(JSON.stringify(routes))
 	})
 
+	// get targets
+	app.get('/api/targets', (req, res) => {
+		rpcApi.getTargets(targets => {
+			res.setHeader('Content-Type', 'application/json')
+			res.send(JSON.stringify(targets))
+		})
+	})
+
 	// start watching
 	app.get('/api/watch-start/:size/:index', (req, res) => {
-		targets.startWatching({
-			size: req.params.size,
-			index: req.params.index
-		})
+		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
+		targets.startWatching(target)
 		res.sendStatus(200)
 	})
 	// stop watching
 	app.get('/api/watch-stop/:size/:index', (req, res) => {
-		targets.stopWatching({
-			size: req.params.size,
-			index: req.params.index
-		})
+		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
+		targets.stopWatching(target)
 		res.sendStatus(200)
 	})
 

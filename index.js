@@ -15,6 +15,8 @@ global.servePort = '5200'
 // set app-path
 global.appPath = __dirname
 
+// --browser, will automatically open a browser
+
 // set creative-path with --context,
 // ex: `node node_modules/wp-creative-server/index.js --context ./`
 global.servePath = path.resolve('context' in argv ? argv.context : global.appPath)
@@ -61,29 +63,6 @@ require('./routes/control')(app, express)
 require('./routes/browse')(app, express)
 require('./routes/api')(app, express)
 
-/* -- CLEANUP ----------------------------------------------
- *
- *
- *
- */
-process.stdin.resume() //so the program will not close instantly
-
-function cleanup() {
-	log('cleanup')
-	targets.stopWatchingAll()
-	process.exit()
-}
-process.on('SIGINT', cleanup)
-process.on('SIGUSR1', cleanup)
-process.on('SIGUSR2', cleanup)
-process.on('exit', code => {
-	log(`Exit code: ${code}`)
-})
-process.on('uncaughtException', err => {
-	log(err)
-	cleanup()
-})
-
 /* -- START SERVER ----------------------------------------------
  *
  *
@@ -92,9 +71,11 @@ process.on('uncaughtException', err => {
 // start server and install duplex RPC
 sock.install(
 	app.listen(global.servePort, global.serveIp, () => {
-		// open browser, after server is ready
 		log(`Server running at http://${global.serveIp}:${global.servePort}/app`)
-		open(`http://${global.serveIp}:${global.servePort}/app`)
+		// open browser, after server is ready
+		if ('browser' in argv) {
+			open(`http://${global.serveIp}:${global.servePort}/app`)
+		}
 	}),
 	'/dnode'
 )

@@ -46,70 +46,48 @@ class CompileButton extends PureComponent {
 	 * NOT WATCHING
 	 */
 	getNotWatching() {
-		const dialog = this.state.showWatchingDialog ? 'show' : ''
 		return (
 			<div>
 				<div style={{ marginTop: '4px' }}>
-					<div
-						className="not-watching"
-						onClick={() => {
-							this.notWatchingOnClick()
-							this.xhr(`/api/start-watching?size=${this.props.ad.size}&index=${this.props.ad.index}`)
-						}}
-					>
+					{this.getTerminalWatch()}
+					<div className="not-watching">
 						<div className="icon" />
 					</div>
-					{this.getTerminalWatch()}
 				</div>
 				<div className={`action-dialog ${dialog}`}>Watch process started!</div>
 			</div>
 		)
 	}
-	notWatchingOnClick = e => {
-		this.setState({
-			showWatchingDialog: true
-		})
-		setTimeout(() => {
-			this.setState({
-				showWatchingDialog: false
-			})
-		}, 700)
-	}
 
 	getWatching() {
 		return (
 			<div style={{ marginTop: '4px' }}>
-				<div className="watching">
-					<div
-						className="icon"
-						onClick={() => {
-							this.xhr(`/api/stop-watching?size=${this.props.ad.size}&index=${this.props.ad.index}`)
-						}}
-					/>
-				</div>
 				{this.getTerminalWatch()}
+				<div className="watching">
+					<div className="icon" />
+				</div>
 			</div>
 		)
 	}
 	getProcessing() {
 		return (
 			<div style={{ marginTop: '2px' }}>
+				{this.getTerminalWatch()}
 				<div className="processing">
 					<div className="icon">
 						<img src={processingGif} width="14" height="14" />
 					</div>
 				</div>
-				{this.getTerminalWatch()}
 			</div>
 		)
 	}
 	getError() {
 		return (
 			<div className="clear-after">
+				{this.getTerminalWatch()}
 				<div className="error left">
 					<img src={errorIcon} width="16" height="16" />
 				</div>
-				{this.getTerminalWatch()}
 			</div>
 		)
 	}
