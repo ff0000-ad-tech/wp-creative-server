@@ -54,7 +54,6 @@ class CompileButton extends PureComponent {
 						<div className="icon" />
 					</div>
 				</div>
-				<div className={`action-dialog ${dialog}`}>Watch process started!</div>
 			</div>
 		)
 	}
