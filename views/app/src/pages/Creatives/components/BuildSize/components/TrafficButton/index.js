@@ -2,11 +2,11 @@ import React, { PureComponent } from 'react'
 import './style.scss'
 
 import debug from 'debug'
-const log = debug('wp-cs:app:DeployButton')
+const log = debug('wp-cs:app:TrafficButton')
 
 import webpackLogo from './images/webpack.svg'
 
-class DeployButton extends PureComponent {
+class TrafficButton extends PureComponent {
 	constructor(props) {
 		super(props)
 	}
@@ -20,4 +20,4 @@ class DeployButton extends PureComponent {
 	}
 }
 
-export default DeployButton
+export default TrafficButton

@@ -20,7 +20,7 @@
 				<span class="index-col column">Build</span>
 				<span class="hierarchy-grid"></span>
 				<span class="watching-col column">Debug</span>
-				<span class="last-deploy-col column">Traffic</span>
+				<span class="last-traffic-col column">Traffic</span>
 			</li>
 
 <%
@@ -50,8 +50,8 @@
 					<div class="watching-col column">
 						<a href="<%= toggleRoute; %>"><div class="<%= watchingCss; %>"></div></a>
 					</div>
-					<div class="deploy-col column"></div>
-					<div class="last-deploy-col column">
+					<div class="traffic-col column"></div>
+					<div class="last-traffic-col column">
 						<div class="col-vert-nudge"><%= target.lastDeployAt; %></div>
 					</div>
 				</div>

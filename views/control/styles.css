@@ -71,7 +71,7 @@
 	width: 25%;
 }
 
-.deploy-col {
+.traffic-col {
 	width: 3%;
 	background-image: url('/control/images/webpack.svg');
 	background-repeat: no-repeat;
@@ -81,6 +81,6 @@
 	background-position: 0px -1px;
 	margin-right: 5px;
 }
-.last-deploy-col {
+.last-traffic-col {
 	width: 28%;
 }

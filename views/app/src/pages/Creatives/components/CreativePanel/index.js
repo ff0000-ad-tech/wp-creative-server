@@ -29,10 +29,10 @@ class CreativePanel extends PureComponent {
 					</h1>
 				</div>
 				<ul className="header-row">
-					<li className="build-col col">Builds</li>
-					<li className="compile-col col">Compiling</li>
-					<li className="deploy-col col">Deployed</li>
-					<li className="last-deploy-col col" />
+					<li className="build-col col">Build</li>
+					<li className="debug-col col">Debug</li>
+					<li className="traffic-col col">Traffic</li>
+					<li className="last-traffic-col col" />
 				</ul>
 				<ul>
 					{Object.keys(buildSizes).map(id => {

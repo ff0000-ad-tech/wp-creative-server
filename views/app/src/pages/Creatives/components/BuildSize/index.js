@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
-import CompileButton from './components/CompileButton'
-import DeployButton from './components/DeployButton'
+import DebugButton from './components/DebugButton'
+import TrafficButton from './components/TrafficButton'
 
 import './style.scss'
 
@@ -31,13 +31,13 @@ class BuildSize extends PureComponent {
 										<div className="col-vert-nudge">{ad.index}</div>
 									</div>
 								</div>
-								<div className="compile-col col">
-									<CompileButton ad={ad} />
+								<div className="debug-col col">
+									<DebugButton ad={ad} />
 								</div>
-								<div className="deploy-col col">
-									<DeployButton ad={ad} />
+								<div className="traffic-col col">
+									<TrafficButton ad={ad} />
 								</div>
-								<div className="last-deploy-col col">
+								<div className="last-traffic-col col">
 									<div className="col-vert-nudge" />
 								</div>
 							</div>

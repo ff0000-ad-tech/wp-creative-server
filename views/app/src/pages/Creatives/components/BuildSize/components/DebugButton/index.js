@@ -3,13 +3,13 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import './style.scss'
 
 import debug from 'debug'
-const log = debug('wp-cs:app:CompileButton')
+const log = debug('wp-cs:app:DebugButton')
 
 import processingGif from './images/preloader.gif'
 import errorIcon from './images/error.png'
 import shellIcon from './images/shell.png'
 
-class CompileButton extends PureComponent {
+class DebugButton extends PureComponent {
 	constructor(props) {
 		super(props)
 
@@ -120,4 +120,4 @@ class CompileButton extends PureComponent {
 	}
 }
 
-export default CompileButton
+export default DebugButton
