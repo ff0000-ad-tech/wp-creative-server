@@ -153,7 +153,8 @@ ul#files li a.highlight {
 .view-details .date.modified {
 	font-style: italic;
 	color: #777;
-	font-size: 92%;
+	font-size: 84%;
+  padding-top: 2px;
 }
 
 /*details*/
@@ -169,7 +170,8 @@ ul#files.view-details li.header {
 	background: #555;
 	color: #fff;
 	font-weight: bold;
-  padding: 4px 15px 0px;
+	padding: 7px 15px;
+	height: 27px;
   overflow: hidden;
   white-space: nowrap;
 }

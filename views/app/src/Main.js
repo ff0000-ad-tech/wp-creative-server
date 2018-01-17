@@ -8,8 +8,10 @@ import debug from 'debug'
 const log = debug('wp-cs:app:Main')
 
 import 'reset-css/reset.css'
+
+// public so that `node_modules/serve-index` (routes/browse.js) uses the same boilerplate css
 import '../public/styles.css'
-import './styles/main.scss'
+
 
 class Main extends Component {
 	render() {
