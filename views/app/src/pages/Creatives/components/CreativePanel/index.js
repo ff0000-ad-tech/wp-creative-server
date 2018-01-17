@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import BuildSize from '../BuildSize'
+import TrafficControl from '../TrafficControl'
 
 import debug from 'debug'
 const log = debug('wp-cs:app:CreativePanel')
@@ -33,6 +34,9 @@ class CreativePanel extends PureComponent {
 					<li className="debug-col col">Debug</li>
 					<li className="traffic-col col">Traffic</li>
 					<li className="last-traffic-col col" />
+				</ul>
+				<ul>
+					<TrafficControl />
 				</ul>
 				<ul>
 					{Object.keys(buildSizes).map(id => {
