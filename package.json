@@ -29,6 +29,7 @@
     "unix-path-literal": "git://github.com/gmcdev/unix-path-literal.git"
   },
   "devDependencies": {
+    "ace-builds": "^1.2.9",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-class-properties": "^6.24.1",
