@@ -5,6 +5,8 @@ import Rpc from '../../../../lib/rpc.js'
 import debug from 'debug'
 const log = debug('wp-cs:app:TrafficControl')
 
+import SettingsEditor from './components/SettingsEditor'
+
 import './style.scss'
 import settingsIcon from './images/settings-icon.svg'
 
@@ -13,7 +15,8 @@ class TrafficControl extends PureComponent {
 		super(props)
 		this.rpc = new Rpc()
 		this.state = {
-			isDefiningProfile: false
+			isDefiningProfile: false,
+			showEditor: false
 		}
 	}
 	componentDidUpdate() {
@@ -49,7 +52,8 @@ class TrafficControl extends PureComponent {
 		}
 	}
 	getProfileSelect() {
-		const profiles = Object.keys(this.props.profiles).map(name => {
+		// generate sortable object
+		const profiles = Object.keys(this.props.profiles).map((name, i) => {
 			let profile = Object.assign({}, this.props.profiles[name])
 			profile.name = name
 			return profile
@@ -61,7 +65,13 @@ class TrafficControl extends PureComponent {
 		})
 
 		return (
-			<select value={sorted.length > 0 ? sorted[0].name : ''} onChange={this.selectProfile}>
+			<select
+				ref={select => {
+					this.profileSelect = select
+				}}
+				value={sorted.length > 0 ? sorted[0].name : ''}
+				onChange={this.selectProfile}
+			>
 				{sorted.map((profile, i) => {
 					return (
 						<option key={profile.name} value={profile.name}>
@@ -81,36 +91,55 @@ class TrafficControl extends PureComponent {
 		this.rpc.updateProfile(e.target.value, this.props.profiles[e.target.value])
 	}
 
+	// editor
+	showEditor = () => {
+		this.setState({
+			showEditor: true
+		})
+	}
+	hideEditor = () => {
+		this.setState({
+			showEditor: false
+		})
+	}
+
 	render() {
 		// render
 		return (
-			<div className="traffic-control-options">
-				<li className="build-col col" />
-				<li className="debug-col col" />
-				<li className="settings-col col">
-					<div className="settings clear-after">
-						<div className="right clear-after">
-							<div className="option-checkbox right">
-								<input type="checkbox" />
+			<div>
+				<div className="traffic-control-options">
+					<li className="build-col col" />
+					<li className="debug-col col" />
+					<li className="settings-col col">
+						<div className="settings clear-after">
+							<div className="right clear-after">
+								<div className="option-checkbox right">
+									<input type="checkbox" />
+								</div>
+								<div className="option-button right">
+									<input type="button" value="DEPLOY" />
+								</div>
 							</div>
-							<div className="option-button right">
-								<input type="button" value="DEPLOY" />
-							</div>
-						</div>
 
-						<div className="left clear-after">
-							<div className="option-button left" style={{ paddingLeft: '0px' }}>
-								<input type="button" value="+" onClick={this.toggleProfileControl} />
-							</div>
-							<div className="option-button left">{this.getProfileControl()}</div>
-							<div className="option-button left">
-								<div style={{ paddingTop: '2px' }}>
-									<img src={settingsIcon} width="16" height="16" />
+							<div className="left clear-after">
+								<div className="option-button left" style={{ paddingLeft: '0px' }}>
+									<input type="button" value="+" onClick={this.toggleProfileControl} />
+								</div>
+								<div className="option-button left">{this.getProfileControl()}</div>
+								<div className="option-button left">
+									<div style={{ paddingTop: '2px' }} onClick={this.showEditor}>
+										<img src={settingsIcon} width="16" height="16" />
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</li>
+					</li>
+				</div>
+				<SettingsEditor
+					onClose={this.hideEditor}
+					show={this.state.showEditor}
+					profileName={this.profileSelect ? this.profileSelect.value : ''}
+				/>
 			</div>
 		)
 	}
