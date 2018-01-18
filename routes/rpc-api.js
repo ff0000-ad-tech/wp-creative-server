@@ -13,7 +13,8 @@ debug.disable('wp-creative-server:rpc-api')
 const api = {
 	getCreative,
 	getTargets,
-	getProfiles
+	getProfiles,
+	newProfile
 }
 
 // connect dnode
@@ -98,6 +99,16 @@ function getTargets(cb, err) {
 function getProfiles(cb, err) {
 	log('getProfiles()')
 	const result = profiles.getProfiles()
+	if (result instanceof Error) {
+		return err(result)
+	}
+	cb(result)
+}
+
+// create new profile
+function newProfile(name, cb, err) {
+	log('newProfile()', name)
+	const result = profiles.addProfile(name)
 	if (result instanceof Error) {
 		return err(result)
 	}

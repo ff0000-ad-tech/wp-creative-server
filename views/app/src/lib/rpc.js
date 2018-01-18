@@ -11,8 +11,8 @@ export default class Rpc {
 	constructor(options) {
 		if (!instance) {
 			instance = this
+			this.store = options.store
 		}
-		this.store = options.store
 		return instance
 	}
 
@@ -52,6 +52,15 @@ export default class Rpc {
 				// TODO: handle RPC errors better, more consistently
 				alert(err.message)
 			}
+		)
+	}
+	newProfile(name) {
+		this.remote.newProfile(
+			name,
+			() => {
+				this.getProfiles()
+			},
+			err => {}
 		)
 	}
 }

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import Rpc from '../../../../lib/rpc.js'
 
 import debug from 'debug'
 const log = debug('wp-cs:app:TrafficControl')
@@ -10,6 +11,7 @@ import settingsIcon from './images/settings-icon.svg'
 class TrafficControl extends PureComponent {
 	constructor(props) {
 		super(props)
+		this.rpc = new Rpc()
 		this.state = {
 			isDefiningProfile: false
 		}
@@ -29,27 +31,43 @@ class TrafficControl extends PureComponent {
 	}
 	getProfileInput() {
 		return (
-			<input className="input-profile"
-				ref={(input) => { this.profileInput = input }} 
+			<input
+				className="input-profile"
+				ref={input => {
+					this.profileInput = input
+				}}
 				onKeyPress={this.handleKeyPress}
-				type="text" 
+				type="text"
 			/>
 		)
 	}
-	handleKeyPress = (e) => {
+	handleKeyPress = e => {
 		if (e.key === 'Enter') {
-			log('need to update package.json with profile state')
+			this.rpc.newProfile(this.profileInput.value)
 			e.target.blur()
 			this.toggleProfileControl()
 		}
 	}
 	getProfileSelect() {
-		log(this.props.profiles)
+		const profiles = Object.keys(this.props.profiles).map(name => {
+			let profile = Object.assign({}, this.props.profiles[name])
+			profile.name = name
+			return profile
+		})
+		const sorted = profiles.sort((a, b) => {
+			if (a.updated < b.updated) return 1
+			else if (a.updated > b.updated) return -1
+			else return 0
+		})
+
 		return (
-			<select>
-				{Object.keys(this.props.profiles).map(name => {
-					log(name)
-					return <option key={name} name={name}>{name}</option>
+			<select value={sorted.length > 0 ? sorted[0].name : ''} onChange={this.selectProfile}>
+				{sorted.map((profile, i) => {
+					return (
+						<option key={profile.name} value={profile.name}>
+							{profile.name}
+						</option>
+					)
 				})}
 			</select>
 		)
@@ -59,13 +77,16 @@ class TrafficControl extends PureComponent {
 			isDefiningProfile: !this.state.isDefiningProfile
 		})
 	}
+	selectProfile = () => {
+		log('TODO: select profile')
+	}
 
 	render() {
 		// render
 		return (
 			<div className="traffic-control-options">
-				<li className="build-col col"></li>
-				<li className="debug-col col"></li>
+				<li className="build-col col" />
+				<li className="debug-col col" />
 				<li className="settings-col col">
 					<div className="settings clear-after">
 						<div className="right clear-after">
@@ -78,12 +99,10 @@ class TrafficControl extends PureComponent {
 						</div>
 
 						<div className="left clear-after">
-							<div className="option-button left" style={{ paddingLeft:'0px' }}>
+							<div className="option-button left" style={{ paddingLeft: '0px' }}>
 								<input type="button" value="+" onClick={this.toggleProfileControl} />
 							</div>
-							<div className="option-button left">
-								{this.getProfileControl()}
-							</div>
+							<div className="option-button left">{this.getProfileControl()}</div>
 							<div className="option-button left">
 								<div style={{ paddingTop: '2px' }}>
 									<img src={settingsIcon} width="16" height="16" />
