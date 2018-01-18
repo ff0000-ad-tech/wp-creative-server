@@ -8,6 +8,54 @@ import './style.scss'
 import settingsIcon from './images/settings-icon.svg'
 
 class TrafficControl extends PureComponent {
+	constructor(props) {
+		super(props)
+		this.state = {
+			isDefiningProfile: false
+		}
+	}
+	componentDidUpdate() {
+		if (this.profileInput) {
+			this.profileInput.focus()
+		}
+	}
+
+	getProfileControl() {
+		if (!this.state.isDefiningProfile) {
+			return this.getProfileSelect()
+		} else {
+			return this.getProfileInput()
+		}
+	}
+	getProfileInput() {
+		return (
+			<input className="input-profile"
+				ref={(input) => { this.profileInput = input }} 
+				onKeyPress={this.handleKeyPress}
+				type="text" 
+			/>
+		)
+	}
+	handleKeyPress = (e) => {
+		if (e.key === 'Enter') {
+			log('need to update package.json with profile state')
+			e.target.blur()
+			this.toggleProfileControl()
+		}
+	}
+	getProfileSelect() {
+		return (
+			<select>
+				<option>Default</option>
+			</select>
+		)
+	}
+	toggleProfileControl = () => {
+		this.setState({
+			isDefiningProfile: !this.state.isDefiningProfile
+		})
+	}
+
 	render() {
 		// render
 		return (
@@ -15,7 +63,7 @@ class TrafficControl extends PureComponent {
 				<li className="build-col col"></li>
 				<li className="debug-col col"></li>
 				<li className="settings-col col">
-					<div className="clear-after">
+					<div className="settings clear-after">
 						<div className="right clear-after">
 							<div className="option-checkbox right">
 								<input type="checkbox" />
@@ -27,12 +75,10 @@ class TrafficControl extends PureComponent {
 
 						<div className="left clear-after">
 							<div className="option-button left" style={{ paddingLeft:'0px' }}>
-								<input type="button" value="+" />
+								<input type="button" value="+" onClick={this.toggleProfileControl} />
 							</div>
 							<div className="option-button left">
-								<select>
-									<option>Default</option>
-								</select>
+								{this.getProfileControl()}
 							</div>
 							<div className="option-button left">
 								<div style={{ paddingTop: '2px' }}>
@@ -47,7 +93,9 @@ class TrafficControl extends PureComponent {
 	}
 }
 const mapStateToProps = function(state) {
-	return {}
+	return {
+
+	}
 }
 
 export default connect(mapStateToProps)(TrafficControl)

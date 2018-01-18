@@ -18,7 +18,6 @@ class DebugButton extends PureComponent {
 		}
 	}
 	xhr(url, callback) {
-		log(url)
 		callback = callback || function() {}
 		var request = new XMLHttpRequest()
 		request.onreadystatechange = function() {
