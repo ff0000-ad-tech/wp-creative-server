@@ -8,7 +8,9 @@ const log = debug('wp-cs:app:index')
 // create redux store
 log('Configuring Redux Store')
 let store = configureStore({
-	targets: {}
+	creative: {},
+	targets: {},
+	profiles: {}
 })
 
 // server connection
@@ -23,6 +25,9 @@ rpc.connect(() => {
 
 	// get targets
 	rpc.getTargets()
+
+	// get profiles
+	rpc.getProfiles()
 
 	// update cycle
 	setInterval(() => {

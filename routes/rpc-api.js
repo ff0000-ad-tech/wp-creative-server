@@ -3,6 +3,7 @@ const shoe = require('shoe')
 const moment = require('moment')
 
 const targets = require('../lib/targets.js')
+const profiles = require('../lib/profiles.js')
 
 const debug = require('debug')
 var log = debug('wp-creative-server:rpc-api')
@@ -10,8 +11,9 @@ var log = debug('wp-creative-server:rpc-api')
 debug.disable('wp-creative-server:rpc-api')
 
 const api = {
-	getCreative: getCreative,
-	getTargets: getTargets
+	getCreative,
+	getTargets,
+	getProfiles
 }
 
 // connect dnode
@@ -36,7 +38,7 @@ var state
  *
  */
 // get current creative
-function getCreative(cb) {
+function getCreative(cb, err) {
 	log('getCreative()')
 	var out = {
 		name: targets.getCreativeName()
@@ -45,7 +47,7 @@ function getCreative(cb) {
 }
 
 // get compile/deploy targets
-function getTargets(cb) {
+function getTargets(cb, err) {
 	log('getTargets()')
 
 	// refresh targets and update state
@@ -84,17 +86,25 @@ function getTargets(cb) {
 					}
 				})
 			}
-
 			log(out)
 			cb(out)
 		})
-		.catch(err => {
-			cb(err)
+		.catch(error => {
+			err(error)
 		})
 }
 
+// get current profiles
+function getProfiles(cb, err) {
+	log('getProfiles()')
+	const result = profiles.getProfiles()
+	if (result instanceof Error) {
+		return err(result)
+	}
+	cb(result)
+}
+
+// NOTE: RPC methods need to be exposed on the API, not as exports to the backend
 module.exports = {
-	connect,
-	getCreative,
-	getTargets
+	connect
 }

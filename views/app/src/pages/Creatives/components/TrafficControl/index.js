@@ -44,9 +44,13 @@ class TrafficControl extends PureComponent {
 		}
 	}
 	getProfileSelect() {
+		log(this.props.profiles)
 		return (
 			<select>
-				<option>Default</option>
+				{Object.keys(this.props.profiles).map(name => {
+					log(name)
+					return <option key={name} name={name}>{name}</option>
+				})}
 			</select>
 		)
 	}
@@ -94,7 +98,7 @@ class TrafficControl extends PureComponent {
 }
 const mapStateToProps = function(state) {
 	return {
-
+		profiles: state.profiles
 	}
 }
 

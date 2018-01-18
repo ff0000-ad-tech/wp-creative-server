@@ -1,5 +1,6 @@
 import { update as creativeUpdate } from '../services/creative/actions.js'
 import { update as targetsUpdate } from '../services/targets/actions.js'
+import { update as profilesUpdate } from '../services/profiles/actions.js'
 
 let remote, store
 
@@ -31,5 +32,12 @@ export function getCreative() {
 export function getTargets() {
 	remote.getTargets(targets => {
 		store.dispatch(targetsUpdate(targets))
+	})
+}
+export function getProfiles() {
+	remote.getProfiles(profiles => {
+		store.dispatch(profilesUpdate(profiles))
+	}, err => {
+		alert(err.message)
 	})
 }
