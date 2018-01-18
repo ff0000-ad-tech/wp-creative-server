@@ -7,14 +7,16 @@ const profiles = require('../lib/profiles.js')
 
 const debug = require('debug')
 var log = debug('wp-creative-server:rpc-api')
+var log1 = debug('wp-creative-server:rpc-api:targets')
 // SILENCE
-debug.disable('wp-creative-server:rpc-api')
+debug.disable('wp-creative-server:rpc-api:targets')
 
 const api = {
 	getCreative,
 	getTargets,
 	getProfiles,
-	newProfile
+	newProfile,
+	updateProfile
 }
 
 // connect dnode
@@ -49,7 +51,7 @@ function getCreative(cb, err) {
 
 // get compile/deploy targets
 function getTargets(cb, err) {
-	log('getTargets()')
+	log1('getTargets()')
 
 	// refresh targets and update state
 	targets
@@ -87,7 +89,7 @@ function getTargets(cb, err) {
 					}
 				})
 			}
-			log(out)
+			log1(out)
 			cb(out)
 		})
 		.catch(error => {
@@ -109,6 +111,17 @@ function getProfiles(cb, err) {
 function newProfile(name, cb, err) {
 	log('newProfile()', name)
 	const result = profiles.addProfile(name)
+	if (result instanceof Error) {
+		return err(result)
+	}
+	cb(result)
+}
+
+// update profile
+function updateProfile(name, profile, cb, err) {
+	log('updateProfile()', name)
+	log(profile)
+	const result = profiles.updateProfile(name, profile)
 	if (result instanceof Error) {
 		return err(result)
 	}

@@ -77,8 +77,8 @@ class TrafficControl extends PureComponent {
 			isDefiningProfile: !this.state.isDefiningProfile
 		})
 	}
-	selectProfile = () => {
-		log('TODO: select profile')
+	selectProfile = e => {
+		this.rpc.updateProfile(e.target.value, this.props.profiles[e.target.value])
 	}
 
 	render() {

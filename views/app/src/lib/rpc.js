@@ -63,4 +63,14 @@ export default class Rpc {
 			err => {}
 		)
 	}
+	updateProfile(name, profile) {
+		this.remote.updateProfile(
+			name,
+			profile,
+			() => {
+				this.getProfiles()
+			},
+			err => {}
+		)
+	}
 }
