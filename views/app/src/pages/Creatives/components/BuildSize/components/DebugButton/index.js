@@ -17,17 +17,6 @@ class DebugButton extends PureComponent {
 			showCopiedText: false
 		}
 	}
-	xhr(url, callback) {
-		callback = callback || function() {}
-		var request = new XMLHttpRequest()
-		request.onreadystatechange = function() {
-			if (request.readyState == 4 && request.status == 200) {
-				callback(request.responseText)
-			}
-		}
-		request.open('GET', url)
-		request.send()
-	}
 
 	render() {
 		if (this.props.ad.error) {

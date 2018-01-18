@@ -2,42 +2,56 @@ import { update as creativeUpdate } from '../services/creative/actions.js'
 import { update as targetsUpdate } from '../services/targets/actions.js'
 import { update as profilesUpdate } from '../services/profiles/actions.js'
 
-let remote, store
+import debug from 'debug'
+const log = debug('wp-cs:app:rpc')
 
-export function init(options) {
-	store = options.store
-}
+let instance
 
-// connect-remote is browserified and <script>-loaded
-export function connect(cb) {
-	window.connectRemote((err, r) => {
-		if (err) {
-			throw 'Unable to connect-remote!'
+export default class Rpc {
+	constructor(options) {
+		if (!instance) {
+			instance = this
 		}
-		remote = r
-		cb()
-	})
-}
+		this.store = options.store
+		return instance
+	}
 
-/* -- RPC METHODS/CALLBACKS -------------------------
- *
- *
- *
- */
-export function getCreative() {
-	remote.getCreative(creative => {
-		store.dispatch(creativeUpdate(creative))
-	})
-}
-export function getTargets() {
-	remote.getTargets(targets => {
-		store.dispatch(targetsUpdate(targets))
-	})
-}
-export function getProfiles() {
-	remote.getProfiles(profiles => {
-		store.dispatch(profilesUpdate(profiles))
-	}, err => {
-		alert(err.message)
-	})
+	// connect-remote is browserified and <script>-loaded
+	connect(cb) {
+		log('connect()')
+		window.connectRemote((err, r) => {
+			if (err) {
+				throw 'Unable to connect-remote!'
+			}
+			this.remote = r
+			cb()
+		})
+	}
+
+	/* -- RPC METHODS/CALLBACKS -------------------------
+	*
+	*
+	*
+	*/
+	getCreative() {
+		this.remote.getCreative(creative => {
+			this.store.dispatch(creativeUpdate(creative))
+		})
+	}
+	getTargets() {
+		this.remote.getTargets(targets => {
+			this.store.dispatch(targetsUpdate(targets))
+		})
+	}
+	getProfiles() {
+		this.remote.getProfiles(
+			profiles => {
+				this.store.dispatch(profilesUpdate(profiles))
+			},
+			err => {
+				// TODO: handle RPC errors better, more consistently
+				alert(err.message)
+			}
+		)
+	}
 }

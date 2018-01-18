@@ -8,7 +8,7 @@ import { targets as targetsReducers } from './services/targets/reducers.js'
 import { profiles as profilesReducers } from './services/profiles/reducers.js'
 
 import debug from 'debug'
-const log = debug('wp-cs:store')
+const log = debug('wp-cs:app:store')
 
 const rootReducer = combineReducers({
 	creative: creativeReducers,
@@ -19,5 +19,6 @@ const rootReducer = combineReducers({
 const loggerMiddleware = createLogger()
 
 export default function configureStore(initialState) {
+	log('configureStore()')
 	return createStore(rootReducer, initialState, applyMiddleware(thunkMiddleware)) //, loggerMiddleware))
 }

@@ -6,7 +6,6 @@ import debug from 'debug'
 const log = debug('wp-cs:app:index')
 
 // create redux store
-log('Configuring Redux Store')
 let store = configureStore({
 	creative: {},
 	targets: {},
@@ -14,9 +13,8 @@ let store = configureStore({
 })
 
 // server connection
-log('Connecting Server RPC')
-import * as rpc from './lib/rpc.js'
-rpc.init({
+import Rpc from './lib/rpc.js'
+let rpc = new Rpc({
 	store: store
 })
 rpc.connect(() => {
