@@ -25,6 +25,10 @@ class TrafficControl extends PureComponent {
 		}
 	}
 
+	/* -- Manage Profile Control ----
+	 *
+	 * 
+	 */
 	getProfileControl() {
 		if (!this.state.isDefiningProfile) {
 			return this.getProfileSelect()
@@ -88,10 +92,13 @@ class TrafficControl extends PureComponent {
 		})
 	}
 	selectProfile = e => {
-		this.rpc.updateProfile(e.target.value, this.props.profiles[e.target.value])
+		this.rpc.updateProfile(this.profileSelect.value, this.props.profiles[this.profileSelect.value])
 	}
 
-	// editor
+	/* -- Editor Control ----
+	 *
+	 * 
+	 */
 	showEditor = () => {
 		this.setState({
 			showEditor: true
@@ -102,7 +109,19 @@ class TrafficControl extends PureComponent {
 			showEditor: false
 		})
 	}
+	updateProfile = json => {
+		this.rpc.updateProfile(this.profileSelect.value, json)
+		this.hideEditor()
+	}
+	deleteProfile = () => {
+		this.rpc.deleteProfile(this.profileSelect.value)
+		this.hideEditor()
+	}
 
+	/* -- Render ----
+	 *
+	 * 
+	 */
 	render() {
 		// render
 		return (
@@ -136,7 +155,9 @@ class TrafficControl extends PureComponent {
 					</li>
 				</div>
 				<SettingsEditor
+					onSave={this.updateProfile}
 					onClose={this.hideEditor}
+					onDelete={this.deleteProfile}
 					show={this.state.showEditor}
 					profileName={this.profileSelect ? this.profileSelect.value : ''}
 				/>
@@ -144,10 +165,14 @@ class TrafficControl extends PureComponent {
 		)
 	}
 }
+
+/* -- Data/State ----
+	*
+	* 
+	*/
 const mapStateToProps = function(state) {
 	return {
 		profiles: state.profiles
 	}
 }
-
 export default connect(mapStateToProps)(TrafficControl)

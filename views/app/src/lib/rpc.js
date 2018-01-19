@@ -73,4 +73,13 @@ export default class Rpc {
 			err => {}
 		)
 	}
+	deleteProfile(name) {
+		this.remote.deleteProfile(
+			name,
+			() => {
+				this.getProfiles()
+			},
+			err => {}
+		)
+	}
 }

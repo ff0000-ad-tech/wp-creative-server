@@ -5,20 +5,55 @@
 	left: 0px;
 	right: 0px;
 	background-color: rgba(0, 0, 0, 0.3);
-	padding: 50px;
+	padding-top: 40px;
+	padding-left: 30%;
+	padding-right: 30%;
 	z-index: 100;
 }
 
 .modal {
 	background-color: #fff;
 	border-radius: 5px;
-	max-width: 500px;
-	min-height: 300px;
+	min-width: 500px;
+	min-height: 400px;
 	margin: 0 auto;
-	padding: 30px;
-}
+	padding: 40px;
 
-.modal pre {
-	width: 400px;
-	height: 400px;
+	.header {
+		margin-bottom: 3px;
+	}
+
+	.title {
+		font-size: 22px;
+		font-weight: bold;
+		color: #000;
+	}
+	.profile-title {
+		margin: 18px 0px 1px;
+
+		.name {
+			font-size: 28px;
+			color: #333;
+		}
+		.delete {
+			margin: 3px 0px 0px 6px;
+			font-size: 11px;
+			cursor: pointer;
+		}
+	}
+
+	pre {
+		min-width: 300px;
+		min-height: 500px;
+	}
+
+	.control {
+		margin: 10px 0px;
+		display: flex;
+
+		.buttons {
+			margin: 0pt auto;
+			display: inline-block;
+		}
+	}
 }

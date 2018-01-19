@@ -16,7 +16,8 @@ const api = {
 	getTargets,
 	getProfiles,
 	newProfile,
-	updateProfile
+	updateProfile,
+	deleteProfile
 }
 
 // connect dnode
@@ -122,6 +123,16 @@ function updateProfile(name, profile, cb, err) {
 	log('updateProfile()', name)
 	log(profile)
 	const result = profiles.updateProfile(name, profile)
+	if (result instanceof Error) {
+		return err(result)
+	}
+	cb(result)
+}
+
+// delete profile
+function deleteProfile(name, cb, err) {
+	log('deleteProfile()', name)
+	const result = profiles.deleteProfile(name)
 	if (result instanceof Error) {
 		return err(result)
 	}
