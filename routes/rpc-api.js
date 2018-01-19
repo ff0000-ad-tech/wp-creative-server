@@ -17,7 +17,9 @@ const api = {
 	getProfiles,
 	newProfile,
 	updateProfile,
-	deleteProfile
+	deleteProfile,
+	addDeployTarget,
+	removeDeployTarget
 }
 
 // connect dnode
@@ -79,9 +81,6 @@ function getTargets(cb, err) {
 					updateAt: value => {
 						return moment(value).from(Date.now())
 					},
-					deployAt: value => {
-						return moment(value).from(Date.now())
-					},
 					webpack: value => {
 						return {
 							shell: value.shell,
@@ -133,6 +132,26 @@ function updateProfile(name, profile, cb, err) {
 function deleteProfile(name, cb, err) {
 	log('deleteProfile()', name)
 	const result = profiles.deleteProfile(name)
+	if (result instanceof Error) {
+		return err(result)
+	}
+	cb(result)
+}
+
+// add deploy target
+function addDeployTarget(name, target, cb, err) {
+	log('addDeployTarget()', name)
+	const result = profiles.addDeployTarget(name, target)
+	if (result instanceof Error) {
+		return err(result)
+	}
+	cb(result)
+}
+
+// remove deploy target
+function removeDeployTarget(name, target, cb, err) {
+	log('removeDeployTarget()', name)
+	const result = profiles.removeDeployTarget(name, target)
 	if (result instanceof Error) {
 		return err(result)
 	}

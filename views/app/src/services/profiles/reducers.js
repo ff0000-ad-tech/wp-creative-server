@@ -19,8 +19,8 @@ export function sorted(state = [], action) {
 				return profile
 			})
 			return profiles.sort((a, b) => {
-				if (a.updated < b.updated) return 1
-				else if (a.updated > b.updated) return -1
+				if (a.updateAt < b.updateAt) return 1
+				else if (a.updateAt > b.updateAt) return -1
 				else return 0
 			})
 

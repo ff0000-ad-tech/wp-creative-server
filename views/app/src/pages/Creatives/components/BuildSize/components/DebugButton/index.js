@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import './style.scss'
 
@@ -106,6 +107,11 @@ class DebugButton extends PureComponent {
 			})
 		}, 700)
 	}
+}
+
+DebugButton.propTypes = {
+	selectedProfile: PropTypes.string.isRequired,
+	ad: PropTypes.object.isRequired
 }
 
 export default DebugButton

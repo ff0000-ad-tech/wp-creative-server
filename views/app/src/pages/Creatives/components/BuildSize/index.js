@@ -1,4 +1,6 @@
 import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
+
 import DebugButton from './components/DebugButton'
 import TrafficButton from './components/TrafficButton'
 
@@ -32,10 +34,10 @@ class BuildSize extends PureComponent {
 									</div>
 								</div>
 								<div className="debug-col col">
-									<DebugButton ad={ad} />
+									<DebugButton selectedProfile={this.props.selectedProfile} ad={ad} />
 								</div>
 								<div className="settings-col col col">
-									<TrafficButton ad={ad} />
+									<TrafficButton selectedProfile={this.props.selectedProfile} ad={ad} />
 								</div>
 							</div>
 						</div>
@@ -44,6 +46,12 @@ class BuildSize extends PureComponent {
 			</li>
 		)
 	}
+}
+
+BuildSize.propTypes = {
+	selectedProfile: PropTypes.string.isRequired,
+	// list of targets that are the same size
+	ads: PropTypes.array.isRequired
 }
 
 export default BuildSize

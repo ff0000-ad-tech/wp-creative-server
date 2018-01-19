@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import Rpc from '../../../../lib/rpc.js'
 
 import debug from 'debug'
@@ -61,7 +62,7 @@ class TrafficControl extends PureComponent {
 				ref={select => {
 					this.profileSelect = select
 				}}
-				value={this.props.sorted.length > 0 ? this.props.sorted[0].name : ''}
+				value={this.props.selectedProfile}
 				onChange={this.selectProfile}
 			>
 				{this.props.sorted.map((profile, i) => {
@@ -158,6 +159,10 @@ class TrafficControl extends PureComponent {
 	*
 	* 
 	*/
+TrafficControl.propTypes = {
+	selectedProfile: PropTypes.string.isRequired
+}
+
 const mapStateToProps = function(state) {
 	return {
 		profiles: state.profiles,

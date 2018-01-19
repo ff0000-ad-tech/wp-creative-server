@@ -83,4 +83,24 @@ export default class Rpc {
 			err => {}
 		)
 	}
+	addDeployTarget(name, target) {
+		this.remote.addDeployTarget(
+			name,
+			target,
+			() => {
+				this.getProfiles()
+			},
+			err => {}
+		)
+	}
+	removeDeployTarget(name, target) {
+		this.remote.removeDeployTarget(
+			name,
+			target,
+			() => {
+				this.getProfiles()
+			},
+			err => {}
+		)
+	}
 }

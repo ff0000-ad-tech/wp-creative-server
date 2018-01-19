@@ -9,14 +9,14 @@
 		padding: 7px 15px 3px;
 		white-space: nowrap;
 		border-top: 1px solid #cacaca;
-		border-bottom: 1px solid #cacaca;		
+		border-bottom: 1px solid #cacaca;
 	}
 
 	.col {
 		position: relative;
 		white-space: nowrap;
 		overflow: hidden;
-		text-overflow: ellipsis;		
+		text-overflow: ellipsis;
 	}
 
 	.build-col {
@@ -29,15 +29,6 @@
 		width: 25%;
 		text-align: center;
 		overflow: visible;
-	}
-	.traffic-col {
-		min-width: 80px;
-		width: 15%;
-		text-align: left;
-	}
-	.last-traffic-col {
-		width: 30%;
-		text-align: right;
 	}
 	.settings-col {
 		min-width: 140px;

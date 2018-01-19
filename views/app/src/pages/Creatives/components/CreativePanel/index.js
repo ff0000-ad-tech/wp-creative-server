@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+
 import BuildSize from '../BuildSize'
 import TrafficControl from '../TrafficControl'
 
@@ -10,7 +12,10 @@ import './style.scss'
 
 class CreativePanel extends PureComponent {
 	render() {
-		// group indexes by size
+		// current deploy profile
+		const selectedProfile = this.props.sorted.length ? this.props.sorted[0].name : ''
+
+		// group targets by size
 		const buildSizes = Object.keys(this.props.targets).reduce((buildSizes, id) => {
 			const size = this.props.targets[id].size
 			if (size in buildSizes) {
@@ -32,15 +37,14 @@ class CreativePanel extends PureComponent {
 				<ul className="header-row">
 					<li className="build-col col">Build</li>
 					<li className="debug-col col">Debug</li>
-					<li className="traffic-col col">Traffic</li>
-					<li className="last-traffic-col col" />
+					<li className="settings-col col">Traffic</li>
 				</ul>
 				<ul>
-					<TrafficControl />
+					<TrafficControl selectedProfile={selectedProfile} />
 				</ul>
 				<ul>
 					{Object.keys(buildSizes).map(id => {
-						return <BuildSize key={id} ads={buildSizes[id]} />
+						return <BuildSize key={id} selectedProfile={selectedProfile} ads={buildSizes[id]} />
 					})}
 				</ul>
 			</div>
@@ -50,7 +54,8 @@ class CreativePanel extends PureComponent {
 const mapStateToProps = function(state) {
 	return {
 		creative: state.creative,
-		targets: state.targets
+		targets: state.targets,
+		sorted: state.sorted
 	}
 }
 

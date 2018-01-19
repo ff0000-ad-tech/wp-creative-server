@@ -29,7 +29,7 @@ class SettingsEditor extends PureComponent {
 		if (!this.props.show) {
 			return null
 		}
-		log(JSON.stringify(this.props.profiles[this.props.profileName], null, 2))
+		// log(JSON.stringify(this.props.profiles[this.props.profileName], null, 2))
 		return (
 			<div className="backdrop">
 				<div className="modal">

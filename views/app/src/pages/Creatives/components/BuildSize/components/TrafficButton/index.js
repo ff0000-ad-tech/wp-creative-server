@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import Rpc from '../../../../../../lib/rpc.js'
 
 import './style.scss'
 
@@ -13,6 +15,23 @@ import webpackLogo from './images/webpack.svg'
 class TrafficButton extends PureComponent {
 	constructor(props) {
 		super(props)
+		this.rpc = new Rpc()
+	}
+	updateCheckbox() {
+		const targets = this.props.profiles[this.props.selectedProfile].targets
+		for (var i = 0; i < targets.length; i++) {
+			if (targets[i].size === this.props.ad.size && targets[i].index === this.props.ad.index) {
+				this.checkbox.checked = true
+				return
+			}
+		}
+		this.checkbox.checked = false
+	}
+	componentDidMount() {
+		this.updateCheckbox()
+	}
+	componentDidUpdate() {
+		this.updateCheckbox()
 	}
 
 	render() {
@@ -24,7 +43,13 @@ class TrafficButton extends PureComponent {
 				</div>
 				<div className="updated">deployed 2 days ago</div>
 				<div className="checkbox">
-					<input type="checkbox" onChange={this.onChecked} />
+					<input
+						ref={checkbox => {
+							this.checkbox = checkbox
+						}}
+						type="checkbox"
+						onChange={this.onChecked}
+					/>
 				</div>
 			</div>
 		)
@@ -36,7 +61,6 @@ class TrafficButton extends PureComponent {
 			</div>
 		)
 	}
-
 	getStateIcon() {
 		if (this.props.ad.error) {
 			return this.getError()
@@ -71,7 +95,11 @@ class TrafficButton extends PureComponent {
 	}
 
 	onChecked = e => {
-		log('TODO: add build/size to profile', this.props.sorted[0])
+		if (e.target.checked) {
+			this.rpc.addDeployTarget(this.props.selectedProfile, this.props.ad)
+		} else {
+			this.rpc.removeDeployTarget(this.props.selectedProfile, this.props.ad)
+		}
 	}
 }
 
@@ -79,6 +107,11 @@ class TrafficButton extends PureComponent {
  *
  * 
  */
+TrafficButton.propTypes = {
+	selectedProfile: PropTypes.string.isRequired,
+	ad: PropTypes.object.isRequired
+}
+
 const mapStateToProps = function(state) {
 	return {
 		profiles: state.profiles,
