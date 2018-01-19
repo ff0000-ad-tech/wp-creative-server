@@ -56,27 +56,15 @@ class TrafficControl extends PureComponent {
 		}
 	}
 	getProfileSelect() {
-		// generate sortable object
-		const profiles = Object.keys(this.props.profiles).map((name, i) => {
-			let profile = Object.assign({}, this.props.profiles[name])
-			profile.name = name
-			return profile
-		})
-		const sorted = profiles.sort((a, b) => {
-			if (a.updated < b.updated) return 1
-			else if (a.updated > b.updated) return -1
-			else return 0
-		})
-
 		return (
 			<select
 				ref={select => {
 					this.profileSelect = select
 				}}
-				value={sorted.length > 0 ? sorted[0].name : ''}
+				value={this.props.sorted.length > 0 ? this.props.sorted[0].name : ''}
 				onChange={this.selectProfile}
 			>
-				{sorted.map((profile, i) => {
+				{this.props.sorted.map((profile, i) => {
 					return (
 						<option key={profile.name} value={profile.name}>
 							{profile.name}
@@ -172,7 +160,8 @@ class TrafficControl extends PureComponent {
 	*/
 const mapStateToProps = function(state) {
 	return {
-		profiles: state.profiles
+		profiles: state.profiles,
+		sorted: state.sorted
 	}
 }
 export default connect(mapStateToProps)(TrafficControl)

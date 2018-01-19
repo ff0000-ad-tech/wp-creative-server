@@ -1,6 +1,6 @@
 import { update as creativeUpdate } from '../services/creative/actions.js'
 import { update as targetsUpdate } from '../services/targets/actions.js'
-import { update as profilesUpdate } from '../services/profiles/actions.js'
+import { update as profilesUpdate, list } from '../services/profiles/actions.js'
 
 import debug from 'debug'
 const log = debug('wp-cs:app:rpc')
@@ -47,6 +47,7 @@ export default class Rpc {
 		this.remote.getProfiles(
 			profiles => {
 				this.store.dispatch(profilesUpdate(profiles))
+				this.store.dispatch(list(profiles))
 			},
 			err => {
 				// TODO: handle RPC errors better, more consistently

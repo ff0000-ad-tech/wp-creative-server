@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
+import { connect } from 'react-redux'
+
 import './style.scss'
 
 import debug from 'debug'
@@ -23,12 +24,11 @@ class TrafficButton extends PureComponent {
 				</div>
 				<div className="updated">deployed 2 days ago</div>
 				<div className="checkbox">
-					<input type="checkbox" />
+					<input type="checkbox" onChange={this.onChecked} />
 				</div>
 			</div>
 		)
 	}
-
 	getWebpackLogo() {
 		return (
 			<div className="webpack">
@@ -69,6 +69,20 @@ class TrafficButton extends PureComponent {
 			</div>
 		)
 	}
+
+	onChecked = e => {
+		log('TODO: add build/size to profile', this.props.sorted[0])
+	}
 }
 
-export default TrafficButton
+/* -- Data/State ----
+ *
+ * 
+ */
+const mapStateToProps = function(state) {
+	return {
+		profiles: state.profiles,
+		sorted: state.sorted
+	}
+}
+export default connect(mapStateToProps)(TrafficButton)
