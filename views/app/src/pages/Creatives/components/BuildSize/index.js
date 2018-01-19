@@ -34,11 +34,8 @@ class BuildSize extends PureComponent {
 								<div className="debug-col col">
 									<DebugButton ad={ad} />
 								</div>
-								<div className="traffic-col col">
+								<div className="settings-col col col">
 									<TrafficButton ad={ad} />
-								</div>
-								<div className="last-traffic-col col">
-									<div className="col-vert-nudge" />
 								</div>
 							</div>
 						</div>

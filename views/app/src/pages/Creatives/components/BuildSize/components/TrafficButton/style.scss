@@ -1,0 +1,52 @@
+.traffic-icons {
+	float: left;
+
+	.not-watching {
+		$size: 12px;
+		float: left;
+		margin-left: 8px;
+		margin-top: 4px;
+		position: relative;
+		width: $size;
+		height: $size;
+
+		.icon {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			width: $size;
+			height: $size;
+			border: #b1afaf solid 1px;
+			border-radius: 50% 50%;
+			transform: translate(-50%, -50%);
+		}
+	}
+
+	.webpack {
+		float: left;
+		margin-top: -1px;
+	}
+
+	.error {
+		float: left;
+		margin-top: 2px;
+		margin-left: 8px;
+	}
+
+	.processing {
+		display: inline-block;
+		margin-left: 8px;
+	}
+}
+
+.updated {
+	float: left;
+	margin: 2px 0px 0px 10px;
+	font-size: 12px;
+	font-style: italic;
+}
+
+.checkbox {
+	float: right;
+	margin-top: 2px;
+}

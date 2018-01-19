@@ -5,8 +5,8 @@ import './style.scss'
 import debug from 'debug'
 const log = debug('wp-cs:app:DebugButton')
 
-import processingGif from './images/preloader.gif'
-import errorIcon from './images/error.png'
+import processingGif from '../../images/preloader.gif'
+import errorIcon from '../../images/error.png'
 import shellIcon from './images/shell.png'
 
 class DebugButton extends PureComponent {
