@@ -13,7 +13,7 @@ import './style.scss'
 class CreativePanel extends PureComponent {
 	render() {
 		// current deploy profile
-		const selectedProfile = this.props.sorted.length ? this.props.sorted[0].name : ''
+		const selectedProfile = this.props.profilesSorted.length ? this.props.profilesSorted[0].name : ''
 
 		// group targets by size
 		const buildSizes = Object.keys(this.props.targets).reduce((buildSizes, id) => {
@@ -55,7 +55,7 @@ const mapStateToProps = function(state) {
 	return {
 		creative: state.creative,
 		targets: state.targets,
-		sorted: state.sorted
+		profilesSorted: state.profilesSorted
 	}
 }
 

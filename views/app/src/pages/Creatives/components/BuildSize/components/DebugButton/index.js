@@ -13,9 +13,8 @@ import shellIcon from './images/shell.png'
 class DebugButton extends PureComponent {
 	constructor(props) {
 		super(props)
-
 		this.state = {
-			showCopiedText: false
+			showTerminalWatchDialog: false
 		}
 	}
 
@@ -39,7 +38,7 @@ class DebugButton extends PureComponent {
 			<div>
 				<div style={{ marginTop: '4px' }}>
 					{this.getTerminalWatch()}
-					<div className="not-watching">
+					<div className="not-watching" title="Watch process is idle">
 						<div className="icon" />
 					</div>
 				</div>
@@ -51,7 +50,7 @@ class DebugButton extends PureComponent {
 		return (
 			<div style={{ marginTop: '4px' }}>
 				{this.getTerminalWatch()}
-				<div className="watching">
+				<div className="watching" title="Watching...">
 					<div className="icon" />
 				</div>
 			</div>
@@ -61,7 +60,7 @@ class DebugButton extends PureComponent {
 		return (
 			<div style={{ marginTop: '2px' }}>
 				{this.getTerminalWatch()}
-				<div className="processing">
+				<div className="processing" title="Processing...">
 					<div className="icon">
 						<img src={processingGif} width="14" height="14" />
 					</div>
@@ -73,7 +72,7 @@ class DebugButton extends PureComponent {
 		return (
 			<div className="clear-after">
 				{this.getTerminalWatch()}
-				<div className="error">
+				<div className="error" title="Watch process errored">
 					<img src={errorIcon} width="16" height="16" />
 				</div>
 			</div>
@@ -87,7 +86,7 @@ class DebugButton extends PureComponent {
 		const dialog = this.state.showTerminalWatchDialog ? 'show' : ''
 
 		return (
-			<div className="shell" title="Copy command and run in shell">
+			<div className="shell" title="Copy watch command to clipboard">
 				<div onClick={this.terminalWatchOnClick}>
 					<CopyToClipboard text={this.props.ad.webpack.shell} onCopy={() => {}}>
 						<img src={shellIcon} width="12" height="12" />

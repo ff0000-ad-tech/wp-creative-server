@@ -20,7 +20,11 @@ class TrafficControl extends PureComponent {
 			showEditor: false
 		}
 	}
+	componentDidMount() {
+		this.updateCheckbox()
+	}
 	componentDidUpdate() {
+		this.updateCheckbox()
 		if (this.profileInput) {
 			this.profileInput.focus()
 		}
@@ -37,51 +41,72 @@ class TrafficControl extends PureComponent {
 			return this.getProfileInput()
 		}
 	}
-	getProfileInput() {
-		return (
-			<input
-				className="input-profile"
-				ref={input => {
-					this.profileInput = input
-				}}
-				onKeyPress={this.handleKeyPress}
-				type="text"
-			/>
-		)
-	}
-	handleKeyPress = e => {
-		if (e.key === 'Enter') {
-			this.rpc.newProfile(this.profileInput.value)
-			e.target.blur()
-			this.toggleProfileControl()
-		}
-	}
-	getProfileSelect() {
-		return (
-			<select
-				ref={select => {
-					this.profileSelect = select
-				}}
-				value={this.props.selectedProfile}
-				onChange={this.selectProfile}
-			>
-				{this.props.sorted.map((profile, i) => {
-					return (
-						<option key={profile.name} value={profile.name}>
-							{profile.name}
-						</option>
-					)
-				})}
-			</select>
-		)
-	}
 	toggleProfileControl = () => {
 		this.setState({
 			isDefiningProfile: !this.state.isDefiningProfile
 		})
 	}
+	handleKeyPress = e => {
+		if (e.key === 'Enter') {
+			e.target.blur()
+			this.createNewProfile(this.profileInput.value)
+		}
+	}
+	updateCheckbox() {
+		if (!Object.keys(this.props.targets).length) {
+			this.checkbox.checked = false
+			return
+		}
+		// check available targets
+		for (var key in this.props.targets) {
+			const target = this.props.targets[key]
+			// check if selected-profile has available target
+			let isSelected = false
+			const profileTargets = this.props.profiles[this.props.selectedProfile].targets
+			for (var i = 0; i < profileTargets.length; i++) {
+				if (profileTargets[i].size === target.size && profileTargets[i].index === target.index) {
+					isSelected = true
+					break
+				}
+			}
+			if (!isSelected) {
+				this.checkbox.checked = false
+				return
+			}
+		}
+		this.checkbox.checked = true
+	}
+
+	// profile api
+	createNewProfile(name) {
+		this.rpc.newProfile(name)
+		this.toggleProfileControl()
+		this.checkbox.checked = false
+	}
+	updateProfile = json => {
+		this.rpc.updateProfile(this.profileSelect.value, json)
+		this.hideEditor()
+	}
+	deleteProfile = () => {
+		this.rpc.deleteProfile(this.profileSelect.value)
+		this.hideEditor()
+	}
 	selectProfile = e => {
 		this.rpc.updateProfile(this.profileSelect.value, this.props.profiles[this.profileSelect.value])
+	}
+
+	// select/deselect all targets
+	onChecked = e => {
+		if (e.target.checked) {
+			this.rpc.addDeployTargets(this.props.selectedProfile, this.getAllTargetsAsList())
+		} else {
+			this.rpc.removeDeployTargets(this.props.selectedProfile, this.getAllTargetsAsList())
+		}
+	}
+	getAllTargetsAsList() {
+		return Object.keys(this.props.targets).map(key => {
+			return this.props.targets[key]
+		})
 	}
 
 	/* -- Editor Control ----
@@ -98,21 +123,48 @@ class TrafficControl extends PureComponent {
 			showEditor: false
 		})
 	}
-	updateProfile = json => {
-		this.rpc.updateProfile(this.profileSelect.value, json)
-		this.hideEditor()
-	}
-	deleteProfile = () => {
-		this.rpc.deleteProfile(this.profileSelect.value)
-		this.hideEditor()
-	}
 
 	/* -- Render ----
 	 *
 	 * 
 	 */
+	// profile select
+	getProfileSelect() {
+		return (
+			<select
+				ref={select => {
+					this.profileSelect = select
+				}}
+				value={this.props.selectedProfile}
+				onChange={this.selectProfile}
+			>
+				{this.props.profilesSorted.map((profile, i) => {
+					return (
+						<option key={profile.name} value={profile.name}>
+							{profile.name}
+						</option>
+					)
+				})}
+			</select>
+		)
+	}
+
+	// profile input
+	getProfileInput() {
+		return (
+			<input
+				className="input-profile"
+				ref={input => {
+					this.profileInput = input
+				}}
+				onKeyPress={this.handleKeyPress}
+				type="text"
+			/>
+		)
+	}
+
+	// render
 	render() {
-		// render
 		return (
 			<div>
 				<div className="traffic-control-options">
@@ -122,7 +174,13 @@ class TrafficControl extends PureComponent {
 						<div className="settings clear-after">
 							<div className="right clear-after">
 								<div className="option-checkbox right">
-									<input type="checkbox" />
+									<input
+										ref={checkbox => {
+											this.checkbox = checkbox
+										}}
+										type="checkbox"
+										onChange={this.onChecked}
+									/>
 								</div>
 								<div className="option-button right">
 									<input type="button" value="DEPLOY" />
@@ -148,7 +206,7 @@ class TrafficControl extends PureComponent {
 					onClose={this.hideEditor}
 					onDelete={this.deleteProfile}
 					show={this.state.showEditor}
-					profileName={this.profileSelect ? this.profileSelect.value : ''}
+					selectedProfile={this.props.selectedProfile}
 				/>
 			</div>
 		)
@@ -165,8 +223,9 @@ TrafficControl.propTypes = {
 
 const mapStateToProps = function(state) {
 	return {
+		targets: state.targets,
 		profiles: state.profiles,
-		sorted: state.sorted
+		profilesSorted: state.profilesSorted
 	}
 }
 export default connect(mapStateToProps)(TrafficControl)

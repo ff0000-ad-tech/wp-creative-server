@@ -15,12 +15,10 @@
 	}
 }
 
-
-
 .ad-size {
 	font-weight: bold;
 	font-size: 1.2em;
-	margin-bottom: 3px;	
+	margin-bottom: 3px;
 }
 .ad-index {
 	display: flex;
@@ -29,7 +27,7 @@
 
 .index-info {
 	display: flex;
-	flex-direction: row;	
+	flex-direction: row;
 }
 .hierarchy-grid {
 	width: 38px;
@@ -45,31 +43,8 @@
 	background-repeat: no-repeat;
 }
 
-
-
 .col-vert-nudge {
 	overflow: hidden;
-	text-overflow: ellipsis;	
+	text-overflow: ellipsis;
 	margin-top: 3px;
 }
-// .index-col {
-// 	width: 28%;
-// }
-// .watching-col {
-// 	text-align: center;
-// 	width: 25%;
-// }
-
-// .traffic-col {
-// 	width: 3%;
-// 	background-image: url('/control/images/webpack.svg');
-// 	background-repeat: no-repeat;
-// 	background-position: center;
-// 	width: 21px;
-// 	height: 21px;
-// 	background-position: 0px -1px;
-// 	margin-right: 5px;
-// }
-// .last-traffic-col {
-// 	width: 28%;
-// }

@@ -5,7 +5,7 @@ import { createLogger } from 'redux-logger'
 
 import { creative } from './services/creative/reducers.js'
 import { targets } from './services/targets/reducers.js'
-import { profiles, sorted } from './services/profiles/reducers.js'
+import { profiles, profilesSorted } from './services/profiles/reducers.js'
 
 import debug from 'debug'
 const log = debug('wp-cs:app:store')
@@ -14,7 +14,7 @@ const rootReducer = combineReducers({
 	creative,
 	targets,
 	profiles,
-	sorted
+	profilesSorted
 })
 
 const loggerMiddleware = createLogger()

@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
+
 import Rpc from '../../../../../../lib/rpc.js'
 
 import './style.scss'
@@ -16,8 +18,14 @@ class TrafficButton extends PureComponent {
 	constructor(props) {
 		super(props)
 		this.rpc = new Rpc()
+		this.state = {
+			showCopiedDialog: false
+		}
 	}
 	updateCheckbox() {
+		if (!this.props.profilesSorted.length) {
+			return
+		}
 		const targets = this.props.profiles[this.props.selectedProfile].targets
 		for (var i = 0; i < targets.length; i++) {
 			if (targets[i].size === this.props.ad.size && targets[i].index === this.props.ad.index) {
@@ -27,6 +35,32 @@ class TrafficButton extends PureComponent {
 		}
 		this.checkbox.checked = false
 	}
+	onChecked = e => {
+		if (e.target.checked) {
+			this.rpc.addDeployTargets(this.props.selectedProfile, this.props.ad)
+		} else {
+			this.rpc.removeDeployTargets(this.props.selectedProfile, this.props.ad)
+		}
+	}
+
+	// copy command to clipboard
+	webpackOnClick = e => {
+		this.setState({
+			showCopiedDialog: true
+		})
+		setTimeout(() => {
+			this.setState({
+				showCopiedDialog: false
+			})
+		}, 700)
+	}
+
+	// run deploy
+	onDeployRequest = e => {
+		this.rpc.addDeployTargets(this.props.selectedProfile, this.props.ad)
+		log('TODO: start parallel-webpack process')
+	}
+
 	componentDidMount() {
 		this.updateCheckbox()
 	}
@@ -41,7 +75,7 @@ class TrafficButton extends PureComponent {
 					{this.getWebpackLogo()}
 					{this.getStateIcon()}
 				</div>
-				<div className="updated">deployed 2 days ago</div>
+				<div className="updated">{this.props.ad.deployAt}</div>
 				<div className="checkbox">
 					<input
 						ref={checkbox => {
@@ -55,9 +89,15 @@ class TrafficButton extends PureComponent {
 		)
 	}
 	getWebpackLogo() {
+		const dialog = this.state.showCopiedDialog ? 'show' : ''
 		return (
-			<div className="webpack">
-				<img src={webpackLogo} width="21" height="21" />
+			<div className="webpack" title="Copy deploy command to clipboard">
+				<div onClick={this.webpackOnClick}>
+					<CopyToClipboard text={this.props.ad.webpack.shell} onCopy={() => {}}>
+						<img src={webpackLogo} width="21" height="21" />
+					</CopyToClipboard>
+				</div>
+				<div className={`action-dialog ${dialog}`}>Copied!</div>
 			</div>
 		)
 	}
@@ -72,14 +112,14 @@ class TrafficButton extends PureComponent {
 	}
 	getNotProcessing() {
 		return (
-			<div className="not-watching">
+			<div className="not-watching" onClick={this.onDeployRequest} title="Start Deploy">
 				<div className="icon" />
 			</div>
 		)
 	}
 	getProcessing() {
 		return (
-			<div className="processing">
+			<div className="processing" title="Deploying...">
 				<div className="icon">
 					<img src={processingGif} width="14" height="14" />
 				</div>
@@ -88,18 +128,10 @@ class TrafficButton extends PureComponent {
 	}
 	getError() {
 		return (
-			<div className="error">
+			<div className="error" title="Deploy process errored">
 				<img src={errorIcon} width="16" height="16" />
 			</div>
 		)
-	}
-
-	onChecked = e => {
-		if (e.target.checked) {
-			this.rpc.addDeployTarget(this.props.selectedProfile, this.props.ad)
-		} else {
-			this.rpc.removeDeployTarget(this.props.selectedProfile, this.props.ad)
-		}
 	}
 }
 
@@ -115,7 +147,7 @@ TrafficButton.propTypes = {
 const mapStateToProps = function(state) {
 	return {
 		profiles: state.profiles,
-		sorted: state.sorted
+		profilesSorted: state.profilesSorted
 	}
 }
 export default connect(mapStateToProps)(TrafficButton)

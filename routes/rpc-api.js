@@ -18,8 +18,8 @@ const api = {
 	newProfile,
 	updateProfile,
 	deleteProfile,
-	addDeployTarget,
-	removeDeployTarget
+	addDeployTargets,
+	removeDeployTargets
 }
 
 // connect dnode
@@ -45,7 +45,7 @@ var state
  */
 // get current creative
 function getCreative(cb, err) {
-	log('getCreative()')
+	log1('getCreative()')
 	var out = {
 		name: targets.getCreativeName()
 	}
@@ -99,7 +99,7 @@ function getTargets(cb, err) {
 
 // get current profiles
 function getProfiles(cb, err) {
-	log('getProfiles()')
+	log1('getProfiles()')
 	const result = profiles.getProfiles()
 	if (result instanceof Error) {
 		return err(result)
@@ -109,7 +109,7 @@ function getProfiles(cb, err) {
 
 // create new profile
 function newProfile(name, cb, err) {
-	log('newProfile()', name)
+	log1('newProfile()', name)
 	const result = profiles.addProfile(name)
 	if (result instanceof Error) {
 		return err(result)
@@ -130,7 +130,7 @@ function updateProfile(name, profile, cb, err) {
 
 // delete profile
 function deleteProfile(name, cb, err) {
-	log('deleteProfile()', name)
+	log1('deleteProfile()', name)
 	const result = profiles.deleteProfile(name)
 	if (result instanceof Error) {
 		return err(result)
@@ -139,9 +139,9 @@ function deleteProfile(name, cb, err) {
 }
 
 // add deploy target
-function addDeployTarget(name, target, cb, err) {
-	log('addDeployTarget()', name)
-	const result = profiles.addDeployTarget(name, target)
+function addDeployTargets(name, target, cb, err) {
+	log1('addDeployTargets()', name)
+	const result = profiles.addDeployTargets(name, target)
 	if (result instanceof Error) {
 		return err(result)
 	}
@@ -149,9 +149,9 @@ function addDeployTarget(name, target, cb, err) {
 }
 
 // remove deploy target
-function removeDeployTarget(name, target, cb, err) {
-	log('removeDeployTarget()', name)
-	const result = profiles.removeDeployTarget(name, target)
+function removeDeployTargets(name, target, cb, err) {
+	log1('removeDeployTargets()', name)
+	const result = profiles.removeDeployTargets(name, target)
 	if (result instanceof Error) {
 		return err(result)
 	}

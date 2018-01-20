@@ -10,7 +10,7 @@ export function profiles(state = {}, action) {
 	}
 }
 
-export function sorted(state = [], action) {
+export function profilesSorted(state = [], action) {
 	switch (action.type) {
 		case LIST:
 			const profiles = Object.keys(action.profiles).map(name => {

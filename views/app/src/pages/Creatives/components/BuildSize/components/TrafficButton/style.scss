@@ -9,6 +9,7 @@
 		position: relative;
 		width: $size;
 		height: $size;
+		cursor: pointer;
 
 		.icon {
 			position: absolute;
@@ -25,6 +26,7 @@
 	.webpack {
 		float: left;
 		margin-top: -1px;
+		cursor: pointer;
 	}
 
 	.error {
@@ -36,6 +38,35 @@
 	.processing {
 		display: inline-block;
 		margin-left: 8px;
+	}
+
+	.action-dialog {
+		$bgColor: #222;
+
+		left: 48px;
+		position: absolute;
+		top: -30px;
+		display: none;
+		background-color: #222;
+		padding: 4px 8px;
+		overflow: visible;
+		font-weight: bold;
+		color: #eee;
+		border-radius: 4px;
+		z-index: 100;
+
+		&:after {
+			position: absolute;
+			bottom: -10px;
+			left: 8px;
+			content: '';
+			border: 5px transparent solid;
+			border-top: 5px #222 solid;
+		}
+
+		&.show {
+			display: block;
+		}
 	}
 }
 

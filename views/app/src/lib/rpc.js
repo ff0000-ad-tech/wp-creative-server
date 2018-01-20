@@ -83,8 +83,8 @@ export default class Rpc {
 			err => {}
 		)
 	}
-	addDeployTarget(name, target) {
-		this.remote.addDeployTarget(
+	addDeployTargets(name, target) {
+		this.remote.addDeployTargets(
 			name,
 			target,
 			() => {
@@ -93,8 +93,8 @@ export default class Rpc {
 			err => {}
 		)
 	}
-	removeDeployTarget(name, target) {
-		this.remote.removeDeployTarget(
+	removeDeployTargets(name, target) {
+		this.remote.removeDeployTargets(
 			name,
 			target,
 			() => {

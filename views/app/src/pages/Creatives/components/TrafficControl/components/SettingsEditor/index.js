@@ -23,13 +23,13 @@ class SettingsEditor extends PureComponent {
 				this.saveRequested()
 			}
 		})
-		this.editor.session.setValue(JSON.stringify(this.props.profiles[this.props.profileName], null, 2))
+		this.editor.session.setValue(JSON.stringify(this.props.profiles[this.props.selectedProfile], null, 2))
 	}
 	render() {
 		if (!this.props.show) {
 			return null
 		}
-		// log(JSON.stringify(this.props.profiles[this.props.profileName], null, 2))
+		// log(JSON.stringify(this.props.profiles[this.props.selectedProfile], null, 2))
 		return (
 			<div className="backdrop">
 				<div className="modal">
@@ -42,7 +42,7 @@ class SettingsEditor extends PureComponent {
 					<hr />
 
 					<div className="profile-title clear-after">
-						<div className="name left">{this.props.profileName}</div>
+						<div className="name left">{this.props.selectedProfile}</div>
 						<div className="delete left" onClick={this.props.onDelete}>
 							<u>delete</u>
 						</div>
@@ -73,8 +73,8 @@ class SettingsEditor extends PureComponent {
 SettingsEditor.propTypes = {
 	onSave: PropTypes.func.isRequired,
 	onClose: PropTypes.func.isRequired,
-	onDelete: PropTypes.func,
-	profileName: PropTypes.string,
+	onDelete: PropTypes.func.isRequired,
+	selectedProfile: PropTypes.string.isRequired,
 	show: PropTypes.bool
 }
 
