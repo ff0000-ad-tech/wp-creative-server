@@ -5,7 +5,6 @@ const open = require('open')
 const rpcApi = require('./rpc-api.js')
 const state = require('../lib/state.js')
 const targets = require('../lib/targets.js')
-const webpack = require('../lib/webpack.js')
 
 const debug = require('debug')
 var log = debug('wp-creative-server:route:api')
