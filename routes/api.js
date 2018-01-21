@@ -5,6 +5,7 @@ const open = require('open')
 const rpcApi = require('./rpc-api.js')
 const state = require('../lib/state.js')
 const targets = require('../lib/targets.js')
+const watching = require('../lib/compiling/watching.js')
 
 const debug = require('debug')
 var log = debug('wp-creative-server:route:api')
@@ -105,15 +106,15 @@ module.exports = (app, express) => {
 	})
 
 	// start watching
-	app.get('/api/watch-start/:size/:index', (req, res) => {
+	app.get('/api/watch-start/:size/:index/:key*?', (req, res) => {
 		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
-		targets.startWatching(target)
+		watching.startWatching(req.params.key, target)
 		res.sendStatus(200)
 	})
 	// stop watching
-	app.get('/api/watch-stop/:size/:index', (req, res) => {
+	app.get('/api/watch-stop/:size/:index/:key*?', (req, res) => {
 		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
-		targets.stopWatching(target)
+		watching.stopWatching(req.params.key, target)
 		res.sendStatus(200)
 	})
 
