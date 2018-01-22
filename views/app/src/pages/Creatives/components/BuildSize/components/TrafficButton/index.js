@@ -88,7 +88,7 @@ class TrafficButton extends PureComponent {
 					{this.getWebpackLogo()}
 					{this.getStateIcon()}
 				</div>
-				<div className="updated">{this.props.ad.deployAt}</div>
+				<div className="updated">{this.profileTarget.deployAt || ''}</div>
 				<div className="checkbox">
 					<input
 						ref={checkbox => {
