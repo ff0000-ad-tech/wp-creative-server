@@ -13,7 +13,14 @@ import './style.scss'
 class CreativePanel extends PureComponent {
 	render() {
 		// current deploy profile
-		const selectedProfile = this.props.profilesSorted.length ? this.props.profilesSorted[0].name : ''
+		let currentProfile = {
+			name: '',
+			profile: {}
+		}
+		if (this.props.profilesSorted.length) {
+			currentProfile.name = this.props.profilesSorted[0].name
+			currentProfile.profile = this.props.profiles[currentProfile.name]
+		}
 
 		// group targets by size
 		const buildSizes = Object.keys(this.props.targets).reduce((buildSizes, id) => {
@@ -40,11 +47,11 @@ class CreativePanel extends PureComponent {
 					<li className="settings-col col">Traffic</li>
 				</ul>
 				<ul>
-					<TrafficControl selectedProfile={selectedProfile} />
+					<TrafficControl currentProfile={currentProfile} />
 				</ul>
 				<ul>
 					{Object.keys(buildSizes).map(id => {
-						return <BuildSize key={id} selectedProfile={selectedProfile} ads={buildSizes[id]} />
+						return <BuildSize key={id} currentProfile={currentProfile} ads={buildSizes[id]} />
 					})}
 				</ul>
 			</div>
@@ -55,6 +62,7 @@ const mapStateToProps = function(state) {
 	return {
 		creative: state.creative,
 		targets: state.targets,
+		profiles: state.profiles,
 		profilesSorted: state.profilesSorted
 	}
 }

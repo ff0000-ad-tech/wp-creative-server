@@ -34,10 +34,10 @@ class BuildSize extends PureComponent {
 									</div>
 								</div>
 								<div className="debug-col col">
-									<DebugButton selectedProfile={this.props.selectedProfile} ad={ad} />
+									<DebugButton currentProfile={this.props.currentProfile} ad={ad} />
 								</div>
 								<div className="settings-col col col">
-									<TrafficButton selectedProfile={this.props.selectedProfile} ad={ad} />
+									<TrafficButton currentProfile={this.props.currentProfile} ad={ad} />
 								</div>
 							</div>
 						</div>
@@ -49,7 +49,7 @@ class BuildSize extends PureComponent {
 }
 
 BuildSize.propTypes = {
-	selectedProfile: PropTypes.string.isRequired,
+	currentProfile: PropTypes.object.isRequired,
 	// list of targets that are the same size
 	ads: PropTypes.array.isRequired
 }

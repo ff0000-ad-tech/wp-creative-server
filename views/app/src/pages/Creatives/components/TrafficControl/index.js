@@ -62,7 +62,7 @@ class TrafficControl extends PureComponent {
 			const target = this.props.targets[key]
 			// check if selected-profile has available target
 			let isSelected = false
-			const profileTargets = this.props.profiles[this.props.selectedProfile].targets
+			const profileTargets = this.props.currentProfile.profile.targets
 			for (var i = 0; i < profileTargets.length; i++) {
 				if (profileTargets[i].size === target.size && profileTargets[i].index === target.index) {
 					isSelected = true
@@ -98,9 +98,9 @@ class TrafficControl extends PureComponent {
 	// select/deselect all targets
 	onChecked = e => {
 		if (e.target.checked) {
-			this.rpc.addDeployTargets(this.props.selectedProfile, this.getAllTargetsAsList())
+			this.rpc.addDeployTargets(this.props.currentProfile.name, this.getAllTargetsAsList())
 		} else {
-			this.rpc.removeDeployTargets(this.props.selectedProfile, this.getAllTargetsAsList())
+			this.rpc.removeDeployTargets(this.props.currentProfile.name, this.getAllTargetsAsList())
 		}
 	}
 	getAllTargetsAsList() {
@@ -135,7 +135,7 @@ class TrafficControl extends PureComponent {
 				ref={select => {
 					this.profileSelect = select
 				}}
-				value={this.props.selectedProfile}
+				value={this.props.currentProfile.name}
 				onChange={this.selectProfile}
 			>
 				{this.props.profilesSorted.map((profile, i) => {
@@ -206,7 +206,7 @@ class TrafficControl extends PureComponent {
 					onClose={this.hideEditor}
 					onDelete={this.deleteProfile}
 					show={this.state.showEditor}
-					selectedProfile={this.props.selectedProfile}
+					currentProfile={this.props.currentProfile}
 				/>
 			</div>
 		)
@@ -218,7 +218,7 @@ class TrafficControl extends PureComponent {
 	* 
 	*/
 TrafficControl.propTypes = {
-	selectedProfile: PropTypes.string.isRequired
+	currentProfile: PropTypes.object.isRequired
 }
 
 const mapStateToProps = function(state) {

@@ -109,7 +109,7 @@ class DebugButton extends PureComponent {
 }
 
 DebugButton.propTypes = {
-	selectedProfile: PropTypes.string.isRequired,
+	currentProfile: PropTypes.object.isRequired,
 	ad: PropTypes.object.isRequired
 }
 
