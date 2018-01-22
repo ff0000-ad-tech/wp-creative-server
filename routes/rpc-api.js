@@ -69,22 +69,28 @@ function getTargets(cb, err) {
 					index: value => {
 						return value
 					},
-					watching: value => {
-						return value ? true : false
-					},
-					processing: value => {
-						return value
-					},
-					error: value => {
-						return value
-					},
-					updateAt: value => {
-						return moment(value).from(Date.now())
-					},
-					webpack: value => {
+					debug: value => {
 						return {
-							shell: value.shell,
-							out: value.out
+							watching: value.watching,
+							processing: value.processing,
+							error: value.error,
+							updateAt: moment(value.updateAt).from(Date.now()),
+							cmd: {
+								shell: value.cmd.shell,
+								out: value.cmd.out
+							}
+						}
+					},
+					traffic: value => {
+						return {
+							watching: value.watching,
+							processing: value.processing,
+							error: value.error,
+							updateAt: moment(value.updateAt).from(Date.now()),
+							cmd: {
+								shell: value.cmd.shell,
+								out: value.cmd.out
+							}
 						}
 					}
 				})

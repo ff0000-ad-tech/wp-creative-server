@@ -19,11 +19,11 @@ class DebugButton extends PureComponent {
 	}
 
 	render() {
-		if (this.props.ad.error) {
+		if (this.props.ad.debug.error) {
 			return this.getError()
-		} else if (this.props.ad.processing) {
+		} else if (this.props.ad.debug.processing) {
 			return this.getProcessing()
-		} else if (this.props.ad.watching) {
+		} else if (this.props.ad.debug.watching) {
 			return this.getWatching()
 		} else {
 			return this.getNotWatching()
@@ -88,7 +88,7 @@ class DebugButton extends PureComponent {
 		return (
 			<div className="shell" title="Copy watch command to clipboard">
 				<div onClick={this.terminalWatchOnClick}>
-					<CopyToClipboard text={this.props.ad.webpack.shell} onCopy={() => {}}>
+					<CopyToClipboard text={this.props.ad.debug.cmd.shell} onCopy={() => {}}>
 						<img src={shellIcon} width="12" height="12" />
 					</CopyToClipboard>
 				</div>

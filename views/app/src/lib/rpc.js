@@ -39,9 +39,14 @@ export default class Rpc {
 		})
 	}
 	getTargets() {
-		this.remote.getTargets(targets => {
-			this.store.dispatch(targetsUpdate(targets))
-		})
+		this.remote.getTargets(
+			targets => {
+				this.store.dispatch(targetsUpdate(targets))
+			},
+			err => {
+				console.log(err)
+			}
+		)
 	}
 	getProfiles() {
 		this.remote.getProfiles(
