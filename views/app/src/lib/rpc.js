@@ -48,6 +48,16 @@ export default class Rpc {
 			}
 		)
 	}
+	refreshTargets() {
+		this.remote.refreshTargets(
+			targets => {
+				this.store.dispatch(targetsUpdate(targets))
+			},
+			err => {
+				console.log(err)
+			}
+		)
+	}
 	getProfiles() {
 		this.remote.getProfiles(
 			profiles => {

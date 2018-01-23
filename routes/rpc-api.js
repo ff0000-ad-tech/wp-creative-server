@@ -1,6 +1,5 @@
 const dnode = require('dnode')
 const shoe = require('shoe')
-const moment = require('moment')
 
 const targets = require('../lib/targets.js')
 const profiles = require('../lib/profiles.js')
@@ -14,6 +13,7 @@ debug.disable('wp-creative-server:rpc-api:targets')
 const api = {
 	getCreative,
 	getTargets,
+	refreshTargets,
 	getProfiles,
 	newProfile,
 	updateProfile,
@@ -52,59 +52,18 @@ function getCreative(cb, err) {
 	cb(out)
 }
 
-// get compile/deploy targets
+// rebuild targets-state from filesystem-state
 function getTargets(cb, err) {
-	log1('getTargets()')
+	targets.getTargets()
+	refreshTargets(cb, err)
+}
 
-	// refresh targets and update state
-	targets
-		.readTargets()
-		.then(targets => {
-			// format result
-			var out = {}
-			for (var id in targets) {
-				out[id] = state.format(targets[id], {
-					size: value => {
-						return value
-					},
-					index: value => {
-						return value
-					},
-					debug: value => {
-						return {
-							watching: value.watching,
-							processing: value.processing,
-							error: value.error,
-							updateAt: moment(value.updateAt).from(Date.now()),
-							cmd: {
-								shell: value.cmd.shell,
-								out: value.cmd.out
-							}
-						}
-					},
-					traffic: value => {
-						return {
-							watching: value.watching,
-							processing: value.processing,
-							error: value.error,
-							updateAt: moment(value.updateAt).from(Date.now()),
-							cmd: {
-								shell: value.cmd.shell,
-								out: value.cmd.out
-							}
-						}
-					},
-					currentProfile: value => {
-						return value
-					}
-				})
-			}
-			log1(out)
-			cb(out)
-		})
-		.catch(error => {
-			err(error)
-		})
+// refresh targets-state
+function refreshTargets(cb, err) {
+	log1('refreshTargets()')
+	const out = targets.refreshTargets()
+	log1(out)
+	cb(out)
 }
 
 // get current profiles

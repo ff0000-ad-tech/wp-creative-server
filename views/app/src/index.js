@@ -28,9 +28,19 @@ rpc.connect(() => {
 	rpc.getProfiles()
 
 	// update cycle
+	let fsRefreshCount = 0
+	const fsRefreshAt = 15
+	const pingInterval = 500 // milliseconds
 	setInterval(() => {
-		rpc.getTargets()
-	}, 1000)
+		if (fsRefreshCount === fsRefreshAt) {
+			// log('full refresh')
+			rpc.getTargets()
+			fsRefreshCount = 0
+		} else {
+			rpc.refreshTargets()
+			fsRefreshCount++
+		}
+	}, pingInterval)
 })
 
 // view

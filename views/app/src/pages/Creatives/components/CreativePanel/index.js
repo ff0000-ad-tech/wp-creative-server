@@ -15,7 +15,9 @@ class CreativePanel extends PureComponent {
 		// current deploy profile
 		let currentProfile = {
 			name: '',
-			profile: {}
+			profile: {
+				targets: []
+			}
 		}
 		if (this.props.profilesSorted.length) {
 			currentProfile.name = this.props.profilesSorted[0].name

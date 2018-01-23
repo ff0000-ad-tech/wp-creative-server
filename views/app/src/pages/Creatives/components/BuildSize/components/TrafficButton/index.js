@@ -73,12 +73,13 @@ class TrafficButton extends PureComponent {
 	render() {
 		// determine this profile target
 		this.profileTarget = {}
-		if (this.props.currentProfile.profile.targets.length) {
-			this.profileTarget = this.props.currentProfile.profile.targets.filter(target => {
-				if (target.index === this.props.ad.index) {
-					return true
-				}
-			})[0]
+		const profileTargets = this.props.currentProfile.profile.targets.filter(target => {
+			if (target.index === this.props.ad.index) {
+				return true
+			}
+		})
+		if (profileTargets.length) {
+			this.profileTarget = profileTargets[0]
 		}
 
 		// render

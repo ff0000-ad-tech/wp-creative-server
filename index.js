@@ -38,10 +38,7 @@ var app = express()
  *
  */
 var state = require('./lib/state.js')
-
-// read targets on start-up
 const targets = require('./lib/targets.js')
-targets.readTargets()
 
 /* -- RPC API ----------------------------------------------
  *
