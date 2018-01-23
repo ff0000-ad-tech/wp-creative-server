@@ -106,15 +106,21 @@ module.exports = (app, express) => {
 	})
 
 	// start watching
-	app.get('/api/watch-start/:size/:index/:key*?', (req, res) => {
+	app.get('/api/watch-start/:size/:index/:key', (req, res) => {
 		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
 		watching.startWatching(req.params.key, target)
 		res.sendStatus(200)
 	})
 	// stop watching
-	app.get('/api/watch-stop/:size/:index/:key*?', (req, res) => {
+	app.get('/api/watch-stop/:size/:index/:key', (req, res) => {
 		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
 		watching.stopWatching(req.params.key, target)
+		res.sendStatus(200)
+	})
+	// complete watching
+	app.get('/api/watch-complete/:size/:index/:key/:currentProfile', (req, res) => {
+		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
+		watching.completeWatch(req.params.key, target, req.params.currentProfile)
 		res.sendStatus(200)
 	})
 

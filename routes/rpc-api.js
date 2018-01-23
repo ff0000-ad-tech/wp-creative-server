@@ -60,6 +60,7 @@ function getTargets(cb, err) {
 	targets
 		.readTargets()
 		.then(targets => {
+			// format result
 			var out = {}
 			for (var id in targets) {
 				out[id] = state.format(targets[id], {
@@ -92,6 +93,9 @@ function getTargets(cb, err) {
 								out: value.cmd.out
 							}
 						}
+					},
+					currentProfile: value => {
+						return value
 					}
 				})
 			}
