@@ -34,7 +34,6 @@ class BrowsePanel extends PureComponent {
 
 	getComponentPaths(location) {
 		const origin = location.origin
-
 		// app route like: "app", "app/", "app#/"
 		const appRoute = location.href.slice(origin.length).match(/^\/[^\/]*/)[0]
 

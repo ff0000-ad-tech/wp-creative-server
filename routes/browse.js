@@ -15,14 +15,15 @@ module.exports = (app, express) => {
 	app.use(
 		'/',
 		(req, res, next) => {
+			const type = serveStatic.mime.lookup(req.url)
 			// build paths:
-			if (req.originalUrl.indexOf('/build/') !== -1) {
+			if (req.url.indexOf('/build/') > -1) {
 				return serveStatic(global.servePath, {
 					// let folders with index.html pass through
 					index: false,
 					// render html files as plain text
 					setHeaders: (res, path) => {
-						if (serveStatic.mime.lookup(path) === 'text/html') {
+						if (type === 'text/html') {
 							res.setHeader('Content-Type', 'text/plain')
 						}
 					}
