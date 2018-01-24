@@ -21,23 +21,4 @@ module.exports = (app, express) => {
 			view: 'details'
 		})
 	)
-
-	/** DEPRECATED --->
-	 */
-	app.use('/browse', express.static(`${global.appPath}/views/browse`))
-
-	app.use(
-		'/browse-panel',
-		express.static(global.servePath),
-		serveIndex(global.servePath, {
-			template: `${global.appPath}/views/browse/index.html`,
-			stylesheet: `${global.appPath}/views/browse/styles.css`,
-			icons: true,
-			view: 'details'
-		})
-	)
-
-	app.use('/browse-panel', express.static(`${global.appPath}/views/app/public/browse-template`))
-
-	app.use('/shared', express.static(`${global.appPath}/views/static`))
 }
