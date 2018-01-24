@@ -47,7 +47,7 @@ rpc.connect(() => {
 log('Rendering Main')
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Main from './Main'
+import Main from './components/Main'
 
 ReactDOM.render(
 	<Provider store={store}>
