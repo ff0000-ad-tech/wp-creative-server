@@ -38,7 +38,6 @@ var app = express()
  *
  */
 var state = require('./lib/state.js')
-const targets = require('./lib/targets.js')
 
 /* -- RPC API ----------------------------------------------
  *

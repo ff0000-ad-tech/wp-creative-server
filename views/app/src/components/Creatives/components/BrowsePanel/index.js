@@ -60,12 +60,12 @@ class BrowsePanel extends PureComponent {
 		const paths = this.getComponentPaths(e.target.contentWindow.location)
 		const browseRoute = e.target.contentWindow.location.href.slice(paths.origin.length)
 		window.history.replaceState({}, '', this.componentPaths.appRoute + browseRoute)
-		// log(`update history${this.componentPaths.appRoute + browseRoute}`)
+		log(`update history${this.componentPaths.appRoute + browseRoute}`)
 	}
 
 	render() {
 		const deactivatedClass = this.state.deactivated ? 'deactivated' : ''
-		// log(`render: ${this.componentPaths.origin + this.componentPaths.browseRoute}`)
+		log(`render: ${this.componentPaths.origin + this.componentPaths.browseRoute}`)
 		return (
 			<div className={`browse-panel ${deactivatedClass}`}>
 				<iframe
