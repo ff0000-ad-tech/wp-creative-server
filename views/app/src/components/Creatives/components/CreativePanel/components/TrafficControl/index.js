@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import Rpc from '../../../../lib/rpc.js'
+import Rpc from '../../../../../../lib/rpc.js'
 
 import debug from 'debug'
 const log = debug('wp-cs:app:TrafficControl')

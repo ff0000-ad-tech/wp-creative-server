@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 
-import Rpc from '../../../../../../lib/rpc.js'
+import Rpc from '../../../../../../../../lib/rpc.js'
 
 import './style.scss'
 

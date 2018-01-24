@@ -2,8 +2,8 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import BuildSize from '../BuildSize'
-import TrafficControl from '../TrafficControl'
+import BuildSize from './components/BuildSize'
+import TrafficControl from './components/TrafficControl'
 
 import debug from 'debug'
 const log = debug('wp-cs:app:CreativePanel')
