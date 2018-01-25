@@ -28,19 +28,23 @@ rpc.connect(() => {
 	rpc.getProfiles()
 
 	// update cycle
-	let fsRefreshCount = 0
-	const fsRefreshAt = 15
-	const pingInterval = 500 // milliseconds
+	let cycle = 0
+	const readFsOn = 20
+	const readPackageOn = 20
+	const returnStateOn = 1
+	const cycleLength = 1000 // milliseconds
 	setInterval(() => {
-		if (fsRefreshCount === fsRefreshAt) {
-			// log('full refresh')
+		if (cycle % readFsOn === 0) {
 			rpc.getTargets()
-			fsRefreshCount = 0
-		} else {
-			rpc.refreshTargets()
-			fsRefreshCount++
 		}
-	}, pingInterval)
+		if (cycle % readPackageOn === 0) {
+			rpc.getProfiles()
+		}
+		if (cycle % returnStateOn === 0) {
+			rpc.refreshTargets()
+		}
+		cycle++
+	}, cycleLength)
 })
 
 // view

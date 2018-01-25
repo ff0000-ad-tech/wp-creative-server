@@ -1,31 +1,30 @@
 const dnode = require('dnode')
 const shoe = require('shoe')
 
-const targets = require('../lib/targets.js')
-const profiles = require('../lib/profiles.js')
+const creativeRpc = require('../lib/rpc/creative.js')
+const targetsRpc = require('../lib/rpc/targets.js')
+const profilesRpc = require('../lib/rpc/profiles.js')
 
 const debug = require('debug')
 var log = debug('wp-creative-server:rpc-api')
-var log1 = debug('wp-creative-server:rpc-api:targets')
-// SILENCE
-debug.disable('wp-creative-server:rpc-api:targets')
 
+// API METHODS EXPOSED via RPC
 const api = {
-	getCreative,
-	getTargets,
-	refreshTargets,
-	getProfiles,
-	newProfile,
-	updateProfile,
-	deleteProfile,
-	addDeployTargets,
-	removeDeployTargets
+	getCreative: creativeRpc.getCreative,
+
+	getTargets: targetsRpc.getTargets,
+	refreshTargets: targetsRpc.refreshTargets,
+
+	getProfiles: profilesRpc.getProfiles,
+	newProfile: profilesRpc.newProfile,
+	updateProfile: profilesRpc.updateProfile,
+	deleteProfile: profilesRpc.deleteProfile,
+	addDeployTargets: profilesRpc.addDeployTargets,
+	removeDeployTargets: profilesRpc.removeDeployTargets
 }
 
 // connect dnode
 function connect(options) {
-	state = options.state
-
 	log('Connecting Public API:')
 	log(api)
 	// on request
@@ -34,97 +33,6 @@ function connect(options) {
 		d.pipe(stream).pipe(d)
 	})
 	return sock
-}
-
-var state
-
-/* -- REMOTE CONTROL METHODS ----------------------------------------------
- *
- *
- *
- */
-// get current creative
-function getCreative(cb, err) {
-	log1('getCreative()')
-	var out = {
-		name: targets.getCreativeName()
-	}
-	cb(out)
-}
-
-// rebuild targets-state from filesystem-state
-function getTargets(cb, err) {
-	targets.getTargets()
-	refreshTargets(cb, err)
-}
-
-// refresh targets-state
-function refreshTargets(cb, err) {
-	log1('refreshTargets()')
-	const out = targets.refreshTargets()
-	log1(out)
-	cb(out)
-}
-
-// get current profiles
-function getProfiles(cb, err) {
-	log1('getProfiles()')
-	const result = profiles.getProfiles()
-	if (result instanceof Error) {
-		return err(result)
-	}
-	cb(result)
-}
-
-// create new profile
-function newProfile(name, cb, err) {
-	log1('newProfile()', name)
-	const result = profiles.addProfile(name)
-	if (result instanceof Error) {
-		return err(result)
-	}
-	cb(result)
-}
-
-// update profile
-function updateProfile(name, profile, cb, err) {
-	log('updateProfile()', name)
-	log(profile)
-	const result = profiles.updateProfile(name, profile)
-	if (result instanceof Error) {
-		return err(result)
-	}
-	cb(result)
-}
-
-// delete profile
-function deleteProfile(name, cb, err) {
-	log1('deleteProfile()', name)
-	const result = profiles.deleteProfile(name)
-	if (result instanceof Error) {
-		return err(result)
-	}
-	cb(result)
-}
-
-// add deploy target
-function addDeployTargets(name, target, cb, err) {
-	log1('addDeployTargets()', name)
-	const result = profiles.addDeployTargets(name, target)
-	if (result instanceof Error) {
-		return err(result)
-	}
-	cb(result)
-}
-
-// remove deploy target
-function removeDeployTargets(name, target, cb, err) {
-	log1('removeDeployTargets()', name)
-	const result = profiles.removeDeployTargets(name, target)
-	if (result instanceof Error) {
-		return err(result)
-	}
-	cb(result)
 }
 
 // NOTE: RPC methods need to be exposed on the API, not as exports to the backend

@@ -38,6 +38,7 @@ var app = express()
  *
  */
 var state = require('./lib/state.js')
+state.reset()
 
 /* -- RPC API ----------------------------------------------
  *
@@ -45,9 +46,7 @@ var state = require('./lib/state.js')
  *
  */
 var rpcApi = require('./routes/rpc-api.js')
-var sock = rpcApi.connect({
-	state: state
-})
+var sock = rpcApi.connect()
 
 /* -- ROUTES ----------------------------------------------
  *

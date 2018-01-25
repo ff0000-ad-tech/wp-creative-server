@@ -51,6 +51,7 @@ export default class Rpc {
 	refreshTargets() {
 		this.remote.refreshTargets(
 			targets => {
+				// log(targets)
 				this.store.dispatch(targetsUpdate(targets))
 			},
 			err => {
@@ -61,6 +62,7 @@ export default class Rpc {
 	getProfiles() {
 		this.remote.getProfiles(
 			profiles => {
+				// log(profiles)
 				this.store.dispatch(profilesUpdate(profiles))
 				this.store.dispatch(list(profiles))
 			},

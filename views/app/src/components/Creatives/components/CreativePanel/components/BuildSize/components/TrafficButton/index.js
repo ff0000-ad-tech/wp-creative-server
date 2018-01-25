@@ -47,6 +47,7 @@ class TrafficButton extends PureComponent {
 
 	// copy command to clipboard
 	webpackOnClick = e => {
+		this.onDeployRequest()
 		this.setState({
 			showCopiedDialog: true
 		})
@@ -118,7 +119,7 @@ class TrafficButton extends PureComponent {
 	getStateIcon() {
 		if (this.props.ad.traffic.error) {
 			return this.getError()
-		} else if (this.props.ad.traffic.processing) {
+		} else if (this.props.ad.traffic.watching || this.props.ad.traffic.processing) {
 			return this.getProcessing()
 		} else if (this.profileTarget.deployAt) {
 			return this.getHasDeployed()
@@ -144,14 +145,14 @@ class TrafficButton extends PureComponent {
 	}
 	getError() {
 		return (
-			<div className="error" title="Deploy process errored">
+			<div className="error" title="Deploy errored">
 				<img src={errorIcon} width="16" height="16" />
 			</div>
 		)
 	}
 	getHasDeployed() {
 		return (
-			<div className="has-deployed" title="Deploy process successful">
+			<div className="has-deployed" title="Rerun Deploy">
 				<img src={traffickedIcon} width="16" height="16" />
 			</div>
 		)
