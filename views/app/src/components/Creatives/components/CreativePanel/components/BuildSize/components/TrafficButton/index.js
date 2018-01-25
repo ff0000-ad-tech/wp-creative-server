@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 import Rpc from '../../../../../../../../lib/rpc.js'
-
+import { xhr } from '../../../../../../../../lib/utils.js'
 import './style.scss'
 
 import debug from 'debug'
@@ -25,9 +25,6 @@ class TrafficButton extends PureComponent {
 	}
 	// events
 	updateCheckbox() {
-		if (!this.props.profilesSorted.length) {
-			return
-		}
 		const targets = this.props.currentProfile.profile.targets
 		for (var i = 0; i < targets.length; i++) {
 			if (targets[i].size === this.props.ad.size && targets[i].index === this.props.ad.index) {
@@ -61,7 +58,15 @@ class TrafficButton extends PureComponent {
 	// run deploy
 	onDeployRequest = e => {
 		this.rpc.addDeployTargets(this.props.currentProfile.name, this.props.ad)
-		log('TODO: start parallel-webpack process')
+		this.startCompiling()
+	}
+	startCompiling() {
+		if (!this.props.ad.debug.processing && !this.props.ad.debug.watching) {
+			xhr(`/api/compile-start/${this.props.ad.size}/${this.props.ad.index}/traffic`)
+		}
+	}
+	stopCompiling = e => {
+		xhr(`/api/compile-stop/${this.props.ad.size}/${this.props.ad.index}/traffic`)
 	}
 
 	componentDidMount() {
@@ -129,14 +134,14 @@ class TrafficButton extends PureComponent {
 	}
 	getNotProcessing() {
 		return (
-			<div className="not-watching" onClick={this.onDeployRequest} title="Start Deploy">
+			<div className="not-watching" title="Start Deploy" onClick={this.onDeployRequest}>
 				<div className="icon" />
 			</div>
 		)
 	}
 	getProcessing() {
 		return (
-			<div className="processing" title="Deploying...">
+			<div className="processing" title="Deploying..." onClick={this.stopCompiling}>
 				<div className="icon">
 					<img src={processingGif} width="14" height="14" />
 				</div>
@@ -145,14 +150,14 @@ class TrafficButton extends PureComponent {
 	}
 	getError() {
 		return (
-			<div className="error" title="Deploy errored">
+			<div className="error" title="Deploy errored - run command in Terminal for more info">
 				<img src={errorIcon} width="16" height="16" />
 			</div>
 		)
 	}
 	getHasDeployed() {
 		return (
-			<div className="has-deployed" title="Rerun Deploy">
+			<div className="has-deployed" title="Rerun Deploy" onClick={this.onDeployRequest}>
 				<img src={traffickedIcon} width="16" height="16" />
 			</div>
 		)
@@ -170,8 +175,7 @@ TrafficButton.propTypes = {
 
 const mapStateToProps = function(state) {
 	return {
-		profiles: state.profiles,
-		profilesSorted: state.profilesSorted
+		profiles: state.profiles
 	}
 }
 export default connect(mapStateToProps)(TrafficButton)

@@ -16,6 +16,8 @@ const api = {
 	refreshTargets: targetsRpc.refreshTargets,
 
 	getProfiles: profilesRpc.getProfiles,
+	getCurrentProfile: profilesRpc.getCurrentProfile,
+
 	newProfile: profilesRpc.newProfile,
 	updateProfile: profilesRpc.updateProfile,
 	deleteProfile: profilesRpc.deleteProfile,

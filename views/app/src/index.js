@@ -26,19 +26,21 @@ rpc.connect(() => {
 
 	// get profiles
 	rpc.getProfiles()
+	rpc.getCurrentProfile()
 
 	// update cycle
 	let cycle = 0
 	const readFsOn = 20
 	const readPackageOn = 20
 	const returnStateOn = 1
-	const cycleLength = 2000 // milliseconds
+	const cycleLength = 500 // milliseconds
 	setInterval(() => {
 		if (cycle % readFsOn === 0) {
 			rpc.getTargets()
 		}
 		if (cycle % readPackageOn === 0) {
 			rpc.getProfiles()
+			rpc.getCurrentProfile()
 		}
 		if (cycle % returnStateOn === 0) {
 			rpc.refreshTargets()

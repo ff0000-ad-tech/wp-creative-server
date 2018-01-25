@@ -1,6 +1,6 @@
 import { update as creativeUpdate } from '../services/creative/actions.js'
 import { update as targetsUpdate } from '../services/targets/actions.js'
-import { update as profilesUpdate, list } from '../services/profiles/actions.js'
+import { update as profilesUpdate, updateCurrent } from '../services/profiles/actions.js'
 
 import debug from 'debug'
 const log = debug('wp-cs:app:rpc')
@@ -64,7 +64,24 @@ export default class Rpc {
 			profiles => {
 				// log(profiles)
 				this.store.dispatch(profilesUpdate(profiles))
-				this.store.dispatch(list(profiles))
+			},
+			err => {
+				// TODO: handle RPC errors better, more consistently
+				alert(err.message)
+			}
+		)
+	}
+	getCurrentProfile() {
+		this.remote.getCurrentProfile(
+			name => {
+				const profile = this.store.getState().profiles[name]
+				log(profile)
+				this.store.dispatch(
+					updateCurrent({
+						name: name,
+						profile: profile
+					})
+				)
 			},
 			err => {
 				// TODO: handle RPC errors better, more consistently
@@ -77,6 +94,7 @@ export default class Rpc {
 			name,
 			() => {
 				this.getProfiles()
+				this.getCurrentProfile()
 			},
 			err => {}
 		)
@@ -87,6 +105,7 @@ export default class Rpc {
 			profile,
 			() => {
 				this.getProfiles()
+				this.getCurrentProfile()
 			},
 			err => {}
 		)
@@ -96,6 +115,7 @@ export default class Rpc {
 			name,
 			() => {
 				this.getProfiles()
+				this.getCurrentProfile()
 			},
 			err => {}
 		)
@@ -106,6 +126,7 @@ export default class Rpc {
 			target,
 			() => {
 				this.getProfiles()
+				this.getCurrentProfile()
 			},
 			err => {}
 		)
@@ -116,6 +137,7 @@ export default class Rpc {
 			target,
 			() => {
 				this.getProfiles()
+				this.getCurrentProfile()
 			},
 			err => {}
 		)

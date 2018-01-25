@@ -83,7 +83,7 @@ class DebugButton extends PureComponent {
 		return (
 			<div className="clear-after">
 				{this.getTerminalWatch()}
-				<div className="error" title="Watch process errored">
+				<div className="error" title="Watch process errored - run command in Terminal for more info">
 					<img src={errorIcon} width="16" height="16" />
 				</div>
 			</div>
