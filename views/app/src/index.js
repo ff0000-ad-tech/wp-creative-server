@@ -32,7 +32,7 @@ rpc.connect(() => {
 	const readFsOn = 20
 	const readPackageOn = 20
 	const returnStateOn = 1
-	const cycleLength = 1000 // milliseconds
+	const cycleLength = 2000 // milliseconds
 	setInterval(() => {
 		if (cycle % readFsOn === 0) {
 			rpc.getTargets()

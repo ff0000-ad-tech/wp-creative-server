@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
+
+import { xhr } from '../../../../../../../../lib/utils.js'
 import './style.scss'
 
 import debug from 'debug'
@@ -16,6 +18,15 @@ class DebugButton extends PureComponent {
 		this.state = {
 			showTerminalWatchDialog: false
 		}
+	}
+
+	startCompiling = () => {
+		if (!this.props.ad.debug.processing && !this.props.ad.debug.watching) {
+			xhr(`/api/compile-start/${this.props.ad.size}/${this.props.ad.index}/debug`)
+		}
+	}
+	stopCompiling = () => {
+		xhr(`/api/compile-stop/${this.props.ad.size}/${this.props.ad.index}/debug`)
 	}
 
 	render() {
@@ -38,7 +49,7 @@ class DebugButton extends PureComponent {
 			<div>
 				<div style={{ marginTop: '4px' }}>
 					{this.getTerminalWatch()}
-					<div className="not-watching" title="Watch process is idle">
+					<div className="not-watching" title="Watch process is idle" onClick={this.startCompiling}>
 						<div className="icon" />
 					</div>
 				</div>
@@ -50,7 +61,7 @@ class DebugButton extends PureComponent {
 		return (
 			<div style={{ marginTop: '4px' }}>
 				{this.getTerminalWatch()}
-				<div className="watching" title="Watching...">
+				<div className="watching" title="Watching..." onClick={this.stopCompiling}>
 					<div className="icon" />
 				</div>
 			</div>
@@ -60,7 +71,7 @@ class DebugButton extends PureComponent {
 		return (
 			<div style={{ marginTop: '2px' }}>
 				{this.getTerminalWatch()}
-				<div className="processing" title="Processing...">
+				<div className="processing" title="Processing..." onClick={this.stopCompiling}>
 					<div className="icon">
 						<img src={processingGif} width="14" height="14" />
 					</div>
