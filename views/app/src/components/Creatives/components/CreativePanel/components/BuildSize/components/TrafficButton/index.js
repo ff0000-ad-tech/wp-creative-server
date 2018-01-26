@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import moment from 'moment'
 
 import Rpc from '../../../../../../../../lib/rpc.js'
 import { xhr } from '../../../../../../../../lib/utils.js'
@@ -82,7 +83,7 @@ class TrafficButton extends PureComponent {
 		// determine this profile target
 		this.profileTarget = {}
 		const profileTargets = this.props.currentProfile.profile.targets.filter(target => {
-			if (target.index === this.props.ad.index) {
+			if (target.size === this.props.ad.size && target.index === this.props.ad.index) {
 				return true
 			}
 		})
@@ -97,7 +98,7 @@ class TrafficButton extends PureComponent {
 					{this.getWebpackLogo()}
 					{this.getStateIcon()}
 				</div>
-				<div className="updated">{this.profileTarget.deployAt || ''}</div>
+				<div className="updated">{this.profileTarget.deployAt ? moment(this.profileTarget.deployAt).from(Date.now()) : ''}</div>
 				<div className="checkbox">
 					<input
 						ref={checkbox => {

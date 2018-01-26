@@ -22,7 +22,6 @@ export function currentProfile(state, action) {
 	}
 	switch (action.type) {
 		case UPDATE_CURRENT:
-			log(action.currentProfile)
 			return Object.assign(state, action.currentProfile)
 
 		default:
