@@ -45,7 +45,7 @@ class TrafficButton extends PureComponent {
 	// copy command to clipboard
 	webpackOnClick = e => {
 		this.rpc.addDeployTargets(this.props.currentProfile.name, this.props.ad)
-		this.rpc.copyWpCmd(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, 'traffic', err => {
+		this.rpc.copyWpCmd(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, err => {
 			alert(err)
 		})
 		this.setState({
@@ -59,17 +59,14 @@ class TrafficButton extends PureComponent {
 	}
 
 	// run deploy
-	onDeployRequest = e => {
+	startCompiling = e => {
 		this.rpc.addDeployTargets(this.props.currentProfile.name, this.props.ad)
-		this.startCompiling()
-	}
-	startCompiling() {
-		if (!this.props.ad.debug.processing && !this.props.ad.debug.watching) {
-			xhr(`/api/compile-start/${this.props.ad.size}/${this.props.ad.index}/traffic`)
+		if (!this.props.ad.watching.debug.processing && !this.props.ad.watching.debug.watching) {
+			xhr(`/api/compile-start/${this.props.currentProfile.name}/${this.props.ad.size}/${this.props.ad.index}`)
 		}
 	}
 	stopCompiling = e => {
-		xhr(`/api/compile-stop/${this.props.ad.size}/${this.props.ad.index}/traffic`)
+		xhr(`/api/compile-stop/${this.props.currentProfile.name}/${this.props.ad.size}/${this.props.ad.index}`)
 	}
 
 	componentDidMount() {
@@ -123,9 +120,9 @@ class TrafficButton extends PureComponent {
 		)
 	}
 	getStateIcon() {
-		if (this.props.ad.traffic.error) {
+		if (this.props.ad.watching[this.props.currentProfile].error) {
 			return this.getError()
-		} else if (this.props.ad.traffic.watching || this.props.ad.traffic.processing) {
+		} else if (this.props.ad.watching[this.props.currentProfile].watching || this.props.ad.watching[this.props.currentProfile].processing) {
 			return this.getProcessing()
 		} else if (this.profileTarget.deployAt) {
 			return this.getHasDeployed()
@@ -135,7 +132,7 @@ class TrafficButton extends PureComponent {
 	}
 	getNotProcessing() {
 		return (
-			<div className="not-watching" title="Start Deploy" onClick={this.onDeployRequest}>
+			<div className="not-watching" title="Start Deploy" onClick={this.startCompiling}>
 				<div className="icon" />
 			</div>
 		)
@@ -158,7 +155,7 @@ class TrafficButton extends PureComponent {
 	}
 	getHasDeployed() {
 		return (
-			<div className="has-deployed" title="Rerun Deploy" onClick={this.onDeployRequest}>
+			<div className="has-deployed" title="Rerun Deploy" onClick={this.startCompiling}>
 				<img src={traffickedIcon} width="16" height="16" />
 			</div>
 		)

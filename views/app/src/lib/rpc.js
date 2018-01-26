@@ -47,6 +47,7 @@ export default class Rpc {
 	getTargets() {
 		this.remote.getTargets(
 			targets => {
+				log(targets)
 				this.store.dispatch(targetsUpdate(targets))
 			},
 			err => {
@@ -71,8 +72,8 @@ export default class Rpc {
 	*
 	*
 	*/
-	copyWpCmd(profileName, size, index, type, cb) {
-		this.remote.copyWpCmd(profileName, size, index, type, cb, err => {
+	copyWpCmd(ctype, size, index, cb) {
+		this.remote.copyWpCmd(ctype, size, index, cb, err => {
 			alert(err.message)
 		})
 	}

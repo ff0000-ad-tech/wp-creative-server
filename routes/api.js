@@ -104,32 +104,32 @@ module.exports = (app, express) => {
 		})
 	})
 
-	// watching
-	app.get('/api/watch-start/:size/:index/:type/:pid', (req, res) => {
+	// watching - called by wp-process-manager
+	app.get('/api/watch-start/:type/:size/:index/:pid', (req, res) => {
 		log(req.url)
 		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
 		watching.startWatching(req.params.type, target, req.params.pid)
 		res.sendStatus(200)
 	})
-	app.get('/api/watch-stop/:size/:index/:type/:pid', (req, res) => {
+	app.get('/api/watch-stop/:type/:size/:index/:pid', (req, res) => {
 		log(req.url)
 		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
 		watching.stopWatching(req.params.type, target, req.params.pid)
 		res.sendStatus(200)
 	})
-	app.get('/api/watch-complete/:size/:index/:type/:currentProfile', (req, res) => {
+	app.get('/api/watch-complete/:type/:size/:index', (req, res) => {
 		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
-		watching.completeWatch(req.params.type, target, req.params.currentProfile)
+		watching.completeWatch(req.params.type, target)
 		res.sendStatus(200)
 	})
 
-	// compiling
-	app.get('/api/compile-start/:size/:index/:type', (req, res) => {
+	// compiling - user requests from application
+	app.get('/api/compile-start/:type/:size/:index', (req, res) => {
 		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
 		background.compile(req.params.type, target)
 		res.sendStatus(200)
 	})
-	app.get('/api/compile-stop/:size/:index/:type', (req, res) => {
+	app.get('/api/compile-stop/:type/:size/:index', (req, res) => {
 		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
 		background.kill(req.params.type, target)
 		res.sendStatus(200)
