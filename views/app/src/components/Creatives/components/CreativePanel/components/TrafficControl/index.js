@@ -228,14 +228,11 @@ class TrafficControl extends PureComponent {
 	*
 	* 
 	*/
-TrafficControl.propTypes = {
-	currentProfile: PropTypes.object.isRequired
-}
-
 const mapStateToProps = function(state) {
 	return {
 		targets: state.targets,
-		profiles: state.profiles
+		profiles: state.profiles,
+		currentProfile: state.currentProfile
 	}
 }
 export default connect(mapStateToProps)(TrafficControl)

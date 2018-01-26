@@ -37,11 +37,11 @@ class CreativePanel extends PureComponent {
 					<li className="settings-col col">Traffic</li>
 				</ul>
 				<ul>
-					<TrafficControl currentProfile={this.props.currentProfile} />
+					<TrafficControl />
 				</ul>
 				<ul>
 					{Object.keys(buildSizes).map(id => {
-						return <BuildSize key={id} currentProfile={this.props.currentProfile} ads={buildSizes[id]} />
+						return <BuildSize key={id} ads={buildSizes[id]} />
 					})}
 				</ul>
 			</div>

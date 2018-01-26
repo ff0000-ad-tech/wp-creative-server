@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
+import copyToClipboard from 'copy-to-clipboard'
 
 import Rpc from '../../../../../../../../lib/rpc.js'
 import { xhr } from '../../../../../../../../lib/utils.js'
@@ -44,7 +44,9 @@ class TrafficButton extends PureComponent {
 
 	// copy command to clipboard
 	webpackOnClick = e => {
-		this.onDeployRequest()
+		this.rpc.getWpCmd(this.currentProfile.name, this.props.ad.size, this.props.ad.index, 'traffic', cmd => {
+			copyToClipboard(cmd.shell)
+		})
 		this.setState({
 			showCopiedDialog: true
 		})
@@ -113,9 +115,7 @@ class TrafficButton extends PureComponent {
 		return (
 			<div className="webpack" title="Copy deploy command to clipboard">
 				<div onClick={this.webpackOnClick}>
-					<CopyToClipboard text={this.props.ad.traffic.cmd.shell} onCopy={() => {}}>
-						<img src={webpackLogo} width="21" height="21" />
-					</CopyToClipboard>
+					<img src={webpackLogo} width="21" height="21" />
 				</div>
 				<div className={`action-dialog ${dialog}`}>Copied!</div>
 			</div>
@@ -169,13 +169,13 @@ class TrafficButton extends PureComponent {
  * 
  */
 TrafficButton.propTypes = {
-	currentProfile: PropTypes.object.isRequired,
 	ad: PropTypes.object.isRequired
 }
 
 const mapStateToProps = function(state) {
 	return {
-		profiles: state.profiles
+		profiles: state.profiles,
+		currentProfile: state.currentProfile
 	}
 }
 export default connect(mapStateToProps)(TrafficButton)

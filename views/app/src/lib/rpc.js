@@ -28,7 +28,7 @@ export default class Rpc {
 		})
 	}
 
-	/* -- RPC METHODS/CALLBACKS -------------------------
+	/* -- CREATIVE -------------------------
 	*
 	*
 	*
@@ -38,6 +38,12 @@ export default class Rpc {
 			this.store.dispatch(creativeUpdate(creative))
 		})
 	}
+
+	/* -- TARGETS -------------------------
+	*
+	*
+	*
+	*/
 	getTargets() {
 		this.remote.getTargets(
 			targets => {
@@ -59,27 +65,38 @@ export default class Rpc {
 			}
 		)
 	}
+
+	/* -- COMPILING -------------------------
+	*
+	*
+	*
+	*/
+	getWpCmd(profileName, size, index, type, cb) {
+		this.remote.getWpCmd(cb, err => {
+			alert(err.message)
+		})
+	}
+
+	/* -- PROFILES -------------------------
+	*
+	*
+	*
+	*/
 	getProfiles() {
 		this.remote.getProfiles(
 			profiles => {
-				// log(profiles)
 				this.store.dispatch(profilesUpdate(profiles))
-			},
-			err => {
-				// TODO: handle RPC errors better, more consistently
-				alert(err.message)
-			}
-		)
-	}
-	getCurrentProfile() {
-		this.remote.getCurrentProfile(
-			name => {
-				const profile = this.store.getState().profiles[name]
-				log(profile)
+
+				// determine current profile
+				const sortedNames = Object.keys(profiles).sort((a, b) => {
+					if (profiles[a].updateAt < profiles[b].updateAt) return 1
+					else if (profiles[a].updateAt > profiles[b].updateAt) return -1
+					else return 0
+				})
 				this.store.dispatch(
 					updateCurrent({
-						name: name,
-						profile: profile
+						name: sortedNames[0],
+						profile: profiles[sortedNames[0]]
 					})
 				)
 			},
@@ -94,7 +111,6 @@ export default class Rpc {
 			name,
 			() => {
 				this.getProfiles()
-				this.getCurrentProfile()
 			},
 			err => {}
 		)
@@ -105,7 +121,6 @@ export default class Rpc {
 			profile,
 			() => {
 				this.getProfiles()
-				this.getCurrentProfile()
 			},
 			err => {}
 		)
@@ -115,7 +130,6 @@ export default class Rpc {
 			name,
 			() => {
 				this.getProfiles()
-				this.getCurrentProfile()
 			},
 			err => {}
 		)
@@ -126,7 +140,6 @@ export default class Rpc {
 			target,
 			() => {
 				this.getProfiles()
-				this.getCurrentProfile()
 			},
 			err => {}
 		)
@@ -137,7 +150,6 @@ export default class Rpc {
 			target,
 			() => {
 				this.getProfiles()
-				this.getCurrentProfile()
 			},
 			err => {}
 		)

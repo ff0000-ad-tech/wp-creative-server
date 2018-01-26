@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
+import { connect } from 'react-redux'
+import copyToClipboard from 'copy-to-clipboard'
 
+import Rpc from '../../../../../../../../lib/rpc.js'
 import { xhr } from '../../../../../../../../lib/utils.js'
 import './style.scss'
 
@@ -15,9 +17,24 @@ import shellIcon from './images/shell.png'
 class DebugButton extends PureComponent {
 	constructor(props) {
 		super(props)
+		this.rpc = new Rpc()
 		this.state = {
 			showTerminalWatchDialog: false
 		}
+	}
+
+	terminalWatchOnClick = e => {
+		this.rpc.getWpCmd(this.currentProfile.name, this.props.ad.size, this.props.ad.index, 'debug', cmd => {
+			copyToClipboard(cmd.shell)
+		})
+		this.setState({
+			showTerminalWatchDialog: true
+		})
+		setTimeout(() => {
+			this.setState({
+				showTerminalWatchDialog: false
+			})
+		}, 700)
 	}
 
 	startCompiling = () => {
@@ -99,29 +116,21 @@ class DebugButton extends PureComponent {
 		return (
 			<div className="shell" title="Copy watch command to clipboard">
 				<div onClick={this.terminalWatchOnClick}>
-					<CopyToClipboard text={this.props.ad.debug.cmd.shell} onCopy={() => {}}>
-						<img src={shellIcon} width="12" height="12" />
-					</CopyToClipboard>
+					<img src={shellIcon} width="12" height="12" />
 				</div>
 				<div className={`action-dialog ${dialog}`}>Copied!</div>
 			</div>
 		)
 	}
-	terminalWatchOnClick = e => {
-		this.setState({
-			showTerminalWatchDialog: true
-		})
-		setTimeout(() => {
-			this.setState({
-				showTerminalWatchDialog: false
-			})
-		}, 700)
-	}
 }
 
 DebugButton.propTypes = {
-	currentProfile: PropTypes.object.isRequired,
 	ad: PropTypes.object.isRequired
 }
 
-export default DebugButton
+const mapStateToProps = function(state) {
+	return {
+		currentProfile: state.currentProfile
+	}
+}
+export default connect(mapStateToProps)(DebugButton)

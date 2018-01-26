@@ -1,5 +1,8 @@
 import { UPDATE, UPDATE_CURRENT } from './actions.js'
 
+import debug from 'debug'
+const log = debug('wp-cs:app:services:reducers:profiles')
+
 export function profiles(state = {}, action) {
 	switch (action.type) {
 		case UPDATE:
@@ -11,7 +14,7 @@ export function profiles(state = {}, action) {
 }
 
 export function currentProfile(state, action) {
-	state = {
+	state = state || {
 		name: 'default',
 		profile: {
 			targets: []

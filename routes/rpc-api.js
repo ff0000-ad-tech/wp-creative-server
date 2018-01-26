@@ -4,6 +4,7 @@ const shoe = require('shoe')
 const creativeRpc = require('../lib/rpc/creative.js')
 const targetsRpc = require('../lib/rpc/targets.js')
 const profilesRpc = require('../lib/rpc/profiles.js')
+const compilingRpc = require('../lib/rpc/compiling.js')
 
 const debug = require('debug')
 var log = debug('wp-creative-server:rpc-api')
@@ -16,13 +17,13 @@ const api = {
 	refreshTargets: targetsRpc.refreshTargets,
 
 	getProfiles: profilesRpc.getProfiles,
-	getCurrentProfile: profilesRpc.getCurrentProfile,
-
 	newProfile: profilesRpc.newProfile,
 	updateProfile: profilesRpc.updateProfile,
 	deleteProfile: profilesRpc.deleteProfile,
 	addDeployTargets: profilesRpc.addDeployTargets,
-	removeDeployTargets: profilesRpc.removeDeployTargets
+	removeDeployTargets: profilesRpc.removeDeployTargets,
+
+	getWpCmd: compilingRpc.getWpCmd
 }
 
 // connect dnode

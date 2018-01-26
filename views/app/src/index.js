@@ -26,7 +26,6 @@ rpc.connect(() => {
 
 	// get profiles
 	rpc.getProfiles()
-	rpc.getCurrentProfile()
 
 	// update cycle
 	let cycle = 0
@@ -40,7 +39,6 @@ rpc.connect(() => {
 		}
 		if (cycle % readPackageOn === 0) {
 			rpc.getProfiles()
-			rpc.getCurrentProfile()
 		}
 		if (cycle % returnStateOn === 0) {
 			rpc.refreshTargets()
