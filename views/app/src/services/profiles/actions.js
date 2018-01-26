@@ -6,10 +6,10 @@ export function update(profiles) {
 	}
 }
 
-export const LIST = 'PROFILES-LIST'
-export function list(profiles) {
+export const UPDATE_CURRENT = 'UPDATE-CURRENT'
+export function updateCurrent(currentProfile) {
 	return {
-		type: LIST,
-		profiles
+		type: UPDATE_CURRENT,
+		currentProfile
 	}
 }

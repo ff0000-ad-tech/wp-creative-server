@@ -130,6 +130,17 @@ class TrafficControl extends PureComponent {
 	 */
 	// profile select
 	getProfileSelect() {
+		let profiles = [this.props.currentProfile]
+		Object.keys(this.props.profiles).forEach(name => {
+			if (name === this.props.currentProfile.name) {
+				return
+			}
+			profiles.push({
+				name: name,
+				profile: this.props.profiles[name]
+			})
+		})
+
 		return (
 			<select
 				ref={select => {
@@ -138,7 +149,7 @@ class TrafficControl extends PureComponent {
 				value={this.props.currentProfile.name}
 				onChange={this.selectProfile}
 			>
-				{this.props.profilesSorted.map((profile, i) => {
+				{profiles.map(profile => {
 					return (
 						<option key={profile.name} value={profile.name}>
 							{profile.name}
@@ -217,15 +228,11 @@ class TrafficControl extends PureComponent {
 	*
 	* 
 	*/
-TrafficControl.propTypes = {
-	currentProfile: PropTypes.object.isRequired
-}
-
 const mapStateToProps = function(state) {
 	return {
 		targets: state.targets,
 		profiles: state.profiles,
-		profilesSorted: state.profilesSorted
+		currentProfile: state.currentProfile
 	}
 }
 export default connect(mapStateToProps)(TrafficControl)

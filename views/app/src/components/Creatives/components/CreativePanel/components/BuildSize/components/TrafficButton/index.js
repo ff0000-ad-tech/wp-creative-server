@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
+import moment from 'moment'
 
 import Rpc from '../../../../../../../../lib/rpc.js'
-
+import { xhr } from '../../../../../../../../lib/utils.js'
 import './style.scss'
 
 import debug from 'debug'
@@ -25,9 +25,6 @@ class TrafficButton extends PureComponent {
 	}
 	// events
 	updateCheckbox() {
-		if (!this.props.profilesSorted.length) {
-			return
-		}
 		const targets = this.props.currentProfile.profile.targets
 		for (var i = 0; i < targets.length; i++) {
 			if (targets[i].size === this.props.ad.size && targets[i].index === this.props.ad.index) {
@@ -47,7 +44,10 @@ class TrafficButton extends PureComponent {
 
 	// copy command to clipboard
 	webpackOnClick = e => {
-		this.onDeployRequest()
+		this.rpc.addDeployTargets(this.props.currentProfile.name, this.props.ad)
+		this.rpc.copyWpCmd(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, 'traffic', err => {
+			alert(err)
+		})
 		this.setState({
 			showCopiedDialog: true
 		})
@@ -61,7 +61,15 @@ class TrafficButton extends PureComponent {
 	// run deploy
 	onDeployRequest = e => {
 		this.rpc.addDeployTargets(this.props.currentProfile.name, this.props.ad)
-		log('TODO: start parallel-webpack process')
+		this.startCompiling()
+	}
+	startCompiling() {
+		if (!this.props.ad.debug.processing && !this.props.ad.debug.watching) {
+			xhr(`/api/compile-start/${this.props.ad.size}/${this.props.ad.index}/traffic`)
+		}
+	}
+	stopCompiling = e => {
+		xhr(`/api/compile-stop/${this.props.ad.size}/${this.props.ad.index}/traffic`)
 	}
 
 	componentDidMount() {
@@ -75,7 +83,7 @@ class TrafficButton extends PureComponent {
 		// determine this profile target
 		this.profileTarget = {}
 		const profileTargets = this.props.currentProfile.profile.targets.filter(target => {
-			if (target.index === this.props.ad.index) {
+			if (target.size === this.props.ad.size && target.index === this.props.ad.index) {
 				return true
 			}
 		})
@@ -90,7 +98,7 @@ class TrafficButton extends PureComponent {
 					{this.getWebpackLogo()}
 					{this.getStateIcon()}
 				</div>
-				<div className="updated">{this.profileTarget.deployAt || ''}</div>
+				<div className="updated">{this.profileTarget.deployAt ? moment(this.profileTarget.deployAt).from(Date.now()) : ''}</div>
 				<div className="checkbox">
 					<input
 						ref={checkbox => {
@@ -108,9 +116,7 @@ class TrafficButton extends PureComponent {
 		return (
 			<div className="webpack" title="Copy deploy command to clipboard">
 				<div onClick={this.webpackOnClick}>
-					<CopyToClipboard text={this.props.ad.traffic.cmd.shell} onCopy={() => {}}>
-						<img src={webpackLogo} width="21" height="21" />
-					</CopyToClipboard>
+					<img src={webpackLogo} width="21" height="21" />
 				</div>
 				<div className={`action-dialog ${dialog}`}>Copied!</div>
 			</div>
@@ -129,14 +135,14 @@ class TrafficButton extends PureComponent {
 	}
 	getNotProcessing() {
 		return (
-			<div className="not-watching" onClick={this.onDeployRequest} title="Start Deploy">
+			<div className="not-watching" title="Start Deploy" onClick={this.onDeployRequest}>
 				<div className="icon" />
 			</div>
 		)
 	}
 	getProcessing() {
 		return (
-			<div className="processing" title="Deploying...">
+			<div className="processing" title="Deploying..." onClick={this.stopCompiling}>
 				<div className="icon">
 					<img src={processingGif} width="14" height="14" />
 				</div>
@@ -145,14 +151,14 @@ class TrafficButton extends PureComponent {
 	}
 	getError() {
 		return (
-			<div className="error" title="Deploy errored">
+			<div className="error" title="Deploy errored - run command in Terminal for more info">
 				<img src={errorIcon} width="16" height="16" />
 			</div>
 		)
 	}
 	getHasDeployed() {
 		return (
-			<div className="has-deployed" title="Rerun Deploy">
+			<div className="has-deployed" title="Rerun Deploy" onClick={this.onDeployRequest}>
 				<img src={traffickedIcon} width="16" height="16" />
 			</div>
 		)
@@ -164,14 +170,13 @@ class TrafficButton extends PureComponent {
  * 
  */
 TrafficButton.propTypes = {
-	currentProfile: PropTypes.object.isRequired,
 	ad: PropTypes.object.isRequired
 }
 
 const mapStateToProps = function(state) {
 	return {
 		profiles: state.profiles,
-		profilesSorted: state.profilesSorted
+		currentProfile: state.currentProfile
 	}
 }
 export default connect(mapStateToProps)(TrafficButton)

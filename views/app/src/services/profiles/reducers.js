@@ -1,4 +1,7 @@
-import { UPDATE, LIST } from './actions.js'
+import { UPDATE, UPDATE_CURRENT } from './actions.js'
+
+import debug from 'debug'
+const log = debug('wp-cs:app:services:reducers:profiles')
 
 export function profiles(state = {}, action) {
 	switch (action.type) {
@@ -10,19 +13,16 @@ export function profiles(state = {}, action) {
 	}
 }
 
-export function profilesSorted(state = [], action) {
+export function currentProfile(state, action) {
+	state = state || {
+		name: 'default',
+		profile: {
+			targets: []
+		}
+	}
 	switch (action.type) {
-		case LIST:
-			const profiles = Object.keys(action.profiles).map(name => {
-				let profile = Object.assign({}, action.profiles[name])
-				profile.name = name
-				return profile
-			})
-			return profiles.sort((a, b) => {
-				if (a.updateAt < b.updateAt) return 1
-				else if (a.updateAt > b.updateAt) return -1
-				else return 0
-			})
+		case UPDATE_CURRENT:
+			return Object.assign(state, action.currentProfile)
 
 		default:
 			return state
