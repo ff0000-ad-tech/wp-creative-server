@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import copyToClipboard from 'copy-to-clipboard'
 
 import Rpc from '../../../../../../../../lib/rpc.js'
 import { xhr } from '../../../../../../../../lib/utils.js'
@@ -44,8 +43,9 @@ class TrafficButton extends PureComponent {
 
 	// copy command to clipboard
 	webpackOnClick = e => {
-		this.rpc.getWpCmd(this.currentProfile.name, this.props.ad.size, this.props.ad.index, 'traffic', cmd => {
-			copyToClipboard(cmd.shell)
+		this.rpc.addDeployTargets(this.props.currentProfile.name, this.props.ad)
+		this.rpc.copyWpCmd(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, 'traffic', err => {
+			alert(err)
 		})
 		this.setState({
 			showCopiedDialog: true

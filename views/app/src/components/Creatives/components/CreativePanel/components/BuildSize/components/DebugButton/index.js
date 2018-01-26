@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import copyToClipboard from 'copy-to-clipboard'
 
 import Rpc from '../../../../../../../../lib/rpc.js'
 import { xhr } from '../../../../../../../../lib/utils.js'
@@ -24,8 +23,8 @@ class DebugButton extends PureComponent {
 	}
 
 	terminalWatchOnClick = e => {
-		this.rpc.getWpCmd(this.currentProfile.name, this.props.ad.size, this.props.ad.index, 'debug', cmd => {
-			copyToClipboard(cmd.shell)
+		this.rpc.copyWpCmd(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, 'debug', err => {
+			alert(err)
 		})
 		this.setState({
 			showTerminalWatchDialog: true

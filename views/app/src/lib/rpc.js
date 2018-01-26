@@ -71,8 +71,8 @@ export default class Rpc {
 	*
 	*
 	*/
-	getWpCmd(profileName, size, index, type, cb) {
-		this.remote.getWpCmd(cb, err => {
+	copyWpCmd(profileName, size, index, type, cb) {
+		this.remote.copyWpCmd(profileName, size, index, type, cb, err => {
 			alert(err.message)
 		})
 	}
@@ -86,7 +86,6 @@ export default class Rpc {
 		this.remote.getProfiles(
 			profiles => {
 				this.store.dispatch(profilesUpdate(profiles))
-
 				// determine current profile
 				const sortedNames = Object.keys(profiles).sort((a, b) => {
 					if (profiles[a].updateAt < profiles[b].updateAt) return 1

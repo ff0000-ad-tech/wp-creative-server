@@ -23,7 +23,7 @@ const api = {
 	addDeployTargets: profilesRpc.addDeployTargets,
 	removeDeployTargets: profilesRpc.removeDeployTargets,
 
-	getWpCmd: compilingRpc.getWpCmd
+	copyWpCmd: compilingRpc.copyWpCmd
 }
 
 // connect dnode
