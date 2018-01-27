@@ -125,11 +125,13 @@ module.exports = (app, express) => {
 
 	// compiling - user requests from application
 	app.get('/api/compile-start/:type/:size/:index', (req, res) => {
+		log(req.url)
 		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
 		background.compile(req.params.type, target)
 		res.sendStatus(200)
 	})
 	app.get('/api/compile-stop/:type/:size/:index', (req, res) => {
+		log(req.url)
 		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
 		background.kill(req.params.type, target)
 		res.sendStatus(200)
