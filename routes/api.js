@@ -114,7 +114,7 @@ module.exports = (app, express) => {
 	app.get('/api/watch-stop/:type/:size/:index/:pid', (req, res) => {
 		log(req.url)
 		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
-		watching.stopWatching(req.params.type, target, req.params.pid)
+		watching.stopWatching(req.params.type, target)
 		res.sendStatus(200)
 	})
 	app.get('/api/watch-complete/:type/:size/:index', (req, res) => {

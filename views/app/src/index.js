@@ -18,21 +18,17 @@ let rpc = new Rpc({
 	store: store
 })
 rpc.connect(() => {
-	// get creative
 	rpc.getCreative()
-
-	// read targets
 	rpc.readTargets()
-
-	// get profiles
 	rpc.getProfiles()
+	rpc.refreshTargets()
 
 	// update cycle
 	let cycle = 0
-	const readFsOn = 20
-	const readPackageOn = 20
+	const readFsOn = 10
+	const readPackageOn = 30
 	const returnStateOn = 1
-	const cycleLength = 1000 // milliseconds
+	const cycleLength = 2000 // milliseconds
 	setInterval(() => {
 		if (cycle % readFsOn === 0) {
 			rpc.readTargets()

@@ -23,17 +23,17 @@ class DebugButton extends PureComponent {
 	}
 
 	terminalWatchOnClick = e => {
-		this.rpc.copyWpCmd(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, 'debug', err => {
-			alert(err)
-		})
-		this.setState({
-			showTerminalWatchDialog: true
-		})
-		setTimeout(() => {
+		// only one debug compile is tracked, regardless of selected profile
+		this.rpc.copyWpCmd('debug', this.props.ad.size, this.props.ad.index, () => {
 			this.setState({
-				showTerminalWatchDialog: false
+				showTerminalWatchDialog: true
 			})
-		}, 700)
+			setTimeout(() => {
+				this.setState({
+					showTerminalWatchDialog: false
+				})
+			}, 700)
+		})
 	}
 
 	startCompiling = () => {
