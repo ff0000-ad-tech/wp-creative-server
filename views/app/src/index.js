@@ -21,8 +21,8 @@ rpc.connect(() => {
 	// get creative
 	rpc.getCreative()
 
-	// get targets
-	rpc.getTargets()
+	// read targets
+	rpc.readTargets()
 
 	// get profiles
 	rpc.getProfiles()
@@ -32,10 +32,10 @@ rpc.connect(() => {
 	const readFsOn = 20
 	const readPackageOn = 20
 	const returnStateOn = 1
-	const cycleLength = 500 // milliseconds
+	const cycleLength = 1000 // milliseconds
 	setInterval(() => {
 		if (cycle % readFsOn === 0) {
-			rpc.getTargets()
+			rpc.readTargets()
 		}
 		if (cycle % readPackageOn === 0) {
 			rpc.getProfiles()

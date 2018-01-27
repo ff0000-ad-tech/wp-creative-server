@@ -13,7 +13,7 @@ var log = debug('wp-creative-server:rpc-api')
 const api = {
 	getCreative: creativeRpc.getCreative,
 
-	getTargets: targetsRpc.getTargets,
+	readTargets: targetsRpc.readTargets,
 	refreshTargets: targetsRpc.refreshTargets,
 
 	getProfiles: profilesRpc.getProfiles,

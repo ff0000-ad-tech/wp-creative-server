@@ -120,9 +120,12 @@ class TrafficButton extends PureComponent {
 		)
 	}
 	getStateIcon() {
-		if (this.props.ad.watching[this.props.currentProfile].error) {
+		if (this.props.ad.watching[this.props.currentProfile.name].error) {
 			return this.getError()
-		} else if (this.props.ad.watching[this.props.currentProfile].watching || this.props.ad.watching[this.props.currentProfile].processing) {
+		} else if (
+			this.props.ad.watching[this.props.currentProfile.name].watching ||
+			this.props.ad.watching[this.props.currentProfile.name].processing
+		) {
 			return this.getProcessing()
 		} else if (this.profileTarget.deployAt) {
 			return this.getHasDeployed()

@@ -44,10 +44,10 @@ export default class Rpc {
 	*
 	*
 	*/
-	getTargets() {
-		this.remote.getTargets(
+	readTargets() {
+		this.remote.readTargets(
 			targets => {
-				log(targets)
+				log('READ', targets)
 				this.store.dispatch(targetsUpdate(targets))
 			},
 			err => {
@@ -58,7 +58,7 @@ export default class Rpc {
 	refreshTargets() {
 		this.remote.refreshTargets(
 			targets => {
-				// log(targets)
+				log('refresh', targets)
 				this.store.dispatch(targetsUpdate(targets))
 			},
 			err => {
@@ -86,6 +86,7 @@ export default class Rpc {
 	getProfiles() {
 		this.remote.getProfiles(
 			profiles => {
+				log('profiles', profiles)
 				this.store.dispatch(profilesUpdate(profiles))
 				// determine current profile
 				const sortedNames = Object.keys(profiles).sort((a, b) => {
@@ -110,6 +111,8 @@ export default class Rpc {
 		this.remote.newProfile(
 			name,
 			() => {
+				log('NEW PROF', name)
+				this.readTargets()
 				this.getProfiles()
 			},
 			err => {}
