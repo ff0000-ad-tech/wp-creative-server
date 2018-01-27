@@ -4,6 +4,8 @@ import { update as profilesUpdate, updateCurrent } from '../services/profiles/ac
 
 import debug from 'debug'
 const log = debug('wp-cs:app:rpc')
+const log1 = debug('wp-cs:app:rpc+')
+debug.disable('wp-cs:app:rpc+') // comment this line to get an idea of the pace of the update cycle
 
 let instance
 
@@ -47,7 +49,7 @@ export default class Rpc {
 	readTargets() {
 		this.remote.readTargets(
 			targets => {
-				log('READ', targets)
+				log1('READ', targets)
 				this.store.dispatch(targetsUpdate(targets))
 			},
 			err => {
@@ -58,7 +60,7 @@ export default class Rpc {
 	refreshTargets() {
 		this.remote.refreshTargets(
 			targets => {
-				log('refresh', targets)
+				log1('refresh', targets)
 				this.store.dispatch(targetsUpdate(targets))
 			},
 			err => {
@@ -86,7 +88,7 @@ export default class Rpc {
 	getProfiles() {
 		this.remote.getProfiles(
 			profiles => {
-				log('profiles', profiles)
+				log1('profiles', profiles)
 				this.store.dispatch(profilesUpdate(profiles))
 				// determine current profile
 				const sortedNames = Object.keys(profiles).sort((a, b) => {
