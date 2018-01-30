@@ -5,7 +5,8 @@ const open = require('open')
 const rpcApi = require('./rpc-api.js')
 const state = require('../lib/state.js')
 const targets = require('../lib/targets.js')
-const webpack = require('../lib/webpack.js')
+const watching = require('../lib/compiling/watching.js')
+const background = require('../lib/compiling/background.js')
 
 const debug = require('debug')
 var log = debug('wp-creative-server:route:api')
@@ -19,6 +20,8 @@ module.exports = (app, express) => {
 			type: 'GET',
 			params: []
 		},
+		// TODO: bring these up to date:
+		//
 		// '/api/start-watching': {
 		// 	description: 'Starts a Webpack watch process on the specified build-size/-index.',
 		// 	type: 'GET',
@@ -87,11 +90,7 @@ module.exports = (app, express) => {
 		return index
 	}
 
-	/**
-	 * VALIDATION
-	 *
-	 *
-	 */
+	// get api routes
 	app.get('/api', (req, res) => {
 		res.setHeader('Content-Type', 'application/json')
 		res.send(JSON.stringify(routes))
@@ -105,46 +104,38 @@ module.exports = (app, express) => {
 		})
 	})
 
-	// start watching
-	app.get('/api/watch-start/:size/:index', (req, res) => {
+	// watching - called by wp-process-manager
+	app.get('/api/watch-start/:type/:size/:index/:pid', (req, res) => {
+		log(req.url)
 		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
-		targets.startWatching(target)
+		watching.startWatching(req.params.type, target, req.params.pid)
 		res.sendStatus(200)
 	})
-	// stop watching
-	app.get('/api/watch-stop/:size/:index', (req, res) => {
+	app.get('/api/watch-stop/:type/:size/:index/:pid', (req, res) => {
+		log(req.url)
 		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
-		targets.stopWatching(target)
+		watching.stopWatching(req.params.type, target)
+		res.sendStatus(200)
+	})
+	app.get('/api/watch-complete/:type/:size/:index', (req, res) => {
+		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
+		watching.completeWatch(req.params.type, target)
 		res.sendStatus(200)
 	})
 
-	// start watching: size / index
-	// app.get('/api/start-watching', (req, res) => {
-	// 	const size = validateSize(req.query.size)
-	// 	const index = validateIndex(req.query.index)
-
-	// 	// get target
-	// 	const target = state.getTargets(targets.generateId(size, index))
-	// 	if (target) {
-	// 		// build settings, ** TODO: integrate with Ad App for client/project, saved profiles, etc
-	// 		const options = { size, index }
-	// 		targets.startWatching(target, options)
-	// 	}
-	// 	res.sendStatus(200)
-	// })
-
-	// // stop watching: size / index
-	// app.get('/api/stop-watching', (req, res) => {
-	// 	const size = validateSize(req.query.size)
-	// 	const index = validateIndex(req.query.index)
-
-	// 	// get target
-	// 	const target = state.getTargets(targets.generateId(size, index))
-	// 	if (target) {
-	// 		targets.stopWatching(target)
-	// 	}
-	// 	res.sendStatus(200)
-	// })
+	// compiling - user requests from application
+	app.get('/api/compile-start/:type/:size/:index', (req, res) => {
+		log(req.url)
+		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
+		background.compile(req.params.type, target)
+		res.sendStatus(200)
+	})
+	app.get('/api/compile-stop/:type/:size/:index', (req, res) => {
+		log(req.url)
+		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
+		background.kill(req.params.type, target)
+		res.sendStatus(200)
+	})
 
 	// open directory
 	app.get('/api/open-directory', (req, res) => {

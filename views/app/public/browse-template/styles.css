@@ -96,7 +96,7 @@ ul#files li:nth-child(odd) {
 }
 ul#files li a {
 	display: block;
-	height: auto;
+	height: 29px;
 	padding: 5px 15px;
 	overflow: hidden;
 	white-space: nowrap;
@@ -127,25 +127,24 @@ ul#files li a.highlight {
 
 
 /*tiles*/
-.view-details .name,
-.view-tiles .name {
+.view-details .name {
 	display: inline-block;
 }
-.view-details .actions,
-.view-tiles .actions {
+.view-details .actions {
 	display: inline-block;
 	width: 80px;
 	text-align: center;
 }
+.view-details .actions.icons {
+	padding-top: 2px;
+}
 
-.view-details .size,
-.view-tiles .size {
+.view-details .size {
 	display: inline-block;
 	width: 80px;
 	text-align: right;
 }
-.view-details .date,
-.view-tiles .date {
+.view-details .date {
 	display: inline-block;
 	width: 160px;
 	text-align: right;
@@ -153,7 +152,8 @@ ul#files li a.highlight {
 .view-details .date.modified {
 	font-style: italic;
 	color: #777;
-	font-size: 92%;
+	font-size: 84%;
+  padding-top: 3px;
 }
 
 /*details*/
@@ -169,7 +169,8 @@ ul#files.view-details li.header {
 	background: #555;
 	color: #fff;
 	font-weight: bold;
-  padding: 4px 15px 0px;
+	padding: 6px 15px;
+	height: 27px;
   overflow: hidden;
   white-space: nowrap;
 }

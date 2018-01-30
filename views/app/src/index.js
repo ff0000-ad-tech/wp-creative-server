@@ -6,35 +6,48 @@ import debug from 'debug'
 const log = debug('wp-cs:app:index')
 
 // create redux store
-log('Configuring Redux Store')
 let store = configureStore({
-	targets: {}
+	creative: {},
+	targets: {},
+	profiles: {}
 })
 
 // server connection
-log('Connecting Server RPC')
-import * as rpc from './lib/rpc.js'
-rpc.init({
+import Rpc from './lib/rpc.js'
+let rpc = new Rpc({
 	store: store
 })
 rpc.connect(() => {
-	// get creative
 	rpc.getCreative()
-
-	// get targets
-	rpc.getTargets()
+	rpc.readTargets()
+	rpc.getProfiles()
+	rpc.refreshTargets()
 
 	// update cycle
+	let cycle = 0
+	const readFsOn = 20
+	const readPackageOn = 7
+	const returnStateOn = 2
+	const cycleLength = 500 // milliseconds
 	setInterval(() => {
-		rpc.getTargets()
-	}, 1000)
+		if (cycle % readFsOn === 0) {
+			rpc.readTargets()
+		}
+		if (cycle % readPackageOn === 0) {
+			rpc.getProfiles()
+		}
+		if (cycle % returnStateOn === 0) {
+			rpc.refreshTargets()
+		}
+		cycle++
+	}, cycleLength)
 })
 
 // view
 log('Rendering Main')
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Main from './Main'
+import Main from './components/Main'
 
 ReactDOM.render(
 	<Provider store={store}>

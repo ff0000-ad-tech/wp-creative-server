@@ -38,10 +38,7 @@ var app = express()
  *
  */
 var state = require('./lib/state.js')
-
-// read targets on start-up
-const targets = require('./lib/targets.js')
-targets.readTargets()
+state.reset()
 
 /* -- RPC API ----------------------------------------------
  *
@@ -49,9 +46,7 @@ targets.readTargets()
  *
  */
 var rpcApi = require('./routes/rpc-api.js')
-var sock = rpcApi.connect({
-	state: state
-})
+var sock = rpcApi.connect()
 
 /* -- ROUTES ----------------------------------------------
  *
@@ -59,7 +54,6 @@ var sock = rpcApi.connect({
  *
  */
 require('./routes/app')(app, express)
-require('./routes/control')(app, express)
 require('./routes/browse')(app, express)
 require('./routes/api')(app, express)
 

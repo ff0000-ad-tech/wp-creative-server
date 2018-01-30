@@ -1,0 +1,89 @@
+.traffic-icons {
+	float: left;
+
+	.not-watching {
+		$size: 12px;
+		float: left;
+		margin-left: 8px;
+		margin-top: 4px;
+		position: relative;
+		width: $size;
+		height: $size;
+		cursor: pointer;
+
+		.icon {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			width: $size;
+			height: $size;
+			border: #b1afaf solid 1px;
+			border-radius: 50% 50%;
+			transform: translate(-50%, -50%);
+		}
+	}
+
+	.webpack {
+		float: left;
+		margin-top: -1px;
+		cursor: pointer;
+	}
+
+	.has-deployed {
+		float: left;
+		margin: 1px 0px 0px 6px;
+		cursor: pointer;
+	}
+
+	.error {
+		float: left;
+		margin-top: 1px;
+		margin-left: 6px;
+	}
+
+	.processing {
+		display: inline-block;
+		margin: 2px 0px 0px 8px;
+	}
+
+	.action-dialog {
+		$bgColor: #222;
+
+		left: 48px;
+		position: absolute;
+		top: -30px;
+		display: none;
+		background-color: #222;
+		padding: 4px 8px;
+		overflow: visible;
+		font-weight: bold;
+		color: #eee;
+		border-radius: 4px;
+		z-index: 100;
+
+		&:after {
+			position: absolute;
+			bottom: -10px;
+			left: 8px;
+			content: '';
+			border: 5px transparent solid;
+			border-top: 5px #222 solid;
+		}
+
+		&.show {
+			display: block;
+		}
+	}
+}
+
+.updated {
+	float: left;
+	margin: 2px 0px 0px 10px;
+	font-size: 12px;
+	font-style: italic;
+}
+
+.checkbox {
+	float: right;
+	margin-top: 2px;
+}

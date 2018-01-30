@@ -1,11 +1,11 @@
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import './style.scss'
 import logo from './images/icon_32.png'
 
 class Header extends PureComponent {
 	render() {
 		return (
-			<header className="header">
+			<header>
 				<div className="logo-container clear-after">
 					<a href="https://github.com/ff0000-ad-tech" target="_blank">
 						<img src={logo} className="left" />

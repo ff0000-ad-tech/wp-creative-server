@@ -1,0 +1,30 @@
+.creatives .creative-panel {
+	.traffic-control-options {
+		display: flex;
+		flex-direction: row;
+		background: #eee;
+		color: #333;
+		font-size: 1.2em;
+		padding: 2px 10px 3px;
+		white-space: nowrap;
+		border-bottom: 1px solid #999;
+		min-height: 30px;		
+	}
+	.settings {
+		padding-top: 2px;
+	}
+	.option-button {
+		padding: 0px 3px;
+	}
+	.option-checkbox {
+		padding: 2px 3px 0px 10px
+	}
+
+	.option-button select {
+		width: 120px;
+	}
+	.option-button .input-profile {
+		margin-top: 2px;
+		width: 120px;
+	}
+}

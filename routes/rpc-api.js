@@ -1,23 +1,33 @@
 const dnode = require('dnode')
 const shoe = require('shoe')
-const moment = require('moment')
 
-const targets = require('../lib/targets.js')
+const creativeRpc = require('../lib/rpc/creative.js')
+const targetsRpc = require('../lib/rpc/targets.js')
+const profilesRpc = require('../lib/rpc/profiles.js')
+const compilingRpc = require('../lib/rpc/compiling.js')
 
 const debug = require('debug')
 var log = debug('wp-creative-server:rpc-api')
-// SILENCE
-debug.disable('wp-creative-server:rpc-api')
 
+// API METHODS EXPOSED via RPC
 const api = {
-	getCreative: getCreative,
-	getTargets: getTargets
+	getCreative: creativeRpc.getCreative,
+
+	readTargets: targetsRpc.readTargets,
+	refreshTargets: targetsRpc.refreshTargets,
+
+	getProfiles: profilesRpc.getProfiles,
+	newProfile: profilesRpc.newProfile,
+	updateProfile: profilesRpc.updateProfile,
+	deleteProfile: profilesRpc.deleteProfile,
+	addDeployTargets: profilesRpc.addDeployTargets,
+	removeDeployTargets: profilesRpc.removeDeployTargets,
+
+	copyWpCmd: compilingRpc.copyWpCmd
 }
 
 // connect dnode
 function connect(options) {
-	state = options.state
-
 	log('Connecting Public API:')
 	log(api)
 	// on request
@@ -28,73 +38,7 @@ function connect(options) {
 	return sock
 }
 
-var state
-
-/* -- REMOTE CONTROL METHODS ----------------------------------------------
- *
- *
- *
- */
-// get current creative
-function getCreative(cb) {
-	log('getCreative()')
-	var out = {
-		name: targets.getCreativeName()
-	}
-	cb(out)
-}
-
-// get compile/deploy targets
-function getTargets(cb) {
-	log('getTargets()')
-
-	// refresh targets and update state
-	targets
-		.readTargets()
-		.then(targets => {
-			var out = {}
-			for (var id in targets) {
-				out[id] = state.format(targets[id], {
-					size: value => {
-						return value
-					},
-					index: value => {
-						return value
-					},
-					watching: value => {
-						return value ? true : false
-					},
-					processing: value => {
-						return value
-					},
-					error: value => {
-						return value
-					},
-					updateAt: value => {
-						return moment(value).from(Date.now())
-					},
-					deployAt: value => {
-						return moment(value).from(Date.now())
-					},
-					webpack: value => {
-						return {
-							shell: value.shell,
-							out: value.out
-						}
-					}
-				})
-			}
-
-			log(out)
-			cb(out)
-		})
-		.catch(err => {
-			cb(err)
-		})
-}
-
+// NOTE: RPC methods need to be exposed on the API, not as exports to the backend
 module.exports = {
-	connect,
-	getCreative,
-	getTargets
+	connect
 }
