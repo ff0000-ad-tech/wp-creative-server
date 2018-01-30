@@ -138,6 +138,9 @@ class TrafficButton extends PureComponent {
 		)
 	}
 	getStateIcon() {
+		if (!(this.props.currentProfile.name in this.props.ad.watching)) {
+			return
+		}
 		if (this.props.ad.watching[this.props.currentProfile.name].error) {
 			return this.getError()
 		} else if (

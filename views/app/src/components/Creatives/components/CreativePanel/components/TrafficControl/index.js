@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Rpc from '../../../../../../lib/rpc.js'
+import { addProfile } from '../../../../../../services/profiles/actions.js'
 
 import debug from 'debug'
 const log = debug('wp-cs:app:TrafficControl')
@@ -25,25 +26,20 @@ class TrafficControl extends PureComponent {
 	}
 	componentDidUpdate() {
 		this.updateCheckbox()
-		if (this.profileInput) {
-			this.profileInput.focus()
-		}
 	}
 
 	/* -- Manage Profile Control ----
 	 *
 	 * 
 	 */
-	getProfileControl() {
-		if (!this.state.isDefiningProfile) {
-			return this.getProfileSelect()
-		} else {
-			return this.getProfileInput()
-		}
-	}
-	toggleProfileControl = () => {
+	showProfileInput = () => {
 		this.setState({
-			isDefiningProfile: !this.state.isDefiningProfile
+			isDefiningProfile: true
+		})
+	}
+	hideProfileInput = () => {
+		this.setState({
+			isDefiningProfile: false
 		})
 	}
 	handleKeyPress = e => {
@@ -79,8 +75,12 @@ class TrafficControl extends PureComponent {
 
 	// profile api
 	createNewProfile(name) {
+		this.hideProfileInput()
+		if (name === '') {
+			return
+		}
+		this.props.dispatch(addProfile(name))
 		this.rpc.newProfile(name)
-		this.toggleProfileControl()
 		this.checkbox.checked = false
 	}
 	updateProfile = json => {
@@ -128,6 +128,13 @@ class TrafficControl extends PureComponent {
 	 *
 	 * 
 	 */
+	getProfileControl() {
+		if (!this.state.isDefiningProfile) {
+			return this.getProfileSelect()
+		} else {
+			return this.getProfileInput()
+		}
+	}
 	// profile select
 	getProfileSelect() {
 		let profiles = [this.props.currentProfile]
@@ -159,16 +166,17 @@ class TrafficControl extends PureComponent {
 			</select>
 		)
 	}
-
 	// profile input
 	getProfileInput() {
 		return (
 			<input
+				autoFocus
 				className="input-profile"
 				ref={input => {
 					this.profileInput = input
 				}}
 				onKeyPress={this.handleKeyPress}
+				onBlur={this.hideProfileInput}
 				type="text"
 			/>
 		)
@@ -200,7 +208,7 @@ class TrafficControl extends PureComponent {
 
 							<div className="left clear-after">
 								<div className="option-button left" style={{ paddingLeft: '0px' }}>
-									<input type="button" value="+" onClick={this.toggleProfileControl} />
+									<input type="button" value="+" onClick={this.showProfileInput} />
 								</div>
 								<div className="option-button left">{this.getProfileControl()}</div>
 								<div className="option-button left">

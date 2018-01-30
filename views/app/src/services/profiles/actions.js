@@ -50,3 +50,14 @@ export function updateDeployAt(profile, size, index, deployAt) {
 		dispatch(updateCurrent())
 	}
 }
+
+export const ADD_PROFILE = 'TARGETS-ADD-PROFILE'
+export function addProfile(profile) {
+	return dispatch => {
+		dispatch({
+			type: ADD_PROFILE,
+			profile
+		})
+		dispatch(updateCurrent())
+	}
+}
