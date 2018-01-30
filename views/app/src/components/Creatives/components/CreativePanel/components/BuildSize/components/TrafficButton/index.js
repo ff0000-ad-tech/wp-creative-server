@@ -62,20 +62,21 @@ class TrafficButton extends PureComponent {
 
 	// run deploy
 	startCompiling = e => {
-		this.rpc.addDeployTargets(this.props.currentProfile.name, this.props.ad)
-		if (!this.props.ad.watching.debug.processing && !this.props.ad.watching.debug.watching) {
-			this.props.dispatch(
-				updateWatch(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, {
-					processing: true
-				})
-			)
-			this.props.dispatch(
-				updateDeployAt(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, {
-					deployAt: '...'
-				})
-			)
-			xhr(`/api/compile-start/${this.props.currentProfile.name}/${this.props.ad.size}/${this.props.ad.index}`)
+		if (this.props.ad.watching.debug.processing || this.props.ad.watching.debug.watching) {
+			return
 		}
+		this.rpc.addDeployTargets(this.props.currentProfile.name, this.props.ad)
+		this.props.dispatch(
+			updateWatch(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, {
+				processing: true
+			})
+		)
+		this.props.dispatch(
+			updateDeployAt(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, {
+				deployAt: '...'
+			})
+		)
+		xhr(`/api/compile-start/${this.props.currentProfile.name}/${this.props.ad.size}/${this.props.ad.index}`)
 	}
 	stopCompiling = e => {
 		xhr(`/api/compile-stop/${this.props.currentProfile.name}/${this.props.ad.size}/${this.props.ad.index}`)

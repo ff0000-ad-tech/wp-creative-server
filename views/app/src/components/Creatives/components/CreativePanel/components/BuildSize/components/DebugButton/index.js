@@ -39,16 +39,22 @@ class DebugButton extends PureComponent {
 	}
 
 	startCompiling = () => {
-		if (!this.props.ad.watching.debug.processing && !this.props.ad.watching.debug.watching) {
-			this.props.dispatch(
-				updateWatch('debug', this.props.ad.size, this.props.ad.index, {
-					processing: true
-				})
-			)
-			xhr(`/api/compile-start/debug/${this.props.ad.size}/${this.props.ad.index}`)
+		if (this.props.ad.watching.debug.processing || this.props.ad.watching.debug.watching) {
+			return
 		}
+		this.props.dispatch(
+			updateWatch('debug', this.props.ad.size, this.props.ad.index, {
+				processing: true
+			})
+		)
+		xhr(`/api/compile-start/debug/${this.props.ad.size}/${this.props.ad.index}`)
 	}
 	stopCompiling = () => {
+		this.props.dispatch(
+			updateWatch('debug', this.props.ad.size, this.props.ad.index, {
+				processing: true
+			})
+		)
 		xhr(`/api/compile-stop/debug/${this.props.ad.size}/${this.props.ad.index}`)
 	}
 

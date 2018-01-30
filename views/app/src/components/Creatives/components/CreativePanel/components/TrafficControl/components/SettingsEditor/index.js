@@ -39,7 +39,7 @@ class SettingsEditor extends Component {
 					<div className="header clear-after">
 						<div className="title left">Deploy Profile - Settings</div>
 						<div className="right">
-							<input type="button" onClick={this.props.onClose} value="X" />
+							<input type="button" onClick={this.closeRequested} value="X" />
 						</div>
 					</div>
 					<hr />
@@ -61,6 +61,11 @@ class SettingsEditor extends Component {
 				</div>
 			</div>
 		)
+	}
+
+	closeRequested = () => {
+		this.props.onClose()
+		this.forceUpdate()
 	}
 
 	saveRequested = () => {
