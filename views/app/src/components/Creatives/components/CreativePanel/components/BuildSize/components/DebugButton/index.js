@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 
 import Rpc from '../../../../../../../../lib/rpc.js'
 import { xhr } from '../../../../../../../../lib/utils.js'
+import { updateWatch } from '../../../../../../../../services/targets/actions.js'
+
 import './style.scss'
 
 import debug from 'debug'
@@ -38,6 +40,11 @@ class DebugButton extends PureComponent {
 
 	startCompiling = () => {
 		if (!this.props.ad.watching.debug.processing && !this.props.ad.watching.debug.watching) {
+			this.props.dispatch(
+				updateWatch('debug', this.props.ad.size, this.props.ad.index, {
+					processing: true
+				})
+			)
 			xhr(`/api/compile-start/debug/${this.props.ad.size}/${this.props.ad.index}`)
 		}
 	}

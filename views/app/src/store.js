@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
 	currentProfile
 })
 
-const loggerMiddleware = createLogger()
+let loggerMiddleware = createLogger()
 
 export default function configureStore(initialState) {
 	log('configureStore()')

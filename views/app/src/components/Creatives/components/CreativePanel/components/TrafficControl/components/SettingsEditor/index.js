@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
@@ -7,7 +7,10 @@ const log = debug('wp-cs:app:SettingsEditor')
 
 import './style.scss'
 
-class SettingsEditor extends PureComponent {
+class SettingsEditor extends Component {
+	shouldComponentUpdate() {
+		return this.props.show ? false : true
+	}
 	componentDidUpdate() {
 		if (!this.props.show) {
 			return null

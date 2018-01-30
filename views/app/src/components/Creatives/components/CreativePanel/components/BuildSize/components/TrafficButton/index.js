@@ -5,6 +5,9 @@ import moment from 'moment'
 
 import Rpc from '../../../../../../../../lib/rpc.js'
 import { xhr } from '../../../../../../../../lib/utils.js'
+import { updateWatch } from '../../../../../../../../services/targets/actions.js'
+import { updateDeployAt } from '../../../../../../../../services/profiles/actions.js'
+
 import './style.scss'
 
 import debug from 'debug'
@@ -61,6 +64,16 @@ class TrafficButton extends PureComponent {
 	startCompiling = e => {
 		this.rpc.addDeployTargets(this.props.currentProfile.name, this.props.ad)
 		if (!this.props.ad.watching.debug.processing && !this.props.ad.watching.debug.watching) {
+			this.props.dispatch(
+				updateWatch(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, {
+					processing: true
+				})
+			)
+			this.props.dispatch(
+				updateDeployAt(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, {
+					deployAt: '...'
+				})
+			)
 			xhr(`/api/compile-start/${this.props.currentProfile.name}/${this.props.ad.size}/${this.props.ad.index}`)
 		}
 	}
@@ -87,6 +100,12 @@ class TrafficButton extends PureComponent {
 			this.profileTarget = profileTargets[0]
 		}
 
+		// deploy message
+		let deployAtMessage = this.profileTarget.deployAt || ''
+		if (Number.isInteger(this.profileTarget.deployAt)) {
+			deployAtMessage = moment(this.profileTarget.deployAt).from(Date.now())
+		}
+
 		// render
 		return (
 			<div className="clear-after">
@@ -94,7 +113,7 @@ class TrafficButton extends PureComponent {
 					{this.getWebpackLogo()}
 					{this.getStateIcon()}
 				</div>
-				<div className="updated">{this.profileTarget.deployAt ? moment(this.profileTarget.deployAt).from(Date.now()) : ''}</div>
+				<div className="updated">{deployAtMessage}</div>
 				<div className="checkbox">
 					<input
 						ref={checkbox => {

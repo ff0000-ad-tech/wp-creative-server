@@ -1,6 +1,6 @@
 import { update as creativeUpdate } from '../services/creative/actions.js'
 import { update as targetsUpdate } from '../services/targets/actions.js'
-import { update as profilesUpdate, updateCurrent } from '../services/profiles/actions.js'
+import { update as profilesUpdate } from '../services/profiles/actions.js'
 
 import debug from 'debug'
 const log = debug('wp-cs:app:rpc')
@@ -90,18 +90,6 @@ export default class Rpc {
 			profiles => {
 				log1('profiles', profiles)
 				this.store.dispatch(profilesUpdate(profiles))
-				// determine current profile
-				const sortedNames = Object.keys(profiles).sort((a, b) => {
-					if (profiles[a].updateAt < profiles[b].updateAt) return 1
-					else if (profiles[a].updateAt > profiles[b].updateAt) return -1
-					else return 0
-				})
-				this.store.dispatch(
-					updateCurrent({
-						name: sortedNames[0],
-						profile: profiles[sortedNames[0]]
-					})
-				)
 			},
 			err => {
 				// TODO: handle RPC errors better, more consistently
@@ -113,7 +101,6 @@ export default class Rpc {
 		this.remote.newProfile(
 			name,
 			() => {
-				log('NEW PROF', name)
 				this.readTargets()
 				this.getProfiles()
 			},
