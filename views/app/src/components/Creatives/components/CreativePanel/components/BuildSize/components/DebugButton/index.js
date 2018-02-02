@@ -60,7 +60,7 @@ class DebugButton extends PureComponent {
 	}
 
 	gotoDebugSizeIndex = () => {
-		location.href = `/app/deploy/${this.props.ad.size}/${this.props.ad.index}`
+		location.href = `/app/2-debug/${this.props.ad.size}/${this.props.ad.index}`
 	}
 
 	render() {
