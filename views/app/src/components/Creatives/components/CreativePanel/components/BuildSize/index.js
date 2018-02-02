@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react'
-import { connect } from 'react-redux'
+import React, {PureComponent} from 'react'
+import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 
 import DebugButton from './components/DebugButton'
@@ -17,13 +17,25 @@ class BuildSize extends PureComponent {
 		super(props)
 	}
 
+	gotoBuild = size => {
+		location.href = `/app/build/${size}`
+	}
+
 	render() {
 		if (!this.props.ads.length) {
 			return
 		}
 		return (
 			<li className="single-creative">
-				<div className="ad-size">{this.props.ads[0].size}</div>
+				<div
+					className="ad-size"
+					onClick={e => {
+						this.gotoBuild(this.props.ads[0].size)
+					}}
+					title="Browse to this build size"
+				>
+					{this.props.ads[0].size}
+				</div>
 
 				{this.props.ads.map((ad, i) => {
 					const key = `${ad.size}/${ad.index}`

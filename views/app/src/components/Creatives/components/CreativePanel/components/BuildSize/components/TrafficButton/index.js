@@ -1,12 +1,12 @@
-import React, { PureComponent } from 'react'
-import { connect } from 'react-redux'
+import React, {PureComponent} from 'react'
+import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 
 import Rpc from '../../../../../../../../lib/rpc.js'
-import { xhr } from '../../../../../../../../lib/utils.js'
-import { updateWatch } from '../../../../../../../../services/targets/actions.js'
-import { updateDeployAt } from '../../../../../../../../services/profiles/actions.js'
+import {xhr} from '../../../../../../../../lib/utils.js'
+import {updateWatch} from '../../../../../../../../services/targets/actions.js'
+import {updateDeployAt} from '../../../../../../../../services/profiles/actions.js'
 
 import './style.scss'
 
@@ -17,6 +17,7 @@ import processingGif from '../../images/preloader.gif'
 import errorIcon from '../../images/error.png'
 import webpackLogo from './images/webpack.svg'
 import traffickedIcon from './images/trafficked.png'
+import arrowIcon from './images/arrow-right.svg'
 
 class TrafficButton extends PureComponent {
 	constructor(props) {
@@ -82,6 +83,10 @@ class TrafficButton extends PureComponent {
 		xhr(`/api/compile-stop/${this.props.currentProfile.name}/${this.props.ad.size}/${this.props.ad.index}`)
 	}
 
+	gotoTrafficSizeIndex = () => {
+		location.href = `/app/deploy/${this.props.ad.size}/${this.props.ad.index}`
+	}
+
 	componentDidMount() {
 		this.updateCheckbox()
 	}
@@ -101,12 +106,6 @@ class TrafficButton extends PureComponent {
 			this.profileTarget = profileTargets[0]
 		}
 
-		// deploy message
-		let deployAtMessage = this.profileTarget.deployAt || ''
-		if (Number.isInteger(this.profileTarget.deployAt)) {
-			deployAtMessage = moment(this.profileTarget.deployAt).from(Date.now())
-		}
-
 		// render
 		return (
 			<div className="clear-after">
@@ -114,7 +113,7 @@ class TrafficButton extends PureComponent {
 					{this.getWebpackLogo()}
 					{this.getStateIcon()}
 				</div>
-				<div className="updated">{deployAtMessage}</div>
+				<div>{this.getUpdatedMsg()}</div>
 				<div className="checkbox">
 					<input
 						ref={checkbox => {
@@ -154,6 +153,24 @@ class TrafficButton extends PureComponent {
 		} else {
 			return this.getNotProcessing()
 		}
+	}
+	getUpdatedMsg() {
+		// deploy message
+		let deployAtMessage = this.profileTarget.deployAt || ''
+		if (Number.isInteger(this.profileTarget.deployAt)) {
+			deployAtMessage = moment(this.profileTarget.deployAt).from(Date.now())
+		}
+		if (deployAtMessage === '' || deployAtMessage === '...') {
+			return
+		}
+		return (
+			<div className="updated-container clear-after" onClick={this.gotoTrafficSizeIndex} title="Preview this traffic index">
+				<div className="updated">{deployAtMessage}</div>
+				<div className="arrow-icon">
+					<img src={arrowIcon} width="12" height="12" />
+				</div>
+			</div>
+		)
 	}
 	getNotProcessing() {
 		return (

@@ -1,7 +1,12 @@
+.buttons {
+	display: flex;
+	justify-content: center;
+}
+
 .not-watching {
-	$size: 12px;
-	display: inline-block;
-	margin-left: 12px;
+	$size: 13px;
+	margin-top: 2px;
+	margin-left: 10px;
 	position: relative;
 	width: $size;
 	height: $size;
@@ -18,14 +23,35 @@
 		transform: translate(-50%, -50%);
 	}
 }
+.watching {
+	$size: 13px;
+	margin-top: 2px;
+	margin-left: 10px;
+	position: relative;
+	width: $size;
+	height: $size;
+	cursor: pointer;
+
+	.icon {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		width: $size;
+		height: $size;
+		background-color: #8acb40;
+		border: #8acb40 solid 1px;
+		border-radius: 50% 50%;
+		transform: translate(-50%, -50%);
+	}
+}
+
 
 .shell {
-	display: inline-block;
 	cursor: pointer;
+	margin-top: 3px;
 }
 .action-dialog {
 	$bgColor: #222;
-
 	left: 48px;
 	position: absolute;
 	top: -30px;
@@ -52,37 +78,21 @@
 	}
 }
 
-.watching {
-	$size: 12px;
-	display: inline-block;
-	margin-left: 12px;
-	position: relative;
-	width: $size;
-	height: $size;
-	cursor: pointer;
-
-	.icon {
-		position: absolute;
-		left: 50%;
-		top: 50%;
-		width: $size;
-		height: $size;
-		background-color: #8acb40;
-		border: #8acb40 solid 1px;
-		border-radius: 50% 50%;
-		transform: translate(-50%, -50%);
-	}
-}
-
 .error {
-	display: inline-block;
 	margin-top: 2px;
 	margin-left: 10px;
 	cursor: pointer;
 }
 
 .processing {
-	display: inline-block;
-	margin-left: 10px;
+	margin-top: 1px;
+	margin-left: 9px;
+	cursor: pointer;
+}
+
+
+.view-icon {
+	margin-top: 1px;
+	margin-left: 8px;
 	cursor: pointer;
 }

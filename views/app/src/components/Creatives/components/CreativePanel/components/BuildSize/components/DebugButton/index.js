@@ -14,6 +14,7 @@ const log = debug('wp-cs:app:DebugButton')
 import processingGif from '../../images/preloader.gif'
 import errorIcon from '../../images/error.png'
 import shellIcon from './images/shell.png'
+import viewIcon from '../../images/view-icon.svg'
 
 class DebugButton extends PureComponent {
 	constructor(props) {
@@ -58,6 +59,10 @@ class DebugButton extends PureComponent {
 		xhr(`/api/compile-stop/debug/${this.props.ad.size}/${this.props.ad.index}`)
 	}
 
+	gotoDebugSizeIndex = () => {
+		location.href = `/app/deploy/${this.props.ad.size}/${this.props.ad.index}`
+	}
+
 	render() {
 		if (this.props.ad.watching.debug.error) {
 			return this.getError()
@@ -75,46 +80,48 @@ class DebugButton extends PureComponent {
 	 */
 	getNotWatching() {
 		return (
-			<div>
-				<div style={{ marginTop: '4px' }}>
-					{this.getTerminalWatch()}
-					<div className="not-watching" title="Watch process is idle" onClick={this.startCompiling}>
-						<div className="icon" />
-					</div>
+			<div className="buttons">
+				{this.getTerminalWatch()}
+				<div className="not-watching" title="Watch process is idle" onClick={this.startCompiling}>
+					<div className="icon" />
 				</div>
+				{this.getViewIcon()}
 			</div>
 		)
 	}
 
 	getWatching() {
 		return (
-			<div style={{ marginTop: '4px' }}>
+			<div className="buttons">
 				{this.getTerminalWatch()}
 				<div className="watching" title="Watching..." onClick={this.stopCompiling}>
 					<div className="icon" />
 				</div>
+				{this.getViewIcon()}
 			</div>
 		)
 	}
 	getProcessing() {
 		return (
-			<div style={{ marginTop: '2px' }}>
+			<div className="buttons">
 				{this.getTerminalWatch()}
 				<div className="processing" title="Processing..." onClick={this.stopCompiling}>
 					<div className="icon">
 						<img src={processingGif} width="14" height="14" />
 					</div>
 				</div>
+				{this.getViewIcon()}
 			</div>
 		)
 	}
 	getError() {
 		return (
-			<div className="clear-after">
+			<div className="buttons">
 				{this.getTerminalWatch()}
 				<div className="error" title="Watch process errored - run command in Terminal for more info">
 					<img src={errorIcon} width="16" height="16" />
 				</div>
+				{this.getViewIcon()}
 			</div>
 		)
 	}
@@ -124,7 +131,6 @@ class DebugButton extends PureComponent {
 	 */
 	getTerminalWatch() {
 		const dialog = this.state.showTerminalWatchDialog ? 'show' : ''
-
 		return (
 			<div className="shell" title="Copy watch command to clipboard">
 				<div onClick={this.terminalWatchOnClick}>
@@ -132,6 +138,16 @@ class DebugButton extends PureComponent {
 				</div>
 				<div className={`action-dialog ${dialog}`}>Copied!</div>
 			</div>
+		)
+	}
+
+	getViewIcon() {
+		return (
+			<div className="view-icon" title="Preview this debug index">
+				<div onClick={this.gotoDebugSizeIndex}>
+					<img src={viewIcon} width="15" height="15" />
+				</div>
+			</div>			
 		)
 	}
 }

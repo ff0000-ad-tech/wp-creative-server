@@ -19,6 +19,7 @@
 	font-weight: bold;
 	font-size: 1.2em;
 	margin-bottom: 3px;
+	cursor: pointer;
 }
 .ad-index {
 	display: flex;
@@ -39,4 +40,8 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	margin-top: 3px;
+}
+
+.col-arrow {
+	margin: 2px 0px 0px 5px
 }
