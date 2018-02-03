@@ -6,9 +6,11 @@ header {
 	height: 53px;
 	background: #000;
 	z-index: 10;
+	cursor: pointer;
 
 	.logo-container {
 		margin: 10px 15px 0px;
+		cursor: pointer;
 	}
 
 	h1 {
