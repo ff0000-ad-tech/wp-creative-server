@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 
-import utils from '../../../../../../lib/utils.js'
+import * as utils from '../../../../../../../../../lib/utils.js'
 import DebugButton from './components/DebugButton'
 import TrafficButton from './components/TrafficButton'
 
