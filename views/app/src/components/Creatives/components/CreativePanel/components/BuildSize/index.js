@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 
+import utils from '../../../../../../lib/utils.js'
 import DebugButton from './components/DebugButton'
 import TrafficButton from './components/TrafficButton'
 
@@ -18,7 +19,7 @@ class BuildSize extends PureComponent {
 	}
 
 	gotoBuild = size => {
-		location.href = `/app/build/${size}`
+		location.href = `/app/${utils.BUILD_FOLDER}/${size}`
 	}
 
 	render() {
