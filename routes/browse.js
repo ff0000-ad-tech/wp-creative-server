@@ -3,6 +3,8 @@ const path = require('path')
 const serveStatic = require('serve-static')
 const serveIndex = require('serve-index')
 
+const utils = require('../lib/utils.js')
+
 const debug = require('debug')
 var log = debug('wp-creative-server:route:browse')
 
@@ -17,7 +19,7 @@ module.exports = (app, express) => {
 		(req, res, next) => {
 			const type = serveStatic.mime.lookup(req.url)
 			// build paths:
-			if (req.url.indexOf('/build/') > -1) {
+			if (req.url.indexOf(utils.BUILD_FOLDER) > -1) {
 				return serveStatic(global.servePath, {
 					// let folders with index.html pass through
 					index: false,
