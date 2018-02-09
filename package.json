@@ -27,7 +27,7 @@
 		"minimist": "^1.2.0",
 		"moment": "^2.19.3",
 		"open": "0.0.5",
-		"serve-index": "git://github.com/ff0000-ad-tech/serve-index.git",
+		"@ff0000-ad-tech/serve-index": "latest",
 		"shell-escape": "^0.2.0",
 		"shoe": "0.0.15",
 		"tail": "^1.2.3",
