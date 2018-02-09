@@ -1,18 +1,22 @@
 {
-	"name": "wp-creative-server",
+	"name": "@ff0000-ad-tech/wp-creative-server",
+	"publishConfig": {
+		"access": "public"
+	},
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
 	"scripts": {
 		"server": "NODE_ENV=development DEBUG=* node index.js",
-		"build": "webpack --config views/app/webpack.config.js"
+		"build": "webpack --config views/app/webpack.config.js",
+		"pub": "np"
 	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/ff0000-ad-tech/wp-creative-server.git"
 	},
 	"author": "RED Interactive Agency",
-	"license": "ISC",
+	"license": "MIT",
 	"dependencies": {
 		"clipboardy": "^1.2.2",
 		"debug": "git://github.com/gmcdev/debug.git",
@@ -43,6 +47,7 @@
 		"eslint-config-prettier": "^2.9.0",
 		"eslint-plugin-prettier": "^2.5.0",
 		"node-sass": "^4.7.2",
+		"np": "^2.19.0",
 		"prettier": "^1.10.2",
 		"react": "^16.2.0",
 		"react-dom": "^16.2.0",
