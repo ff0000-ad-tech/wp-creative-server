@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const serveStatic = require('serve-static')
-const serveIndex = require('serve-index')
+const serveIndex = require('@ff0000-ad-tech/serve-index')
 
 const utils = require('../lib/utils.js')
 
