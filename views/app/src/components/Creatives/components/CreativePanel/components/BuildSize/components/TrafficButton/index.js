@@ -84,7 +84,7 @@ class TrafficButton extends PureComponent {
 	}
 
 	gotoTrafficSizeIndex = () => {
-		location.href = `/app/3-traffic/${this.props.ad.size}/${this.props.ad.index}`
+		location.href = `/app/3-traffic/${this.props.currentProfile.name}/${this.props.ad.size}/${this.props.ad.index}`
 	}
 
 	componentDidMount() {
