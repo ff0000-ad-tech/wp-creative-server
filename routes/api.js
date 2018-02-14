@@ -137,6 +137,32 @@ module.exports = (app, express) => {
 		res.sendStatus(200)
 	})
 
+	// processing - called by wp-process-manager
+	app.get('/api/processing-start/:type/:size/:index', (req, res) => {
+		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
+		watching.setProcessing(req.params.type, target, true)
+		res.sendStatus(200)
+	})
+	app.get('/api/processing-stop/:type/:size/:index', (req, res) => {
+		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
+		watching.setProcessing(req.params.type, target, false)
+		res.sendStatus(200)
+	})
+
+	// error - called by wp-process-manager
+	app.get('/api/error-dispatch/:type/:size/:index', (req, res) => {
+		log(req.url)
+		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
+		watching.setError(req.params.type, target, true)
+		res.sendStatus(200)
+	})
+	app.get('/api/error-reset/:type/:size/:index', (req, res) => {
+		log(req.url)
+		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
+		watching.setError(req.params.type, target, false)
+		res.sendStatus(200)
+	})
+
 	// open directory
 	app.get('/api/open-directory', (req, res) => {
 		const target = decodeURIComponent(req.query.target)
