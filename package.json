@@ -22,7 +22,6 @@
 		"debug": "git://github.com/gmcdev/debug.git",
 		"dnode": "^1.2.2",
 		"express": "^4.16.2",
-		"file-tail": "^0.3.0",
 		"lodash": "^4.17.4",
 		"minimist": "^1.2.0",
 		"moment": "^2.19.3",
@@ -30,7 +29,6 @@
 		"@ff0000-ad-tech/serve-index": "latest",
 		"shell-escape": "^0.2.0",
 		"shoe": "0.0.15",
-		"tail": "^1.2.3",
 		"unix-path-literal": "git://github.com/gmcdev/unix-path-literal.git"
 	},
 	"devDependencies": {
