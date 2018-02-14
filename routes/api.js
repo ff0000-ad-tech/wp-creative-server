@@ -157,7 +157,6 @@ module.exports = (app, express) => {
 		res.sendStatus(200)
 	})
 	app.get('/api/error-reset/:type/:size/:index', (req, res) => {
-		log(req.url)
 		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
 		watching.setError(req.params.type, target, false)
 		res.sendStatus(200)
