@@ -1,6 +1,6 @@
-const fs = require('fs');
-const path = require('path');
-const argv = require('minimist')(process.argv.slice(2));
+const fs = require('fs')
+const path = require('path')
+const argv = require('minimist')(process.argv.slice(2))
 const moment = require('moment')
 const { exec } = require('child_process')
 
@@ -10,31 +10,31 @@ const utils = require('./lib/utils.js')
 const packageJson = require('./package.json')
 global.rootPath = path.resolve(__dirname + '/../../../')
 
-const debug = require('debug');
-const log = debug(packageJson.name + ':npm-helper');
+const debug = require('debug')
+const log = debug(packageJson.name + ':npm-helper')
 
 if ('silence' in argv) {
-  debug.disable(true);
+	debug.disable(true)
 }
 
 // help
 if (argv.help) {
-  log(
-    `CLI OPTIONS:\n` +
-      `node ./lib/api.js\n` +
-      `-------------------------------------------------------------------------------------------\n` +
-      ` --cmd	API COMMAND, options include:\n` +
-      `    "backup-packages"      save both "package-lock.json" files to "./_buildpoints" \n\n` +
-      ` --silence, squelches console output\n` +
-      `-------------------------------------------------------------------------------------------`
-  );
-  process.exit();
+	log(
+		`CLI OPTIONS:\n` +
+			`node ./lib/api.js\n` +
+			`-------------------------------------------------------------------------------------------\n` +
+			` --cmd	API COMMAND, options include:\n` +
+			`    "backup-packages"      save both "package-lock.json" files to "./_buildpoints" \n\n` +
+			` --silence, squelches console output\n` +
+			`-------------------------------------------------------------------------------------------`
+	)
+	process.exit()
 }
 
 // api command
 if (!('cmd' in argv)) {
-  console.error('No API COMMAND (--cmd) specified');
-  process.exit();
+	console.error('No API COMMAND (--cmd) specified')
+	process.exit()
 }
 
 /* -- BACKUP ----
