@@ -50,8 +50,8 @@ if (argv.cmd == 'backup-packages') {
 	fs.mkdirSync(backupPath)
 
 	const topPkgPath = path.resolve(`${rootPath}/package-lock.json`)
-	exec(`cp "${topPkgPath}" "${backupPath}/package-lock__TOP.json}"`)
+	exec(`cp "${topPkgPath}" "${backupPath}/package-lock__TOP.json"`)
 
 	const buildPkgPath = path.resolve(`${rootPath}/${utils.BUILD_FOLDER}/package-lock.json`)
-	exec(`cp "${buildPkgPath}" "${backupPath}/package-lock__BUILD.json}"`)
+	exec(`cp "${buildPkgPath}" "${backupPath}/package-lock__BUILD.json"`)
 }
