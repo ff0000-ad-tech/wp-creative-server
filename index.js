@@ -29,6 +29,10 @@ log(` Serve path is: ${global.servePath}`)
  *
  *
  */
+// CHECK TO BACKUP PACKAGE-LOCKS
+const packageLocks = require('./lib/package-locks.js')
+packageLocks.checkToBackupPkgs()
+
 // express set up
 var app = express()
 
