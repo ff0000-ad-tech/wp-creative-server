@@ -10,7 +10,8 @@ class BrowsePanel extends PureComponent {
 		super()
 
 		this.state = {
-			deactivated: false
+			deactivated: false,
+			breadcrumb: ''
 		}
 		// dissect current location for history management
 		this.componentPaths = this.getComponentPaths(document.location)
@@ -59,7 +60,7 @@ class BrowsePanel extends PureComponent {
 		const paths = this.getComponentPaths(e.target.contentWindow.location)
 		const browseRoute = e.target.contentWindow.location.href.slice(paths.origin.length)
 		window.history.replaceState({}, '', this.componentPaths.appRoute + browseRoute)
-		log(`update history${this.componentPaths.appRoute + browseRoute}`)
+		log(`update history: ${this.componentPaths.appRoute + browseRoute}`)
 	}
 
 	render() {
@@ -67,12 +68,36 @@ class BrowsePanel extends PureComponent {
 		log(`render: ${this.componentPaths.origin + this.componentPaths.browseRoute}`)
 		return (
 			<div className={`browse-panel ${deactivatedClass}`}>
+				<div className="title">
+					{this.renderBreadcrumb()}
+				</div>
 				<iframe
 					ref="browse-iframe"
 					src={`${this.componentPaths.origin + this.componentPaths.browseRoute}`}
 					onLoad={this.handleIframeLoad.bind(this)}
 				/>
 			</div>
+		)
+	}
+
+	renderBreadcrumb() {
+		let path = '/app'
+		const chunks = this.componentPaths.browseRoute.split('/')
+		return (
+			<h1>
+				<a href={path}>~</a>
+				{chunks.map(chunk => {
+					if (chunk !== '') {
+						path += `/${chunk}`
+						return (
+							<span key={chunk}>
+								<span> / </span>
+								<a href={path}>{chunk}</a>
+							</span>
+						)
+					}
+				})}
+			</h1>
 		)
 	}
 }

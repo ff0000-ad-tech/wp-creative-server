@@ -27,6 +27,7 @@
 		"minimist": "^1.2.0",
 		"moment": "^2.19.3",
 		"open": "0.0.5",
+		"serve-static": "^1.13.2",
 		"shell-escape": "^0.2.0",
 		"shoe": "0.0.15",
 		"unix-path-literal": "git://github.com/gmcdev/unix-path-literal.git"
