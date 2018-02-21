@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react'
 
+import Breadcrumbs from './components/Breadcrumbs'
+
 import debug from 'debug'
 const log = debug('wp-cs:BrowsePanel')
 
@@ -8,23 +10,10 @@ import './style.scss'
 class BrowsePanel extends PureComponent {
 	constructor() {
 		super()
-
 		this.state = {
-			deactivated: false,
-			breadcrumb: ''
+			deactivated: false
 		}
-		// dissect current location for history management
-		this.componentPaths = this.getComponentPaths(document.location)
-
-		// prevent iframe onload when popping
-		// this.popping = false
-		// // listen for pop-state
-		// window.onpopstate = (e) => {
-		// 	log('popped to:', document.location)
-		// 	const paths = this.getComponentPaths(document.location)
-		// 	this.popping = true
-		// 	this.refs['browse-iframe'].src = `${this.componentPaths.origin + paths.browseRoute}`
-		// }
+		this.loadPaths = this.getPaths(document.location)
 	}
 
 	onDragChanged = state => {
@@ -33,72 +22,59 @@ class BrowsePanel extends PureComponent {
 		})
 	}
 
-	getComponentPaths(location) {
+	getPaths(location) {
+		log('LOCATION:', location)
 		const origin = location.origin
 		// app route like: "app", "app/", "app#/"
 		const appRoute = location.href.slice(origin.length).match(/^\/[^\/]*/)[0]
-
 		// browse route like: "build/300x250"
 		const browseRoute = location.href.slice((origin + appRoute).length)
-
-		const componentPaths = {
+		return {
 			origin,
 			appRoute,
 			browseRoute
 		}
-		return componentPaths
 	}
 
 	handleIframeLoad(e) {
-		// let the next reload alter the history
-		// if (this.popping) {
-		// 	log('<<<<< popping complete')
-		// 	log(window.history)
-		// 	this.popping = false
-		// 	return
-		// }
-		const paths = this.getComponentPaths(e.target.contentWindow.location)
-		const browseRoute = e.target.contentWindow.location.href.slice(paths.origin.length)
-		window.history.replaceState({}, '', this.componentPaths.appRoute + browseRoute)
-		log(`update history: ${this.componentPaths.appRoute + browseRoute}`)
+		const iframeRoute = this.getIframeRoute(e.target.contentWindow.location)
+		window.history.replaceState({}, '', this.loadPaths.appRoute + iframeRoute)
+		log(`update history: ${this.loadPaths.appRoute + iframeRoute}`)
+		this.breadcrumbs.update(iframeRoute)
+	}
+	getIframeRoute(location) {
+		const paths = this.getPaths(location)
+		return location.href.slice(paths.origin.length)		
 	}
 
 	render() {
 		const deactivatedClass = this.state.deactivated ? 'deactivated' : ''
-		log(`render: ${this.componentPaths.origin + this.componentPaths.browseRoute}`)
+		log(`render: ${this.loadPaths.origin + this.loadPaths.browseRoute}`)
 		return (
 			<div className={`browse-panel ${deactivatedClass}`}>
 				<div className="title">
-					{this.renderBreadcrumb()}
+					<Breadcrumbs
+						ref={ref => {
+							this.breadcrumbs = ref
+						}}
+						loadPaths={this.loadPaths}
+						onRefresh={this.refreshIframe}
+					/>
 				</div>
 				<iframe
-					ref="browse-iframe"
-					src={`${this.componentPaths.origin + this.componentPaths.browseRoute}`}
+					ref={ref => {
+						this.iframe = ref
+					}}
+					src={`${this.loadPaths.origin + this.loadPaths.browseRoute}`}
 					onLoad={this.handleIframeLoad.bind(this)}
 				/>
 			</div>
 		)
 	}
 
-	renderBreadcrumb() {
-		let path = '/app'
-		const chunks = this.componentPaths.browseRoute.split('/')
-		return (
-			<h1>
-				<a href={path}>~</a>
-				{chunks.map(chunk => {
-					if (chunk !== '') {
-						path += `/${chunk}`
-						return (
-							<span key={chunk}>
-								<span> / </span>
-								<a href={path}>{chunk}</a>
-							</span>
-						)
-					}
-				})}
-			</h1>
-		)
+	refreshIframe = e => {
+		const iframeRoute = this.getIframeRoute(this.iframe.contentWindow.location)
+		this.iframe.src = iframeRoute
 	}
 }
 
