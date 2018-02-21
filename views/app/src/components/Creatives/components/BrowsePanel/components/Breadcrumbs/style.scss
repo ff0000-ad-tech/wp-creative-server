@@ -7,6 +7,14 @@
 		color: #666;
 		fill: currentColor;
 	}
+	.open-external {
+		margin: 10px 10px 0px;
+		cursor: pointer;
+	}
+	.open-external:hover svg {
+		color: #666;
+		fill: currentColor;
+	}
 	h1 {
 		padding: 10px;
 		font-size: 1.5em;
@@ -22,10 +30,9 @@
 		display: inline-block;
 		text-overflow: ellipsis;
 		white-space: nowrap;
-		text-decoration: none;	
+		text-decoration: none;
 	}
 	h1 a:hover {
 		color: #666;
 	}
 }
-

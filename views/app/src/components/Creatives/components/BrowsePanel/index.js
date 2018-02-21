@@ -23,7 +23,6 @@ class BrowsePanel extends PureComponent {
 	}
 
 	getPaths(location) {
-		log('LOCATION:', location)
 		const origin = location.origin
 		// app route like: "app", "app/", "app#/"
 		const appRoute = location.href.slice(origin.length).match(/^\/[^\/]*/)[0]
@@ -44,7 +43,7 @@ class BrowsePanel extends PureComponent {
 	}
 	getIframeRoute(location) {
 		const paths = this.getPaths(location)
-		return location.href.slice(paths.origin.length)		
+		return location.href.slice(paths.origin.length)
 	}
 
 	render() {
@@ -52,13 +51,14 @@ class BrowsePanel extends PureComponent {
 		log(`render: ${this.loadPaths.origin + this.loadPaths.browseRoute}`)
 		return (
 			<div className={`browse-panel ${deactivatedClass}`}>
-				<div className="title">
+				<div>
 					<Breadcrumbs
 						ref={ref => {
 							this.breadcrumbs = ref
 						}}
 						loadPaths={this.loadPaths}
 						onRefresh={this.refreshIframe}
+						onOpenExternal={this.openExternal}
 					/>
 				</div>
 				<iframe
@@ -75,6 +75,11 @@ class BrowsePanel extends PureComponent {
 	refreshIframe = e => {
 		const iframeRoute = this.getIframeRoute(this.iframe.contentWindow.location)
 		this.iframe.src = iframeRoute
+	}
+
+	openExternal = e => {
+		const iframeRoute = this.getIframeRoute(this.iframe.contentWindow.location)
+		window.open(this.loadPaths.origin + iframeRoute, '_blank')
 	}
 }
 
