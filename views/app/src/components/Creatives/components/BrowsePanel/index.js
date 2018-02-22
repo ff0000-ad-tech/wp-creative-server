@@ -19,6 +19,19 @@ class BrowsePanel extends Component {
 		}
 	}
 
+	// used by DragBar to make the drag go smoothly
+	onDragChanged = state => {
+		log('is happening')
+		this.setState(
+			{
+				deactivated: state
+			},
+			() => {
+				this.forceUpdate()
+			}
+		)
+	}
+
 	// we control the update cycle, so the iframe only reloads when the route changes
 	componentWillMount() {
 		this.setState({
@@ -56,12 +69,7 @@ class BrowsePanel extends Component {
 		}
 	}
 
-	onDragChanged = state => {
-		this.setState({
-			deactivated: state
-		})
-	}
-
+	// any time the iframe reloads
 	handleIframeLoad = e => {
 		// update browser history
 		const iframeRoute = this.getIframeRoute(e.target.contentWindow.location)
@@ -84,6 +92,7 @@ class BrowsePanel extends Component {
 		return location.href.slice(location.origin.length)
 	}
 
+	// render
 	render() {
 		const deactivatedClass = this.state.deactivated ? 'deactivated' : ''
 		return (
@@ -115,12 +124,10 @@ class BrowsePanel extends Component {
 		const renderIframe = true
 		this.props.dispatch(route(routePath, renderIframe))
 	}
-
 	refreshIframe = e => {
 		const iframeRoute = this.getIframeRoute(this.iframe.contentWindow.location)
 		this.iframe.src = iframeRoute
 	}
-
 	openExternal = e => {
 		const iframeRoute = this.getIframeRoute(this.iframe.contentWindow.location)
 		window.open(this.props.browser.origin + iframeRoute, '_blank')
@@ -132,4 +139,4 @@ const mapStateToProps = function(state) {
 		browser: state.browser
 	}
 }
-export default connect(mapStateToProps)(BrowsePanel)
+export default connect(mapStateToProps, null, null, { withRef: true })(BrowsePanel)

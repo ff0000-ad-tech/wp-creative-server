@@ -57,4 +57,4 @@ const mapStateToProps = function(state) {
 	}
 }
 
-export default connect(mapStateToProps)(CreativePanel)
+export default connect(mapStateToProps, null, null, { withRef: true })(CreativePanel)

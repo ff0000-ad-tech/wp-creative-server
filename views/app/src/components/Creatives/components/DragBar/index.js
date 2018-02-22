@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react'
 import './style.scss'
 
+import debug from 'debug'
+const log = debug('wp-cs:DragBar')
+
 class DragBar extends PureComponent {
 	constructor(props) {
 		super(props)
@@ -31,12 +34,14 @@ class DragBar extends PureComponent {
 	}
 
 	startDrag() {
+		log('start drag')
 		document.addEventListener('mousemove', this.onDrag)
 		document.addEventListener('mouseup', this.endDrag)
 		this.props.parentOnDragChanged(true)
 	}
 
 	endDrag = () => {
+		log('end drag')
 		document.removeEventListener('mousemove', this.onDrag)
 		document.removeEventListener('mouseup', this.endDrag)
 
