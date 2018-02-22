@@ -1,10 +1,11 @@
-import React, {PureComponent} from 'react'
-import {connect} from 'react-redux'
+import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import * as utils from '../../../../../../../../../lib/utils.js'
 import DebugButton from './components/DebugButton'
 import TrafficButton from './components/TrafficButton'
+import { route } from '../../../../../../../../services/browser/actions.js'
 
 import './style.scss'
 import nextChild from './images/next-child.png'
@@ -19,7 +20,7 @@ class BuildSize extends PureComponent {
 	}
 
 	gotoBuild = size => {
-		location.href = `/app/${utils.BUILD_FOLDER}/${size}`
+		this.props.dispatch(route(`/${utils.BUILD_FOLDER}/${size}`))
 	}
 
 	render() {

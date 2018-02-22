@@ -1,19 +1,59 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { route, iframeSrcCanUpdateState } from '../../../../services/browser/actions.js'
 
 import Breadcrumbs from './components/Breadcrumbs'
 
 import debug from 'debug'
 const log = debug('wp-cs:BrowsePanel')
+const log1 = debug('wp-cs:BrowsePanel+')
+debug.disable('wp-cs:BrowsePanel+')
 
 import './style.scss'
 
-class BrowsePanel extends PureComponent {
+class BrowsePanel extends Component {
 	constructor() {
 		super()
 		this.state = {
 			deactivated: false
 		}
-		this.loadPaths = this.getPaths(document.location)
+	}
+
+	// we control the update cycle, so the iframe only reloads when the route changes
+	componentWillMount() {
+		this.setState({
+			iframeSrc: this.props.browser.origin + this.props.browser.route,
+			iframeSrcCanUpdateState: false
+		})
+	}
+	componentDidMount() {
+		this.componentDidUpdate()
+	}
+	componentDidUpdate() {
+		log(`update iframe src: ${this.state.iframeSrc}`)
+		this.iframe.src = this.state.iframeSrc
+	}
+	shouldComponentUpdate() {
+		return false
+	}
+	// redux changes to browser route will cause component to receive new props
+	componentWillReceiveProps(next) {
+		if (next.browser.route !== this.props.browser.route) {
+			if (next.browser.renderIframe) {
+				log1('recvd props WILL UPDATE::::')
+				log1(' THIS:', this.props.browser.route)
+				log1(' NEXT:', next.browser.route)
+				this.setState(
+					{
+						iframeSrc: next.browser.origin + next.browser.route,
+						iframeSrcCanUpdateState: false // don't respond to iframe load event
+					},
+					() => {
+						this.forceUpdate()
+					}
+				)
+			}
+		}
 	}
 
 	onDragChanged = state => {
@@ -22,33 +62,30 @@ class BrowsePanel extends PureComponent {
 		})
 	}
 
-	getPaths(location) {
-		const origin = location.origin
-		// app route like: "app", "app/", "app#/"
-		const appRoute = location.href.slice(origin.length).match(/^\/[^\/]*/)[0]
-		// browse route like: "build/300x250"
-		const browseRoute = location.href.slice((origin + appRoute).length)
-		return {
-			origin,
-			appRoute,
-			browseRoute
+	handleIframeLoad = e => {
+		// update browser history
+		const iframeRoute = this.getIframeRoute(e.target.contentWindow.location)
+		window.history.replaceState({}, '', this.props.browser.appPath + iframeRoute)
+		log(`update history: ${this.props.browser.appPath + iframeRoute}`)
+
+		// src changes from inside iframe must propagate route to state
+		if (this.state.iframeSrcCanUpdateState) {
+			log1('...iframe update propagating to state ->')
+			const renderIframe = false
+			this.props.dispatch(route(iframeRoute, renderIframe))
+		} else {
+			log1('-- iframe state updated --')
+			this.setState({
+				iframeSrcCanUpdateState: true
+			})
 		}
 	}
-
-	handleIframeLoad(e) {
-		const iframeRoute = this.getIframeRoute(e.target.contentWindow.location)
-		window.history.replaceState({}, '', this.loadPaths.appRoute + iframeRoute)
-		log(`update history: ${this.loadPaths.appRoute + iframeRoute}`)
-		this.breadcrumbs.update(iframeRoute)
-	}
 	getIframeRoute(location) {
-		const paths = this.getPaths(location)
-		return location.href.slice(paths.origin.length)
+		return location.href.slice(location.origin.length)
 	}
 
 	render() {
 		const deactivatedClass = this.state.deactivated ? 'deactivated' : ''
-		log(`render: ${this.loadPaths.origin + this.loadPaths.browseRoute}`)
 		return (
 			<div className={`browse-panel ${deactivatedClass}`}>
 				<div>
@@ -56,7 +93,7 @@ class BrowsePanel extends PureComponent {
 						ref={ref => {
 							this.breadcrumbs = ref
 						}}
-						loadPaths={this.loadPaths}
+						onBrowse={this.goto}
 						onRefresh={this.refreshIframe}
 						onOpenExternal={this.openExternal}
 					/>
@@ -65,11 +102,16 @@ class BrowsePanel extends PureComponent {
 					ref={ref => {
 						this.iframe = ref
 					}}
-					src={`${this.loadPaths.origin + this.loadPaths.browseRoute}`}
-					onLoad={this.handleIframeLoad.bind(this)}
+					// src={this.state.iframeSrc}
+					onLoad={this.handleIframeLoad}
 				/>
 			</div>
 		)
+	}
+
+	goto = routePath => {
+		const renderIframe = true
+		this.props.dispatch(route(routePath, renderIframe))
 	}
 
 	refreshIframe = e => {
@@ -79,8 +121,13 @@ class BrowsePanel extends PureComponent {
 
 	openExternal = e => {
 		const iframeRoute = this.getIframeRoute(this.iframe.contentWindow.location)
-		window.open(this.loadPaths.origin + iframeRoute, '_blank')
+		window.open(this.props.browser.origin + iframeRoute, '_blank')
 	}
 }
 
-export default BrowsePanel
+const mapStateToProps = function(state) {
+	return {
+		browser: state.browser
+	}
+}
+export default connect(mapStateToProps)(BrowsePanel)

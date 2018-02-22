@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import Rpc from '../../../../../../../../lib/rpc.js'
 import { xhr } from '../../../../../../../../lib/utils.js'
 import { updateWatch } from '../../../../../../../../services/targets/actions.js'
+import { route } from '../../../../../../../../services/browser/actions.js'
 
 import './style.scss'
 
@@ -60,7 +61,7 @@ class DebugButton extends PureComponent {
 	}
 
 	gotoDebugSizeIndex = () => {
-		location.href = `/app/2-debug/${this.props.ad.size}/${this.props.ad.index}`
+		this.props.dispatch(route(`/2-debug/${this.props.ad.size}/${this.props.ad.index}/`))
 	}
 
 	render() {
@@ -147,7 +148,7 @@ class DebugButton extends PureComponent {
 				<div onClick={this.gotoDebugSizeIndex}>
 					<img src={viewIcon} width="15" height="15" />
 				</div>
-			</div>			
+			</div>
 		)
 	}
 }

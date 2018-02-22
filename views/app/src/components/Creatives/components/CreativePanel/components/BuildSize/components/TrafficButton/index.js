@@ -1,12 +1,13 @@
-import React, {PureComponent} from 'react'
-import {connect} from 'react-redux'
+import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 
 import Rpc from '../../../../../../../../lib/rpc.js'
-import {xhr} from '../../../../../../../../lib/utils.js'
-import {updateWatch} from '../../../../../../../../services/targets/actions.js'
-import {updateDeployAt} from '../../../../../../../../services/profiles/actions.js'
+import { xhr } from '../../../../../../../../lib/utils.js'
+import { updateWatch } from '../../../../../../../../services/targets/actions.js'
+import { updateDeployAt } from '../../../../../../../../services/profiles/actions.js'
+import { route } from '../../../../../../../../services/browser/actions.js'
 
 import './style.scss'
 
@@ -84,7 +85,7 @@ class TrafficButton extends PureComponent {
 	}
 
 	gotoTrafficSizeIndex = () => {
-		location.href = `/app/3-traffic/${this.props.currentProfile.name}/${this.props.ad.size}/${this.props.ad.index}`
+		this.props.dispatch(route(`/3-traffic/${this.props.currentProfile.name}/${this.props.ad.size}/${this.props.ad.index}/`))
 	}
 
 	componentDidMount() {

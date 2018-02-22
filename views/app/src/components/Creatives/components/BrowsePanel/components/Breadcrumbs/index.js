@@ -1,29 +1,33 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
 import debug from 'debug'
 const log = debug('wp-cs:Breadcrumbs')
 
 import './style.scss'
 
-class Breadcrumbs extends PureComponent {
+class Breadcrumbs extends Component {
 	constructor() {
 		super()
-		this.state = {
-			browseRoute: ''
-		}
+		// this.state = {
+		// 	browseRoute: ''
+		// }
 	}
 
-	update(browseRoute) {
-		log('update')
-		this.setState({
-			browseRoute
-		})
-		this.forceUpdate()
-	}
+	// shouldComponentUpdate() {
+	// 	return false
+	// }
+
+	// update(browseRoute) {
+	// 	this.setState({
+	// 		browseRoute
+	// 	})
+	// 	this.forceUpdate()
+	// }
 
 	render() {
-		let path = '/app'
-		const chunks = this.state.browseRoute.split('/')
+		let path = ''
+		const chunks = this.props.browser.route.split('/')
 		return (
 			<div className="title clear-after">
 				<div className="reload left" onClick={this.props.onRefresh}>
@@ -35,16 +39,18 @@ class Breadcrumbs extends PureComponent {
 				</div>
 				<div className="left">
 					<h1>
-						<a href={path}>~</a>
+						<a onClick={() => this.props.onBrowse('/')}>~</a>
 						{chunks.map(chunk => {
 							if (chunk !== '') {
 								path += `/${chunk}`
-								return (
-									<span key={chunk}>
-										<span> / </span>
-										<a href={path}>{chunk}</a>
-									</span>
-								)
+								return (path => {
+									return (
+										<span key={chunk}>
+											<span> / </span>
+											<a onClick={() => this.props.onBrowse(`${path}/`)}>{chunk}</a>
+										</span>
+									)
+								})(path)
 							}
 						})}
 					</h1>
@@ -66,4 +72,9 @@ class Breadcrumbs extends PureComponent {
 	}
 }
 
-export default Breadcrumbs
+const mapStateToProps = function(state) {
+	return {
+		browser: state.browser
+	}
+}
+export default connect(mapStateToProps)(Breadcrumbs)
