@@ -2,10 +2,10 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import * as utils from '../../../../../../../../../lib/utils.js'
+import { BUILD_FOLDER } from 'Root/lib/utils.js'
 import DebugButton from './components/DebugButton'
 import TrafficButton from './components/TrafficButton'
-import { route } from '../../../../../../../../services/browser/actions.js'
+import { route } from 'Root/views/app/src/services/browser/actions.js'
 
 import './style.scss'
 import nextChild from './images/next-child.png'
@@ -20,7 +20,7 @@ class BuildSize extends PureComponent {
 	}
 
 	gotoBuild = size => {
-		this.props.dispatch(route(`/${utils.BUILD_FOLDER}/${size}`))
+		this.props.dispatch(route(`/${BUILD_FOLDER}/${size}`))
 	}
 
 	render() {
@@ -69,5 +69,9 @@ class BuildSize extends PureComponent {
 BuildSize.propTypes = {
 	ads: PropTypes.array.isRequired
 }
-
-export default BuildSize
+const mapStateToProps = function(state) {
+	return {
+		browser: state.browser
+	}
+}
+export default connect(mapStateToProps)(BuildSize)

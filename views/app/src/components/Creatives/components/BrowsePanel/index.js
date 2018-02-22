@@ -98,13 +98,15 @@ class BrowsePanel extends Component {
 						onOpenExternal={this.openExternal}
 					/>
 				</div>
-				<iframe
-					ref={ref => {
-						this.iframe = ref
-					}}
-					// src={this.state.iframeSrc}
-					onLoad={this.handleIframeLoad}
-				/>
+				<div className="iframe-container">
+					<iframe
+						ref={ref => {
+							this.iframe = ref
+						}}
+						// src={this.state.iframeSrc}
+						onLoad={this.handleIframeLoad}
+					/>
+				</div>
 			</div>
 		)
 	}

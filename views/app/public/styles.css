@@ -8,23 +8,21 @@ html {
 	height: 100%;
 }
 body {
-	height: 100%;	
+	height: 100%;
 	padding: 0;
-	font: 13px "Arial", "Lucida Grande";
+	font: 13px 'Arial', 'Lucida Grande';
 	line-height: 16px;
-	background: #ECE9E9 -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ECE9E9));
-	background: #ECE9E9 -moz-linear-gradient(top, #fff, #ECE9E9);
+	background: #ece9e9 -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ece9e9));
+	background: #ece9e9 -moz-linear-gradient(top, #fff, #ece9e9);
 	background-repeat: no-repeat;
 	color: #555;
 	-webkit-font-smoothing: antialiased;
 }
 
-
 .page {
 	width: 1000vh;
 	padding-top: 53px;
 }
-
 
 .left {
 	float: left;
@@ -56,9 +54,9 @@ body {
 }
 .title h1 a {
 	color: #000;
-  display: inline-block;
+	display: inline-block;
 	text-overflow: ellipsis;
-	white-space: nowrap;	
+	white-space: nowrap;
 }
 .title h1 a:hover {
 	color: #666;

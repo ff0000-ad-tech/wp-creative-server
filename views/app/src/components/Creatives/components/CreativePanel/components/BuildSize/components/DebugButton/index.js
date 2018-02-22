@@ -2,10 +2,10 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import Rpc from '../../../../../../../../lib/rpc.js'
-import { xhr } from '../../../../../../../../lib/utils.js'
-import { updateWatch } from '../../../../../../../../services/targets/actions.js'
-import { route } from '../../../../../../../../services/browser/actions.js'
+import Rpc from 'AppSrc/lib/rpc.js'
+import { xhr, DEBUG_FOLDER } from 'Root/lib/utils.js'
+import { updateWatch } from 'AppSrc/services/targets/actions.js'
+import { route } from 'AppSrc/services/browser/actions.js'
 
 import './style.scss'
 
@@ -61,7 +61,7 @@ class DebugButton extends PureComponent {
 	}
 
 	gotoDebugSizeIndex = () => {
-		this.props.dispatch(route(`/2-debug/${this.props.ad.size}/${this.props.ad.index}/`))
+		this.props.dispatch(route(`/${DEBUG_FOLDER}/${this.props.ad.size}/${this.props.ad.index}/`))
 	}
 
 	render() {

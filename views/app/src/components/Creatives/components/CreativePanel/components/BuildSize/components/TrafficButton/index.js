@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 
-import Rpc from '../../../../../../../../lib/rpc.js'
-import { xhr } from '../../../../../../../../lib/utils.js'
-import { updateWatch } from '../../../../../../../../services/targets/actions.js'
-import { updateDeployAt } from '../../../../../../../../services/profiles/actions.js'
-import { route } from '../../../../../../../../services/browser/actions.js'
+import Rpc from 'AppSrc/lib/rpc.js'
+import { xhr, TRAFFIC_FOLDER } from 'Root/lib/utils.js'
+import { updateWatch } from 'AppSrc/services/targets/actions.js'
+import { updateDeployAt } from 'AppSrc/services/profiles/actions.js'
+import { route } from 'AppSrc/services/browser/actions.js'
 
 import './style.scss'
 
@@ -85,7 +85,7 @@ class TrafficButton extends PureComponent {
 	}
 
 	gotoTrafficSizeIndex = () => {
-		this.props.dispatch(route(`/3-traffic/${this.props.currentProfile.name}/${this.props.ad.size}/${this.props.ad.index}/`))
+		this.props.dispatch(route(`/${TRAFFIC_FOLDER}/${this.props.currentProfile.name}/${this.props.ad.size}/${this.props.ad.index}/`))
 	}
 
 	componentDidMount() {
