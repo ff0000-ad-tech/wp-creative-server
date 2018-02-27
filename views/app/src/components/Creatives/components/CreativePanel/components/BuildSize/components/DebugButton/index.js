@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import Rpc from 'AppSrc/lib/rpc.js'
-import { xhr, DEBUG_FOLDER } from 'Root/lib/utils.js'
+import { DEBUG_FOLDER } from 'Root/lib/utils.js'
+import { xhr } from 'AppSrc/lib/utils.js'
 import { updateWatch } from 'AppSrc/services/targets/actions.js'
 import { route } from 'AppSrc/services/browser/actions.js'
 
