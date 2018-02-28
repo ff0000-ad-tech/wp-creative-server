@@ -5,16 +5,17 @@
 	left: 0px;
 	right: 0px;
 	background-color: rgba(0, 0, 0, 0.3);
-	padding-top: 40px;
-	padding-left: 30%;
-	padding-right: 30%;
 	z-index: 100;
 }
 
 .modal {
+	position: fixed;
+	top: 40px;
+	left: 50%;
+	transform: translateX(-50%);
 	background-color: #fff;
 	border-radius: 5px;
-	min-width: 500px;
+	min-width: 800px;
 	min-height: 400px;
 	margin: 0 auto;
 	padding: 40px;
