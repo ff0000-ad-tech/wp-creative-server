@@ -86,7 +86,7 @@ class TrafficButton extends PureComponent {
 	}
 
 	gotoTrafficSizeIndex = () => {
-		this.props.dispatch(route(`/${TRAFFIC_FOLDER}/${this.props.currentProfile.name}/${this.props.ad.size}/${this.props.ad.index}/`))
+		this.props.dispatch(route(`/${TRAFFIC_FOLDER}/${this.props.currentProfile.name}/${this.props.ad.size}_${this.props.ad.index}/`))
 	}
 
 	componentDidMount() {

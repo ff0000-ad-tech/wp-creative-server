@@ -62,7 +62,7 @@ class DebugButton extends PureComponent {
 	}
 
 	gotoDebugSizeIndex = () => {
-		this.props.dispatch(route(`/${DEBUG_FOLDER}/${this.props.ad.size}/${this.props.ad.index}/`))
+		this.props.dispatch(route(`/${DEBUG_FOLDER}/${this.props.ad.size}_${this.props.ad.index}/`))
 	}
 
 	render() {
