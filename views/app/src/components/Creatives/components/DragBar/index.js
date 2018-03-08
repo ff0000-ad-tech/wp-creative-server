@@ -34,14 +34,12 @@ class DragBar extends PureComponent {
 	}
 
 	startDrag() {
-		log('start drag')
 		document.addEventListener('mousemove', this.onDrag)
 		document.addEventListener('mouseup', this.endDrag)
 		this.props.parentOnDragChanged(true)
 	}
 
 	endDrag = () => {
-		log('end drag')
 		document.removeEventListener('mousemove', this.onDrag)
 		document.removeEventListener('mouseup', this.endDrag)
 

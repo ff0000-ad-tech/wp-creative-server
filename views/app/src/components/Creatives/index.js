@@ -27,7 +27,6 @@ class Creatives extends Component {
 	}
 
 	onDragChanged = state => {
-		log(this.browsePanel.getWrappedInstance())
 		this.browsePanel.getWrappedInstance().onDragChanged(state)
 	}
 

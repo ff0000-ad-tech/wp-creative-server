@@ -21,13 +21,16 @@ class BrowsePanel extends Component {
 
 	// used by DragBar to make the drag go smoothly
 	onDragChanged = state => {
-		log('is happening')
 		this.setState(
 			{
 				deactivated: state
 			},
 			() => {
-				this.forceUpdate()
+				if (this.state.deactivated) {
+					this.browsePanelElement.classList.add('deactivated')
+				} else {
+					this.browsePanelElement.classList.remove('deactivated')
+				}
 			}
 		)
 	}
@@ -96,7 +99,12 @@ class BrowsePanel extends Component {
 	render() {
 		const deactivatedClass = this.state.deactivated ? 'deactivated' : ''
 		return (
-			<div className={`browse-panel ${deactivatedClass}`}>
+			<div
+				ref={ref => {
+					this.browsePanelElement = ref
+				}}
+				className={`browse-panel ${deactivatedClass}`}
+			>
 				<div>
 					<Breadcrumbs
 						ref={ref => {
