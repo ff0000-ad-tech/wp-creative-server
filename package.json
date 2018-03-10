@@ -7,7 +7,6 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"install-plugins": "node ./plugins-api.js --cmd install --context ./",
 		"server": "NODE_ENV=development DEBUG=* node index.js",
 		"build": "webpack --config views/app/webpack.config.js",
 		"pub": "np"
