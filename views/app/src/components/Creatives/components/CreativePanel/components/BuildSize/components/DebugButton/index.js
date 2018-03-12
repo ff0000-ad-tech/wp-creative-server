@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import Rpc from 'AppSrc/lib/rpc.js'
-import { DEBUG_FOLDER } from 'Root/lib/utils.js'
-import { xhr } from 'AppSrc/lib/utils.js'
+import { xhr, getOutputRoute } from 'AppSrc/lib/utils.js'
 import { updateWatch } from 'AppSrc/services/targets/actions.js'
 import { route } from 'AppSrc/services/browser/actions.js'
 
@@ -62,7 +61,8 @@ class DebugButton extends PureComponent {
 	}
 
 	gotoDebugSizeIndex = () => {
-		this.props.dispatch(route(`/${DEBUG_FOLDER}/${this.props.ad.size}__${this.props.ad.index.split('.')[0]}/`))
+		log(getOutputRoute(this.props.ad.size, this.props.ad.index))
+		this.props.dispatch(route(getOutputRoute(this.props.ad.size, this.props.ad.index)))
 	}
 
 	render() {

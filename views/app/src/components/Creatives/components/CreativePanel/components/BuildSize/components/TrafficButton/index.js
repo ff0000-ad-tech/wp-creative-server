@@ -5,7 +5,7 @@ import moment from 'moment'
 
 import Rpc from 'AppSrc/lib/rpc.js'
 import { TRAFFIC_FOLDER } from 'Root/lib/utils.js'
-import { xhr } from 'AppSrc/lib/utils.js'
+import { xhr, getOutputRoute } from 'AppSrc/lib/utils.js'
 import { updateWatch } from 'AppSrc/services/targets/actions.js'
 import { updateDeployAt } from 'AppSrc/services/profiles/actions.js'
 import { route } from 'AppSrc/services/browser/actions.js'
@@ -86,9 +86,7 @@ class TrafficButton extends PureComponent {
 	}
 
 	gotoTrafficSizeIndex = () => {
-		this.props.dispatch(
-			route(`/${TRAFFIC_FOLDER}/${this.props.currentProfile.name}/${this.props.ad.size}__${this.props.ad.index.split('.')[0]}/`)
-		)
+		this.props.dispatch(route(`${getOutputRoute(this.props.ad.size, this.props.ad.index, this.props.currentProfile.name)}`))
 	}
 
 	componentDidMount() {
