@@ -9,14 +9,22 @@ header {
 	cursor: pointer;
 
 	.logo-container {
-		margin: 10px 15px 0px;
+		margin: 10px 0px 0px 15px;
 		cursor: pointer;
 	}
 
-	h1 {
-		padding: 9px 10px;
+	.app-name {
+		padding: 9px 5px 4px 10px;
 		color: #aaa;
 		font-size: 24px;
+		font-weight: bold;
+	}
+
+	.version {
+		margin-top: 19px;
+		font-size: 11px;
+		color: #666;
+		font-style: italic;
 		font-weight: bold;
 	}
 }
