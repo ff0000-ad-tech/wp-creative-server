@@ -1,14 +1,21 @@
-header {
+.site-header {
 	position: fixed;
-	display: flex;
 	top: 0;
-	width: 100vw;
+	width: 100%;
 	height: 53px;
 	background: #000;
 	z-index: 10;
 	cursor: pointer;
 
+	a:hover,
+	a:visited,
+	a:link,
+	a:active {
+		text-decoration: none;
+	}
+
 	.logo-container {
+		display: inline-block;
 		margin: 10px 0px 0px 15px;
 		cursor: pointer;
 	}
@@ -26,5 +33,19 @@ header {
 		color: #666;
 		font-style: italic;
 		font-weight: bold;
+	}
+
+	.button {
+		padding: 3px 10px;
+		margin: 16px 15px 0px 0px;
+		border: 1px solid #666;
+		border-radius: 6px;
+		color: #999;
+		font-weight: bold;
+		cursor: pointer;
+	}
+	.button:hover {
+		background-color: #1f1f1f;
+		color: #aaa;
 	}
 }
