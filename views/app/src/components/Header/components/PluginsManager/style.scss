@@ -1,0 +1,94 @@
+.backdrop {
+	position: fixed;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	background-color: rgba(0, 0, 0, 0.3);
+	z-index: 100;
+}
+
+.modal {
+	position: fixed;
+	top: 40px;
+	left: 50%;
+	transform: translateX(-50%);
+	background-color: #fff;
+	border-radius: 5px;
+	min-width: 800px;
+	min-height: 400px;
+	margin: 0 auto;
+	padding: 40px;
+
+	.header {
+		margin-bottom: 3px;
+	}
+
+	.title {
+		font-size: 22px;
+		font-weight: bold;
+		color: #000;
+	}
+	.profile-title {
+		margin: 18px 0px 1px;
+
+		.name {
+			font-size: 28px;
+			color: #333;
+		}
+		.delete {
+			margin: 3px 0px 0px 6px;
+			font-size: 11px;
+			cursor: pointer;
+		}
+	}
+
+	pre {
+		font-family: 'Courier New', Courier, monospace;
+	}
+
+	.control {
+		margin: 10px 0px;
+		display: flex;
+
+		.buttons {
+			margin: 0pt auto;
+			display: inline-block;
+		}
+	}
+
+	.plugins-header {
+		height: 29px;
+		background: #555;
+		color: #fff;
+		font-size: 1.2em;
+		font-weight: bold;
+		padding: 7px 15px 3px;
+		white-space: nowrap;
+		border-top: 1px solid #cacaca;
+		border-bottom: 1px solid #cacaca;
+	}
+	ul li {
+		width: auto !important;
+		line-height: 1.2em;
+		text-indent: 0;
+		margin: 0;
+		height: 29px;
+		padding: 5px 15px;
+		overflow: hidden;
+		white-space: nowrap;
+		border-bottom: 1px solid #cacaca;
+		font-size: 1.2em;
+	}
+	ul li:nth-child(odd) {
+		background: #f3f3f3;
+	}
+
+	.name-col {
+		min-width: 200px;
+		width: 30%;
+	}
+	.state-col {
+		width: 50%;
+	}
+}

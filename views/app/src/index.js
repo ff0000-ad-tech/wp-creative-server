@@ -7,6 +7,7 @@ const log = debug('wp-cs:app:index')
 
 // create redux store
 let store = configureStore({
+	plugins: {},
 	creative: {},
 	targets: {},
 	profiles: {}
@@ -18,6 +19,7 @@ let rpc = new Rpc({
 	store: store
 })
 rpc.connect(() => {
+	rpc.getPlugins()
 	rpc.getCreative()
 	rpc.readTargets()
 	rpc.getProfiles()

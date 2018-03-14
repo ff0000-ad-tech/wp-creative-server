@@ -4,6 +4,7 @@ import thunkMiddleware from 'redux-thunk'
 // import { createLogger } from 'redux-logger'
 
 import { browser } from './services/browser/reducers.js'
+import { plugins } from './services/plugins/reducers.js'
 import { creative } from './services/creative/reducers.js'
 import { targets } from './services/targets/reducers.js'
 import { profiles, currentProfile } from './services/profiles/reducers.js'
@@ -13,6 +14,7 @@ const log = debug('wp-cs:app:store')
 
 const rootReducer = combineReducers({
 	browser,
+	plugins,
 	creative,
 	targets,
 	profiles,
