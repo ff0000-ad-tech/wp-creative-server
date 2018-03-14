@@ -3,7 +3,10 @@ import { UPDATE } from './actions.js'
 export function plugins(state = {}, action) {
 	switch (action.type) {
 		case UPDATE:
-			return Object.assign({}, action.plugins)
+			if (action.plugins) {
+				return Object.assign({}, action.plugins)
+			}
+			return state
 		default:
 			return state
 	}

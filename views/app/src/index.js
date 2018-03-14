@@ -7,7 +7,7 @@ const log = debug('wp-cs:app:index')
 
 // create redux store
 let store = configureStore({
-	plugins: {},
+	plugins: null,
 	creative: {},
 	targets: {},
 	profiles: {}

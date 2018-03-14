@@ -38,7 +38,6 @@ export default class Rpc {
 	*/
 	getPlugins() {
 		this.remote.getPlugins(plugins => {
-			log(plugins)
 			this.store.dispatch(pluginsUpdate(plugins))
 		})
 	}

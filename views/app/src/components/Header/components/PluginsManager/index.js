@@ -33,16 +33,31 @@ class PluginsManager extends Component {
 						<div className="name-col left">Plugin</div>
 						<div className="state-col left">State</div>
 					</div>
-					<ul>
-						{Object.keys(this.props.plugins.available).map(plugin => {
-							if (plugin in this.props.plugins.installed) {
-								return this.getInstalledPlugin(plugin)
-							} else {
-								return this.getAvailablePlugin(plugin)
-							}
-						})}
-					</ul>
+					{this.props.plugins ? this.getPlugins() : this.getNoPlugins()}
 				</div>
+			</div>
+		)
+	}
+
+	getPlugins() {
+		return (
+			<ul>
+				{Object.keys(this.props.plugins.available).map(plugin => {
+					if (plugin in this.props.plugins.installed) {
+						return this.getInstalledPlugin(plugin)
+					} else {
+						return this.getAvailablePlugin(plugin)
+					}
+				})}
+			</ul>
+		)
+	}
+
+	getNoPlugins() {
+		return (
+			<div className="no-plugins">
+				<span>No plugins have been declared in "./plugins.json" - see </span>
+				<a href="https://github.com/ff0000-ad-tech/wp-creative-server">wp-creative-server</a> <span>for more info.</span>
 			</div>
 		)
 	}
@@ -51,13 +66,10 @@ class PluginsManager extends Component {
 		return (
 			<li key={plugin} className="clear-after">
 				<div className="name-col left">{plugin}</div>
-				<div className="state-col install left">
+				<div className="state-col install-code left">
 					<pre>
 						<code>npm install {this.props.plugins.available.plugin} --save</code>
 					</pre>
-				</div>
-				<div className="action-col right">
-					<input type="button" onClick={this.closeRequested} value="Install" />
 				</div>
 			</li>
 		)
