@@ -15,6 +15,9 @@ module.exports = (app, express) => {
 	 *
 	 */
 	const installed = plugins.getInstalled()
+	if (!installed) {
+		return
+	}
 	Object.keys(installed).forEach(plugin => {
 		// plugin package must specify "main", path to servable directory
 		if (!('main' in installed[plugin])) {

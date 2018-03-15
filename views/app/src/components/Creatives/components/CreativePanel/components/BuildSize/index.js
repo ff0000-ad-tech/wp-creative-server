@@ -44,9 +44,7 @@ class BuildSize extends PureComponent {
 					>
 						{this.props.ads[0].size}
 					</div>
-					{this.props.plugins.installed && Object.keys(this.props.plugins.installed).length
-						? this.getPluginsButton(this.props.ads[0].size)
-						: null}
+					{this.props.plugins && Object.keys(this.props.plugins.installed).length ? this.getPluginsButton(this.props.ads[0].size) : null}
 				</div>
 
 				{this.props.ads.map((ad, i) => {
