@@ -19,11 +19,6 @@ body {
 	-webkit-font-smoothing: antialiased;
 }
 
-.page {
-	width: 1000vh;
-	padding-top: 53px;
-}
-
 .left {
 	float: left;
 }

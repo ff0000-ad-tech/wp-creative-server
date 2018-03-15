@@ -31,19 +31,25 @@ class CreativePanel extends PureComponent {
 						<a>{this.props.creative.name}</a>
 					</h1>
 				</div>
-				<ul className="header-row">
-					<li className="build-col col">Build</li>
-					<li className="debug-col col">Debug</li>
-					<li className="settings-col col">Traffic</li>
-				</ul>
-				<ul>
-					<TrafficControl />
-				</ul>
-				<ul>
-					{Object.keys(buildSizes).map(id => {
-						return <BuildSize key={id} ads={buildSizes[id]} />
-					})}
-				</ul>
+				<div>
+					<ul className="header-row">
+						<li className="build-col col">Build</li>
+						<li className="debug-col col">Debug</li>
+						<li className="settings-col col">Traffic</li>
+					</ul>
+				</div>
+				<div>
+					<ul>
+						<TrafficControl />
+					</ul>
+				</div>
+				<div className="build-sizes">
+					<ul>
+						{Object.keys(buildSizes).map(id => {
+							return <BuildSize key={id} ads={buildSizes[id]} />
+						})}
+					</ul>
+				</div>
 			</div>
 		)
 	}

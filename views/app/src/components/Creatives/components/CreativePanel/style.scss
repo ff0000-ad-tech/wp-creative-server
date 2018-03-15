@@ -1,4 +1,8 @@
 .creatives .creative-panel {
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+
 	.header-row {
 		display: flex;
 		flex-direction: row;
@@ -11,6 +15,11 @@
 		white-space: nowrap;
 		border-top: 1px solid #cacaca;
 		border-bottom: 1px solid #cacaca;
+	}
+
+	.build-sizes {
+		flex-grow: 1;
+		overflow: auto;
 	}
 
 	.col {
