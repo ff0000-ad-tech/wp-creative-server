@@ -1,6 +1,7 @@
 const dnode = require('dnode')
 const shoe = require('shoe')
 
+const pluginsRpc = require('../lib/rpc/plugins.js')
 const creativeRpc = require('../lib/rpc/creative.js')
 const targetsRpc = require('../lib/rpc/targets.js')
 const profilesRpc = require('../lib/rpc/profiles.js')
@@ -11,6 +12,7 @@ var log = debug('wp-creative-server:rpc-api')
 
 // API METHODS EXPOSED via RPC
 const api = {
+	getPlugins: pluginsRpc.getPlugins,
 	getCreative: creativeRpc.getCreative,
 
 	readTargets: targetsRpc.readTargets,

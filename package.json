@@ -23,6 +23,7 @@
 		"debug": "git://github.com/gmcdev/debug.git",
 		"dnode": "^1.2.2",
 		"express": "^4.16.2",
+		"is-semver": "^1.0.8",
 		"lodash": "^4.17.4",
 		"minimist": "^1.2.0",
 		"moment": "^2.19.3",

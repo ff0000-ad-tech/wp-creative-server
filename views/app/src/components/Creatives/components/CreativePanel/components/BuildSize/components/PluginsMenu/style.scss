@@ -1,0 +1,39 @@
+.menu {
+	position: fixed;
+	background-color: #fff;
+	min-width: 100px;
+	border: 1px solid #333;
+	box-shadow: 3px 3px 5px #888888;
+	z-index: 1000;
+
+	.hit {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+	}
+
+	ul li {
+		width: auto !important;
+		line-height: 1.2em;
+		text-indent: 0;
+		margin: 0;
+		height: 29px;
+		padding: 5px 15px;
+		overflow: hidden;
+		white-space: nowrap;
+		border-bottom: 1px solid #cacaca;
+		font-size: 1.2em;
+		cursor: pointer;
+	}
+	ul li:nth-child(odd) {
+		background: #f3f3f3;
+	}
+	ul li:hover {
+		background: #fafafa;
+	}
+	// .plugin-name {
+	// 	pointer-events: none;
+	// }
+}

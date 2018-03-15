@@ -21,6 +21,11 @@
 	margin-bottom: 3px;
 	cursor: pointer;
 }
+.plugin-button svg {
+	margin: 2px 0px 0px 7px;
+	color: #999;
+	fill: currentColor;
+}
 .ad-index {
 	display: flex;
 	flex-direction: row;
@@ -43,5 +48,5 @@
 }
 
 .col-arrow {
-	margin: 2px 0px 0px 5px
+	margin: 2px 0px 0px 5px;
 }

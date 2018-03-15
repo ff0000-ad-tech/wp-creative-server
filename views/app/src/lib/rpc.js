@@ -1,3 +1,4 @@
+import { update as pluginsUpdate } from '../services/plugins/actions.js'
 import { update as creativeUpdate } from '../services/creative/actions.js'
 import { update as targetsUpdate } from '../services/targets/actions.js'
 import { update as profilesUpdate } from '../services/profiles/actions.js'
@@ -27,6 +28,17 @@ export default class Rpc {
 			}
 			this.remote = r
 			cb()
+		})
+	}
+
+	/* -- PLUGINS -------------------------
+	*
+	*
+	*
+	*/
+	getPlugins() {
+		this.remote.getPlugins(plugins => {
+			this.store.dispatch(pluginsUpdate(plugins))
 		})
 	}
 
