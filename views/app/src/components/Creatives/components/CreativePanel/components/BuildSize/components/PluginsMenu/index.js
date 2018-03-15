@@ -52,7 +52,7 @@ class PluginsMenu extends Component {
 						<li
 							key={plugin}
 							onClick={() => {
-								location.href = `/${plugin}/${this.props.size}`
+								this.launchPlugin(plugin)
 							}}
 						>
 							<div className="plugin-name">{plugin}</div>
@@ -61,6 +61,11 @@ class PluginsMenu extends Component {
 				})}
 			</ul>
 		)
+	}
+
+	launchPlugin(plugin) {
+		const pluginMain = this.props.plugins.installed[plugin].main
+		location.href = `/${plugin}/${this.props.size}`
 	}
 }
 
