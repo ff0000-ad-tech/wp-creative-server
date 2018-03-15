@@ -1,7 +1,7 @@
 ##### RED Interactive Agency - Ad Technology
 
-Webpack - Creative Server
-===============
+# Webpack - Creative Server
+
 Implements Webpack in a browser interface for ES6 banner development.
 
 * many sizes, many indexes
@@ -79,3 +79,5 @@ executes:
 ```
 node '/Users/greg.connell/Documents/_CLIENTS/_AD_APP_TESTING/RED_Dev/ES6/mar13/node_modules/ad-es6-particles/./lib/api.js' --arg value --arg2 value
 ```
+
+This gives your plugin full access to the filesystem, to do whatever you need to do.
