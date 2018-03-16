@@ -6,7 +6,7 @@ const creativeRpc = require('../lib/rpc/creative.js')
 const targetsRpc = require('../lib/rpc/targets.js')
 const profilesRpc = require('../lib/rpc/profiles.js')
 const compilingRpc = require('../lib/rpc/compiling.js')
-const utils = require('../lib/utils.js')
+const miscRpc = require('../lib/rpc/misc.js')
 
 const debug = require('debug')
 var log = debug('wp-creative-server:rpc-api')
@@ -14,7 +14,7 @@ var log = debug('wp-creative-server:rpc-api')
 // API METHODS EXPOSED via RPC
 const api = {
 	getPlugins: pluginsRpc.getPlugins,
-	copyToClipboard: utils.copyToClipboard,
+	copyToClipboard: miscRpc.copyToClipboard,
 
 	getCreative: creativeRpc.getCreative,
 
