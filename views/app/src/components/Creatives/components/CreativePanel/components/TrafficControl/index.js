@@ -1,13 +1,14 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import Rpc from '../../../../../../lib/rpc.js'
-import { addProfile } from '../../../../../../services/profiles/actions.js'
+import Rpc from 'AppSrc/lib/rpc.js'
+import { addProfile } from 'AppSrc/services/profiles/actions.js'
 
 import debug from 'debug'
 const log = debug('wp-cs:app:TrafficControl')
 
 import SettingsEditor from './components/SettingsEditor'
+import BulkControl from './components/BulkControl'
 
 import './style.scss'
 import settingsIcon from './images/settings-icon.svg'
@@ -20,12 +21,6 @@ class TrafficControl extends PureComponent {
 			isDefiningProfile: false,
 			showEditor: false
 		}
-	}
-	componentDidMount() {
-		this.updateCheckbox()
-	}
-	componentDidUpdate() {
-		this.updateCheckbox()
 	}
 
 	/* -- Manage Profile Control ----
@@ -48,30 +43,6 @@ class TrafficControl extends PureComponent {
 			this.createNewProfile(this.profileInput.value)
 		}
 	}
-	updateCheckbox() {
-		if (!Object.keys(this.props.targets).length) {
-			this.checkbox.checked = false
-			return
-		}
-		// check available targets
-		for (var key in this.props.targets) {
-			const target = this.props.targets[key]
-			// check if selected-profile has available target
-			let isSelected = false
-			const profileTargets = this.props.currentProfile.profile.targets
-			for (var i = 0; i < profileTargets.length; i++) {
-				if (profileTargets[i].size === target.size && profileTargets[i].index === target.index) {
-					isSelected = true
-					break
-				}
-			}
-			if (!isSelected) {
-				this.checkbox.checked = false
-				return
-			}
-		}
-		this.checkbox.checked = true
-	}
 
 	// profile api
 	createNewProfile(name) {
@@ -93,20 +64,6 @@ class TrafficControl extends PureComponent {
 	}
 	selectProfile = e => {
 		this.rpc.updateProfile(this.profileSelect.value, this.props.profiles[this.profileSelect.value])
-	}
-
-	// select/deselect all targets
-	onChecked = e => {
-		if (e.target.checked) {
-			this.rpc.addDeployTargets(this.props.currentProfile.name, this.getAllTargetsAsList())
-		} else {
-			this.rpc.removeDeployTargets(this.props.currentProfile.name, this.getAllTargetsAsList())
-		}
-	}
-	getAllTargetsAsList() {
-		return Object.keys(this.props.targets).map(key => {
-			return this.props.targets[key]
-		})
 	}
 
 	/* -- Editor Control ----
@@ -192,18 +149,7 @@ class TrafficControl extends PureComponent {
 					<li className="settings-col col">
 						<div className="settings clear-after">
 							<div className="right clear-after">
-								<div className="option-checkbox right">
-									<input
-										ref={checkbox => {
-											this.checkbox = checkbox
-										}}
-										type="checkbox"
-										onChange={this.onChecked}
-									/>
-								</div>
-								<div className="option-button right">
-									<input type="button" value="DEPLOY" />
-								</div>
+								<BulkControl />
 							</div>
 
 							<div className="left clear-after">
@@ -238,6 +184,7 @@ class TrafficControl extends PureComponent {
 	*/
 const mapStateToProps = function(state) {
 	return {
+		plugins: state.plugins,
 		targets: state.targets,
 		profiles: state.profiles,
 		currentProfile: state.currentProfile
