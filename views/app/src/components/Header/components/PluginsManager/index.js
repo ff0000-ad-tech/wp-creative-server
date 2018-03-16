@@ -2,12 +2,21 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
+import Rpc from 'AppSrc/lib/rpc.js'
+
 import debug from 'debug'
 const log = debug('wp-cs:app:PluginsManager')
 
 import './style.scss'
 
 class PluginsManager extends Component {
+	constructor() {
+		super()
+		this.rpc = new Rpc()
+		this.state = {
+			showDialog: false
+		}
+	}
 	shouldComponentUpdate() {
 		return this.props.show ? false : true
 	}
@@ -63,16 +72,38 @@ class PluginsManager extends Component {
 	}
 
 	getAvailablePlugin(plugin) {
+		const dialog = this.state.showDialog ? 'show' : ''
 		return (
 			<li key={plugin} className="clear-after">
 				<div className="name-col left">{plugin}</div>
-				<div className="state-col install-code left">
-					<pre>
-						<code>npm install {this.props.plugins.available.plugin} --save</code>
-					</pre>
+				<div className="state-col install-code left" title="Copy NPM install command to clipboard">
+					<input
+						type="button"
+						onClick={() => {
+							this.copyPluginInstallCmd(plugin)
+						}}
+						value="Get Install Command"
+					/>
 				</div>
+				<div className={`dialog left ${dialog}`}>Copied!</div>
 			</li>
 		)
+	}
+
+	copyPluginInstallCmd(plugin) {
+		const installCmd = `npm install ${this.props.plugins.available[plugin]} --save`
+		this.rpc.copyToClipboard(installCmd, () => {
+			this.setState({
+				showDialog: true
+			})
+			setTimeout(() => {
+				this.setState({
+					showDialog: false
+				})
+				this.forceUpdate()
+			}, 700)
+			this.forceUpdate()
+		})
 	}
 
 	getInstalledPlugin(plugin) {

@@ -158,4 +158,15 @@ export default class Rpc {
 			err => {}
 		)
 	}
+
+	/* -- UTILS -------------------------
+	*
+	*
+	*
+	*/
+	copyToClipboard(str, cb) {
+		this.remote.copyToClipboard(str, cb, err => {
+			alert(err.message)
+		})
+	}
 }

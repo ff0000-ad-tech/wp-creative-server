@@ -5,7 +5,7 @@
 	left: 0px;
 	right: 0px;
 	background-color: rgba(0, 0, 0, 0.3);
-	z-index: 100;
+	z-index: 200;
 }
 
 .modal {
@@ -93,6 +93,21 @@
 		width: 30%;
 	}
 	.state-col {
-		width: 50%;
+	}
+
+	.dialog {
+		$bgColor: #222;
+		display: none;
+		background-color: #222;
+		margin: -3px 0px 0px 15px;
+		padding: 3px 8px;
+		overflow: visible;
+		font-weight: bold;
+		color: #eee;
+		border-radius: 4px;
+
+		&.show {
+			display: block;
+		}
 	}
 }
