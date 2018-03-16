@@ -153,12 +153,14 @@ class TrafficControl extends PureComponent {
 							</div>
 
 							<div className="left clear-after">
-								<div className="option-button left" style={{ paddingLeft: '0px' }}>
+								<div className="option-button left" title="Create new deploy profile..." style={{ paddingLeft: '0px' }}>
 									<input type="button" value="+" onClick={this.showProfileInput} />
 								</div>
-								<div className="option-button left">{this.getProfileControl()}</div>
+								<div className="option-button left" title="Deploy profile">
+									{this.getProfileControl()}
+								</div>
 								<div className="option-button left">
-									<div style={{ paddingTop: '2px' }} onClick={this.showEditor}>
+									<div style={{ paddingTop: '2px' }} title="Edit deploy profile settings..." onClick={this.showEditor}>
 										<img src={settingsIcon} width="16" height="16" />
 									</div>
 								</div>

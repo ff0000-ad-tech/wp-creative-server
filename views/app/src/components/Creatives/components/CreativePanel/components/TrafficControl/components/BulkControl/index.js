@@ -123,6 +123,7 @@ class BulkControl extends PureComponent {
 					<div className="clear-after">
 						<select
 							className="left"
+							title="Select bulk control"
 							ref={ref => {
 								this.bulkControl = ref
 							}}
@@ -136,7 +137,9 @@ class BulkControl extends PureComponent {
 							})}
 						</select>
 						<div className="left" onClick={this.execute}>
-							<div className="execute-button">🔥</div>
+							<div className="execute-button" title="Execute bulk control">
+								🔥
+							</div>
 						</div>
 					</div>
 				</div>
