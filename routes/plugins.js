@@ -28,18 +28,6 @@ module.exports = (app, express) => {
 		}
 		const routes = installed[plugin]['wp-creative-server'].routes
 
-		// plugin may specify "main", path to servable directory
-		if ('main' in routes) {
-			log(`${plugin} main available on route: /${plugin}`)
-
-			const staticRoute = `${pluginPath}/${path.dirname(installed[plugin].main)}`
-			if (!fs.existsSync(staticRoute)) {
-				return
-			}
-			// serve static plugin assets
-			app.use(`/${plugin}`, express.static(`${staticRoute}`))
-		}
-
 		// plugin may specify "api"
 		if ('api' in routes) {
 			log(`${plugin} api available on route: /${plugin}/api`)
@@ -47,7 +35,7 @@ module.exports = (app, express) => {
 			// serve api requests
 			app.get(`/${plugin}/api/`, (req, res) => {
 				// prepare cli args
-				let args = ['node', `${pluginPath}/${installed[plugin].api}`]
+				let args = ['node', `${pluginPath}/${routes.api}`]
 				Object.keys(req.query).forEach(arg => {
 					let cliArg = `-${arg}`
 					if (arg.length > 1) {
@@ -76,9 +64,21 @@ module.exports = (app, express) => {
 			})
 		}
 
-		// proxy misc routes back to the plugin
-		app.get(`/${plugin}/*`, (req, res) => {
-			res.sendFile(`${staticRoute}/`)
-		})
+		// plugin may specify "main", path to servable directory
+		if ('main' in routes) {
+			log(`${plugin} main available on route: /${plugin}`)
+
+			const staticRoute = `${pluginPath}/${path.dirname(routes.main)}`
+			if (!fs.existsSync(staticRoute)) {
+				return
+			}
+			// serve static plugin assets
+			app.use(`/${plugin}`, express.static(`${staticRoute}`))
+
+			// proxy misc routes back to the plugin (so the plugin use any sub-routes)
+			app.get(`/${plugin}/*`, (req, res) => {
+				res.sendFile(`${staticRoute}/`)
+			})
+		}
 	})
 }

@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Rpc from 'AppSrc/lib/rpc.js'
+import { xhr, getOutputRoute } from 'AppSrc/lib/utils.js'
 
 import debug from 'debug'
 const log = debug('wp-cs:app:BulkControl')
@@ -12,9 +13,9 @@ class BulkControl extends PureComponent {
 	constructor(props) {
 		super(props)
 		this.rpc = new Rpc()
-		this.state = {
-			controls: {}
-		}
+	}
+	componentDidUpdate() {
+		this.updateCheckbox()
 	}
 
 	// bulk control
@@ -23,48 +24,55 @@ class BulkControl extends PureComponent {
 	 *	each hook will send different inputs to the callback
 	 *	in this case, a list of selected targets
 	 */
-	componentDidMount() {
-		this.updateCheckbox()
-
-		// the default control is a function, the rest would all be API-strings
-		let controls = {
-			DEPLOY: () => {
-				// get all deploy targets
-				const targets = this.getAllTargetsAsList()
-
-				// add all deploy targets
-				this.rpc.addDeployTargets(this.props.currentProfile.name, targets)
-
-				log(targets)
-				log('not yet implementing bulk compile feature...')
-				// setInterval(() => {
-				// 	xhr(`/api/compile-start/${this.props.currentProfile.name}/${this.props.ad.size}/${this.props.ad.index}`)
-				// })
-			}
-		}
-		log(controls)
-
-		// look for plugins that have "TrafficControl" hooks
+	updateControls() {
+		let controls = {}
+		// look for plugins that have "bulk-control" hooks
 		if (this.props.plugins) {
 			Object.keys(this.props.plugins.installed).forEach(plugin => {
-				const packageJson = this.props.plugins.installed[plugin]
-				const hooks = 'hooks' in packageJson ? packageJson.hooks : null
-				if (hooks && packageJson.hooks.TrafficControl) {
-					controls[plugin] = packageJson.hooks.TrafficControl
+				const settings = this.getPluginSettings(plugin)
+				if (this.hasHook(settings, 'bulk-control')) {
+					// we expect only one command-per-hook
+					controls[plugin] = Object.keys(settings.hooks['bulk-control'])[0]
 				}
 			})
 		}
+		return controls
+	}
 
-		this.setState({
-			controls
+	// plugin pathing utility
+	getPluginSettings(plugin) {
+		if ('wp-creative-server' in this.props.plugins.installed[plugin]) {
+			return this.props.plugins.installed[plugin]['wp-creative-server']
+		}
+	}
+	hasHook(settings, hook) {
+		return 'hooks' in settings && hook in settings.hooks
+	}
+
+	execute = () => {
+		// get plugin from hook-label
+		for (var plugin in this.props.plugins.installed) {
+			const settings = this.getPluginSettings(plugin)
+			if (this.hasHook(settings, 'bulk-control')) {
+				if (this.bulkControl.value in settings.hooks['bulk-control']) {
+					const pRoute = settings.hooks['bulk-control'][this.bulkControl.value]
+					const csRoute = `/${plugin}${pRoute}/`
+					const targets = this.getSelectedTargets()
+					log(csRoute)
+					log(targets)
+					xhr(`${csRoute}?targets=${encodeURIComponent(JSON.stringify(targets))}`)
+					return
+				}
+			}
+		}
+	}
+	getSelectedTargets() {
+		let targets = {}
+		Object.keys(this.props.targets).forEach(target => {
+			const outputRoute = getOutputRoute(this.props.targets[target].size, this.props.targets[target].index, this.props.currentProfile.name)
+			targets[`${this.props.currentProfile.name}/${target}`] = outputRoute
 		})
-	}
-	componentDidUpdate() {
-		this.updateCheckbox()
-	}
-
-	execute() {
-		log('EXECUTE:', this.bulkControl.value)
+		return targets
 	}
 
 	updateCheckbox() {
@@ -95,12 +103,12 @@ class BulkControl extends PureComponent {
 	// select/deselect all targets
 	onChecked = e => {
 		if (e.target.checked) {
-			this.rpc.addDeployTargets(this.props.currentProfile.name, this.getAllTargetsAsList())
+			this.rpc.addDeployTargets(this.props.currentProfile.name, this.getAllTargets())
 		} else {
-			this.rpc.removeDeployTargets(this.props.currentProfile.name, this.getAllTargetsAsList())
+			this.rpc.removeDeployTargets(this.props.currentProfile.name, this.getAllTargets())
 		}
 	}
-	getAllTargetsAsList() {
+	getAllTargets() {
 		return Object.keys(this.props.targets).map(key => {
 			return this.props.targets[key]
 		})
@@ -108,6 +116,7 @@ class BulkControl extends PureComponent {
 
 	// render
 	render() {
+		const controls = this.updateControls()
 		return (
 			<div>
 				<div className="option-checkbox right">
@@ -128,10 +137,11 @@ class BulkControl extends PureComponent {
 								this.bulkControl = ref
 							}}
 						>
-							{Object.keys(this.state.controls).map(control => {
+							{Object.keys(controls).map(plugin => {
+								const label = controls[plugin]
 								return (
-									<option key={control} value={control}>
-										{control}
+									<option key={label} value={label}>
+										{label}
 									</option>
 								)
 							})}
