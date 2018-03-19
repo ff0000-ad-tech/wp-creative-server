@@ -139,6 +139,12 @@ class TrafficControl extends PureComponent {
 		)
 	}
 
+	getBulkControl() {
+		if (this.props.plugins) {
+			return <BulkControl />
+		}
+	}
+
 	// render
 	render() {
 		return (
@@ -148,9 +154,7 @@ class TrafficControl extends PureComponent {
 					<li className="debug-col col" />
 					<li className="settings-col col">
 						<div className="settings clear-after">
-							<div className="right clear-after">
-								<BulkControl />
-							</div>
+							<div className="right clear-after">{this.getBulkControl()}</div>
 
 							<div className="left clear-after">
 								<div className="option-button left" title="Create new deploy profile..." style={{ paddingLeft: '0px' }}>
