@@ -11,6 +11,9 @@ var log = debug('wp-creative-server')
 // determine IP
 global.serveIp = network.getIp()
 global.servePort = '5200'
+global.origin = `http://${global.serveIp}:${global.servePort}`
+global.app = `${global.origin}/app`
+global.api = `${global.origin}/api`
 
 // set app-path
 global.appPath = __dirname
@@ -21,7 +24,7 @@ global.appPath = __dirname
 // ex: `node node_modules/wp-creative-server/index.js --context ./`
 global.servePath = path.resolve('context' in argv ? argv.context : global.appPath)
 log(`Requested --context ${argv.context}`)
-log(` Serve address is: ${serveIp}`)
+log(` Origin is: ${global.origin}`)
 log(` Serve path is: ${global.servePath}`)
 
 /* -- Setup -----------------------------------------------
@@ -71,10 +74,10 @@ require('./routes/plugins')(app, express)
 // start server and install duplex RPC
 sock.install(
 	app.listen(global.servePort, global.serveIp, () => {
-		log(`Server running at http://${global.serveIp}:${global.servePort}/app`)
+		log(`Server running at ${global.app}`)
 		// open browser, after server is ready
 		if ('browser' in argv) {
-			open(`http://${global.serveIp}:${global.servePort}/app`)
+			open(`${global.app}`)
 		}
 	}),
 	'/dnode'

@@ -18,26 +18,24 @@ module.exports = (app, express) => {
 	if (!installed) {
 		return
 	}
+	// plugin routes are declared in the plugin's package.json
 	Object.keys(installed).forEach(plugin => {
-		// plugin package must specify "main", path to servable directory
-		if (!('main' in installed[plugin])) {
-			return
-		}
 		const pluginPath = `${global.servePath}/node_modules/${plugin}`
-		const staticRoute = `${pluginPath}/${path.dirname(installed[plugin].main)}`
-		if (!fs.existsSync(staticRoute)) {
+
+		// plugin must specify "wp-creative-server": { "routes": { ... }}
+		if (!('wp-creative-server' in installed[plugin]) || !('routes' in installed[plugin]['wp-creative-server'])) {
 			return
 		}
+		const routes = installed[plugin]['wp-creative-server'].routes
 
-		// serve static plugin assets
-		app.use(`/${plugin}`, express.static(`${staticRoute}`))
-
-		// enable plugin backend
-		if ('api' in installed[plugin]) {
+		// plugin may specify "api"
+		if ('api' in routes) {
 			log(`${plugin} api available on route: /${plugin}/api`)
+
+			// serve api requests
 			app.get(`/${plugin}/api/`, (req, res) => {
 				// prepare cli args
-				let args = ['node', `${pluginPath}/${installed[plugin].api}`]
+				let args = ['node', `${pluginPath}/${routes.api}`, '--api', global.api]
 				Object.keys(req.query).forEach(arg => {
 					let cliArg = `-${arg}`
 					if (arg.length > 1) {
@@ -46,7 +44,6 @@ module.exports = (app, express) => {
 					args.push(cliArg)
 					args.push(`${req.query[arg]}`)
 				})
-
 				// execute api command
 				const cmd = shellescape(args)
 				log(`${plugin} API -> ${cmd}`)
@@ -67,9 +64,21 @@ module.exports = (app, express) => {
 			})
 		}
 
-		// proxy misc routes back to the plugin
-		app.get(`/${plugin}/*`, (req, res) => {
-			res.sendFile(`${staticRoute}/`)
-		})
+		// plugin may specify "main", path to servable directory
+		if ('main' in routes) {
+			log(`${plugin} main available on route: /${plugin}`)
+
+			const staticRoute = `${pluginPath}/${path.dirname(routes.main)}`
+			if (!fs.existsSync(staticRoute)) {
+				return
+			}
+			// serve static plugin assets
+			app.use(`/${plugin}`, express.static(`${staticRoute}`))
+
+			// proxy misc routes back to the plugin (so the plugin use any sub-routes)
+			app.get(`/${plugin}/*`, (req, res) => {
+				res.sendFile(`${staticRoute}/`)
+			})
+		}
 	})
 }
