@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Rpc from 'AppSrc/lib/rpc.js'
-import { xhr, getOutputRoute } from 'AppSrc/lib/utils.js'
+import { xhr, getPluginRequest, getOutputRoute } from 'AppSrc/lib/utils.js'
 
 import debug from 'debug'
 const log = debug('wp-cs:app:BulkControl')
@@ -55,12 +55,12 @@ class BulkControl extends PureComponent {
 			const settings = this.getPluginSettings(plugin)
 			if (this.hasHook(settings, 'bulk-control')) {
 				if (this.bulkControl.value in settings.hooks['bulk-control']) {
-					const pRoute = settings.hooks['bulk-control'][this.bulkControl.value]
-					const csRoute = `/${plugin}${pRoute}/`
-					const targets = this.getSelectedTargets()
-					log(csRoute)
-					log(targets)
-					xhr(`${csRoute}?targets=${encodeURIComponent(JSON.stringify(targets))}`)
+					const args = {
+						targets: this.getSelectedTargets()
+					}
+					const req = getPluginRequest(plugin, settings.hooks['bulk-control'][this.bulkControl.value], args)
+					// log(req)
+					xhr(req)
 					return
 				}
 			}
