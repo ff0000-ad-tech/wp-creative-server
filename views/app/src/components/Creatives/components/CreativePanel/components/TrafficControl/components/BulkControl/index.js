@@ -2,7 +2,8 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Rpc from 'AppSrc/lib/rpc.js'
-import { xhr, getPluginRequest, getOutputRoute } from 'AppSrc/lib/utils.js'
+import { xhr, getOutputRoute } from 'AppSrc/lib/utils.js'
+import * as plugins from 'AppSrc/lib/plugins.js'
 
 import debug from 'debug'
 const log = debug('wp-cs:app:BulkControl')
@@ -18,47 +19,16 @@ class BulkControl extends PureComponent {
 		this.updateCheckbox()
 	}
 
-	// bulk control
-	/* notes
-	 *	plugins may "hook" into various points in creative server by defining api callbacks.
-	 *	each hook will send different inputs to the callback
-	 *	in this case, a list of selected targets
-	 */
-	updateControls() {
-		let controls = {}
-		// look for plugins that have "bulk-control" hooks
-		if (this.props.plugins) {
-			Object.keys(this.props.plugins.installed).forEach(plugin => {
-				const settings = this.getPluginSettings(plugin)
-				if (this.hasHook(settings, 'bulk-control')) {
-					// we expect only one command-per-hook
-					controls[plugin] = Object.keys(settings.hooks['bulk-control'])[0]
-				}
-			})
-		}
-		return controls
-	}
-
-	// plugin pathing utility
-	getPluginSettings(plugin) {
-		if ('wp-creative-server' in this.props.plugins.installed[plugin]) {
-			return this.props.plugins.installed[plugin]['wp-creative-server']
-		}
-	}
-	hasHook(settings, hook) {
-		return 'hooks' in settings && hook in settings.hooks
-	}
-
 	execute = () => {
 		// get plugin from hook-label
 		for (var plugin in this.props.plugins.installed) {
-			const settings = this.getPluginSettings(plugin)
-			if (this.hasHook(settings, 'bulk-control')) {
+			const settings = plugins.getPluginSettings(plugin)
+			if (plugins.hasHook(settings, 'bulk-control')) {
 				if (this.bulkControl.value in settings.hooks['bulk-control']) {
 					const args = {
 						targets: this.getSelectedTargets()
 					}
-					const req = getPluginRequest(plugin, settings.hooks['bulk-control'][this.bulkControl.value], args)
+					const req = plugins.getPluginRequest(plugin, settings.hooks['bulk-control'][this.bulkControl.value], args)
 					// log(req)
 					xhr(req)
 					return
@@ -68,6 +38,7 @@ class BulkControl extends PureComponent {
 	}
 	getSelectedTargets() {
 		let targets = {}
+		log('get selected targets from these profiles:', this.state.profiles)
 		Object.keys(this.props.targets).forEach(target => {
 			const outputRoute = getOutputRoute(this.props.targets[target].size, this.props.targets[target].index, this.props.currentProfile.name)
 			targets[`${this.props.currentProfile.name}/${target}`] = outputRoute
@@ -116,7 +87,9 @@ class BulkControl extends PureComponent {
 
 	// render
 	render() {
-		const controls = this.updateControls()
+		// get plugin controls with hooks to this UI
+		const controls = plugins.getPluginControls('bulk-control', this.props.plugins)
+
 		return (
 			<div>
 				<div className="option-checkbox right">

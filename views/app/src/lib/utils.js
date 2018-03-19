@@ -17,28 +17,6 @@ export function xhr(url, callback) {
 	request.send()
 }
 
-// appends an additional query-string to a plugin-route
-export function getPluginRequest(plugin, route, args) {
-	const p = getPluginRoute(route)
-	const query = p.query ? `?${p.query}&` : `?`
-	let qs = ''
-	if (args) {
-		Object.keys(args).forEach(arg => {
-			qs += `&${arg}=${encodeURIComponent(JSON.stringify(args[arg]))}`
-		})
-		qs = qs.slice(1)
-	}
-	return `/${plugin}${p.route}/${query}${qs}`
-}
-// prepares a plugin's declared route (which may contain hard-coded query-string params)
-function getPluginRoute(str) {
-	const parts = str.split('?')
-	return {
-		route: parts[0].replace(/\/$/, ''), // no trailing slash
-		query: parts.length > 1 ? parts[1] : null
-	}
-}
-
 // same as "prepareSourceName" -> https://github.com/ff0000-ad-tech/wp-deploy-manager/blob/master/lib/deploy/deploy.js#L15
 export function getSourceName(index) {
 	const noExt = index.split('.')[0]

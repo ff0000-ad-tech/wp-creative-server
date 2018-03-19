@@ -140,7 +140,7 @@ class TrafficControl extends PureComponent {
 	}
 
 	getBulkControl() {
-		if (this.props.plugins) {
+		if (this.props.plugins && Object.keys(this.props.plugins.installed).length) {
 			return <BulkControl />
 		}
 	}
