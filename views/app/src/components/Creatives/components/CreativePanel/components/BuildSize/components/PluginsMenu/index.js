@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import * as plugins from 'AppSrc/lib/plugins.js'
 
 import debug from 'debug'
 const log = debug('wp-cs:app:PluginsMenu')
@@ -45,6 +46,8 @@ class PluginsMenu extends Component {
 	}
 
 	getPlugins() {
+		const controls = plugins.getPluginControls(this.props.plugins, 'size-control')
+		log(controls)
 		return (
 			<ul>
 				{Object.keys(this.props.plugins.installed).map(plugin => {

@@ -6,25 +6,29 @@ const log = debug('wp-cs:app:plugins')
 	*	each hook will send different inputs to the callback
 	*	in this case, a list of selected targets
 	*/
-export function getPluginControls(hook, plugins) {
+export function getPluginControls(plugins, hook) {
+	if (!plugins) {
+		return
+	}
+	// look for plugins that have the requested hook
 	let controls = {}
-	// look for plugins that have "bulk-control" hooks
-	if (plugins) {
-		Object.keys(plugins.installed).forEach(plugin => {
-			const settings = getPluginSettings(plugin)
-			if (hasHook(settings, hook)) {
-				// we expect only one command-per-hook
-				controls[plugin] = Object.keys(settings.hooks[hook])[0]
-			}
-		})
+	Object.keys(plugins.installed).forEach(plugin => {
+		const settings = getPluginSettings(plugins, plugin)
+		if (hasHook(settings, hook)) {
+			// we expect only one command-per-hook
+			controls[plugin] = Object.keys(settings.hooks[hook])[0]
+		}
+	})
+	if (!Object.keys(controls).length) {
+		return
 	}
 	return controls
 }
 
 // plugin pathing utilities
-export function getPluginSettings(plugin) {
-	if ('wp-creative-server' in this.props.plugins.installed[plugin]) {
-		return this.props.plugins.installed[plugin]['wp-creative-server']
+export function getPluginSettings(plugins, plugin) {
+	if ('wp-creative-server' in plugins.installed[plugin]) {
+		return plugins.installed[plugin]['wp-creative-server']
 	}
 }
 export function hasHook(settings, hook) {

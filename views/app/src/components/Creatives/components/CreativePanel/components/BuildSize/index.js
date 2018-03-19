@@ -7,6 +7,7 @@ import PluginsMenu from './components/PluginsMenu'
 import DebugButton from './components/DebugButton'
 import TrafficButton from './components/TrafficButton'
 import { route } from 'Root/views/app/src/services/browser/actions.js'
+import * as plugins from 'AppSrc/lib/plugins.js'
 
 import './style.scss'
 import pluginSvg from './images/plugin.svg'
@@ -44,7 +45,7 @@ class BuildSize extends PureComponent {
 					>
 						{this.props.ads[0].size}
 					</div>
-					{this.props.plugins && Object.keys(this.props.plugins.installed).length ? this.getPluginsButton(this.props.ads[0].size) : null}
+					{this.getPluginsButton(this.props.ads[0].size)}
 				</div>
 
 				{this.props.ads.map((ad, i) => {
@@ -74,6 +75,10 @@ class BuildSize extends PureComponent {
 	}
 
 	getPluginsButton(size) {
+		const controls = plugins.getPluginControls(this.props.plugins, 'size-control')
+		if (!controls) {
+			return null
+		}
 		return (
 			<div className="plugin-button left" onClick={this.showPluginsMenu}>
 				<svg version="1.1" width="11" height="11" x="0px" y="0px" viewBox="0 0 1000 1000" enableBackground="new 0 0 1000 1000">

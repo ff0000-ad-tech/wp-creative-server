@@ -22,7 +22,7 @@ class BulkControl extends PureComponent {
 	execute = () => {
 		// get plugin from hook-label
 		for (var plugin in this.props.plugins.installed) {
-			const settings = plugins.getPluginSettings(plugin)
+			const settings = plugins.getPluginSettings(this.props.plugins, plugin)
 			if (plugins.hasHook(settings, 'bulk-control')) {
 				if (this.bulkControl.value in settings.hooks['bulk-control']) {
 					const args = {
@@ -38,10 +38,10 @@ class BulkControl extends PureComponent {
 	}
 	getSelectedTargets() {
 		let targets = {}
-		log('get selected targets from these profiles:', this.state.profiles)
-		Object.keys(this.props.targets).forEach(target => {
-			const outputRoute = getOutputRoute(this.props.targets[target].size, this.props.targets[target].index, this.props.currentProfile.name)
-			targets[`${this.props.currentProfile.name}/${target}`] = outputRoute
+		const selectedTargets = this.props.profiles[this.props.currentProfile.name].targets
+		selectedTargets.forEach(target => {
+			const outputRoute = getOutputRoute(target.size, target.index, this.props.currentProfile.name)
+			targets[`${this.props.currentProfile.name}/${target.size}/${target.index}`] = outputRoute
 		})
 		return targets
 	}
@@ -87,9 +87,10 @@ class BulkControl extends PureComponent {
 
 	// render
 	render() {
-		// get plugin controls with hooks to this UI
-		const controls = plugins.getPluginControls('bulk-control', this.props.plugins)
-
+		const controls = plugins.getPluginControls(this.props.plugins, 'bulk-control')
+		if (!controls) {
+			return null
+		}
 		return (
 			<div>
 				<div className="option-checkbox right">
