@@ -21,11 +21,12 @@ export function xhr(url, callback) {
 export function getPluginRequest(plugin, route, args) {
 	const p = getPluginRoute(route)
 	const query = p.query ? `?${p.query}&` : `?`
-	let qs = `api=${encodeURIComponent(window.location.host)}`
+	let qs = ''
 	if (args) {
 		Object.keys(args).forEach(arg => {
 			qs += `&${arg}=${encodeURIComponent(JSON.stringify(args[arg]))}`
 		})
+		qs = qs.slice(1)
 	}
 	return `/${plugin}${p.route}/${query}${qs}`
 }

@@ -35,7 +35,7 @@ module.exports = (app, express) => {
 			// serve api requests
 			app.get(`/${plugin}/api/`, (req, res) => {
 				// prepare cli args
-				let args = ['node', `${pluginPath}/${routes.api}`]
+				let args = ['node', `${pluginPath}/${routes.api}`, '--api', global.api]
 				Object.keys(req.query).forEach(arg => {
 					let cliArg = `-${arg}`
 					if (arg.length > 1) {
