@@ -26,6 +26,7 @@ class BulkControl extends PureComponent {
 			if (plugins.hasHook(settings, 'bulk-control')) {
 				if (this.bulkControl.value in settings.hooks['bulk-control']) {
 					const args = {
+						profile: this.props.currentProfile.name,
 						targets: this.getSelectedTargets()
 					}
 					const req = plugins.getPluginRequest(plugin, settings.hooks['bulk-control'][this.bulkControl.value], args)
