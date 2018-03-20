@@ -4,12 +4,14 @@ import { TRAFFIC_FOLDER } from 'Root/lib/utils.js'
 import debug from 'debug'
 const log = debug('wp-cs:app:utils')
 
-export function xhr(url, callback) {
+export function xhr(url, err, callback) {
 	var request = new XMLHttpRequest()
 	request.onreadystatechange = function() {
-		if (request.readyState == 4 && request.status == 200) {
-			if (callback) {
-				callback(request.responseText)
+		if (request.readyState === 4) {
+			if (request.status !== 200) {
+				if (err) err(request.statusText)
+			} else {
+				if (callback) callback(request.responseText)
 			}
 		}
 	}

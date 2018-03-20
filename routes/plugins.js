@@ -46,7 +46,7 @@ module.exports = (app, express) => {
 				})
 				// execute api command
 				const cmd = shellescape(args)
-				log(`${plugin} API -> ${cmd}`)
+				log(`API -> ${cmd}`)
 				exec(cmd, (err, stdout, stderr) => {
 					if (err) {
 						res.status(500).send({

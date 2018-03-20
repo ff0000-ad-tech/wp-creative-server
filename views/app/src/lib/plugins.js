@@ -56,8 +56,18 @@ export function getPluginRequest(plugin, route, args) {
 // prepares a plugin's declared route (which may contain hard-coded query-string params)
 function getPluginRoute(str) {
 	const parts = str.split('?')
+	const route = parts[0].replace(/\/$/, '') // no trailing slash
+	let query
+	if (parts.length > 1) {
+		let args = parts[1].split('&')
+		args = args.map(arg => {
+			const keyVal = arg.split('=')
+			return `${encodeURIComponent(keyVal[0])}=${encodeURIComponent(keyVal[1])}`
+		})
+		query = args.join('&')
+	}
 	return {
-		route: parts[0].replace(/\/$/, ''), // no trailing slash
-		query: parts.length > 1 ? encodeURIComponent(parts[1]) : null
+		route,
+		query
 	}
 }
