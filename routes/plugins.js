@@ -64,11 +64,11 @@ module.exports = (app, express) => {
 			})
 		}
 
-		// plugin may specify "main", path to servable directory
-		if ('main' in routes) {
-			log(`${plugin} main available on route: /${plugin}`)
+		// plugin may specify "app", path to servable directory
+		if ('app' in routes) {
+			log(`${plugin} app available on route: /${plugin}`)
 
-			const staticRoute = `${pluginPath}/${path.dirname(routes.main)}`
+			const staticRoute = `${pluginPath}/${path.dirname(routes.app)}`
 			if (!fs.existsSync(staticRoute)) {
 				return
 			}

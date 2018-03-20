@@ -50,7 +50,7 @@ class PluginsMenu extends Component {
 		log(controls)
 		return (
 			<ul>
-				{Object.keys(this.props.plugins.installed).map(plugin => {
+				{Object.keys(controls).map(plugin => {
 					return (
 						<li
 							key={plugin}
@@ -58,7 +58,7 @@ class PluginsMenu extends Component {
 								this.launchPlugin(plugin)
 							}}
 						>
-							<div className="plugin-name">{plugin}</div>
+							<div className="plugin-name">{controls[plugin]}</div>
 						</li>
 					)
 				})}

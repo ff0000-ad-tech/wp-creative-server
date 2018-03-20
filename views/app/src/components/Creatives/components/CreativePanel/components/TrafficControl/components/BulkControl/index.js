@@ -47,6 +47,9 @@ class BulkControl extends PureComponent {
 	}
 
 	updateCheckbox() {
+		if (!this.checkbox) {
+			return
+		}
 		if (!Object.keys(this.props.targets).length) {
 			this.checkbox.checked = false
 			return
