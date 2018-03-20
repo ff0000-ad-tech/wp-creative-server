@@ -58,6 +58,6 @@ function getPluginRoute(str) {
 	const parts = str.split('?')
 	return {
 		route: parts[0].replace(/\/$/, ''), // no trailing slash
-		query: parts.length > 1 ? parts[1] : null
+		query: parts.length > 1 ? encodeURIComponent(parts[1]) : null
 	}
 }
