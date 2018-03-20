@@ -42,7 +42,11 @@ export function getPluginRequest(plugin, route, args) {
 	let qs = ''
 	if (args) {
 		Object.keys(args).forEach(arg => {
-			qs += `&${arg}=${encodeURIComponent(JSON.stringify(args[arg]))}`
+			let value = args[arg]
+			if (typeof value === 'object') {
+				value = JSON.stringify(value)
+			}
+			qs += `&${arg}=${encodeURIComponent(value)}`
 		})
 		qs = qs.slice(1)
 	}
