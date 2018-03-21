@@ -47,7 +47,6 @@ class PluginsMenu extends Component {
 
 	getPlugins() {
 		const controls = plugins.getPluginControls(this.props.plugins, 'size-control')
-		log(controls)
 		return (
 			<ul>
 				{Object.keys(controls).map(plugin => {
@@ -55,7 +54,7 @@ class PluginsMenu extends Component {
 						<li
 							key={plugin}
 							onClick={() => {
-								this.launchPlugin(plugin)
+								this.launchPlugin(plugin, controls[plugin])
 							}}
 						>
 							<div className="plugin-name">{controls[plugin]}</div>
@@ -66,9 +65,13 @@ class PluginsMenu extends Component {
 		)
 	}
 
-	launchPlugin(plugin) {
-		const pluginMain = this.props.plugins.installed[plugin].main
-		location.href = `/${plugin}/${this.props.size}`
+	launchPlugin(plugin, label) {
+		const args = {
+			size: this.props.size
+		}
+		const settings = plugins.getPluginSettings(this.props.plugins, plugin)
+		const req = plugins.getPluginRequest(plugin, settings.hooks['size-control'][label], args)
+		location.href = req
 	}
 }
 

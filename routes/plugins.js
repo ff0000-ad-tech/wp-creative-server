@@ -34,16 +34,20 @@ module.exports = (app, express) => {
 
 			// serve api requests
 			app.get(`/${plugin}/api/`, (req, res) => {
+				// merge default query with requested query
+				const query = Object.assign(req.query, plugins.getDefaultQuery())
+
 				// prepare cli args
-				let args = ['node', `${pluginPath}/${routes.api}`, '--api', global.api]
-				Object.keys(req.query).forEach(arg => {
+				let args = ['node', `${pluginPath}/${routes.api}`]
+				Object.keys(query).forEach(arg => {
 					let cliArg = `-${arg}`
 					if (arg.length > 1) {
 						cliArg = `--${arg}`
 					}
 					args.push(cliArg)
-					args.push(`${req.query[arg]}`)
+					args.push(`${query[arg]}`)
 				})
+
 				// execute api command
 				const cmd = shellescape(args)
 				log(`API -> ${cmd}`)
@@ -72,11 +76,40 @@ module.exports = (app, express) => {
 			if (!fs.existsSync(staticRoute)) {
 				return
 			}
+
+			// requests to the app origin will have get wp-creative-server params appended to qs
+			app.get(`/${plugin}/app`, (req, res) => {
+				log('app origin')
+				let appOrigin
+				if (routes.app.match(/^http/)) {
+					appOrigin = routes.app
+				} else {
+					appOrigin = `/${plugin}/app/${routes.app.replace(/^[\.\/]*/, '')}`
+				}
+
+				// merge default query with requested query
+				const query = Object.assign(req.query, plugins.getDefaultQuery())
+
+				let qs = ''
+				Object.keys(query).forEach(arg => {
+					let value = query[arg]
+					// serialize arg values that are objects
+					if (typeof value === 'object') {
+						value = JSON.stringify(value)
+					}
+					qs += `&${arg}=${encodeURIComponent(value)}`
+				})
+				qs = qs.slice(1)
+
+				res.redirect(`${appOrigin}?${qs}`)
+			})
+
 			// serve static plugin assets
-			app.use(`/${plugin}`, express.static(`${staticRoute}`))
+			app.use(`/${plugin}/app`, express.static(`${staticRoute}`))
 
 			// proxy misc routes back to the plugin (so the plugin use any sub-routes)
-			app.get(`/${plugin}/*`, (req, res) => {
+			app.get(`/${plugin}/app/*`, (req, res) => {
+				log(req.url)
 				res.sendFile(`${staticRoute}/`)
 			})
 		}

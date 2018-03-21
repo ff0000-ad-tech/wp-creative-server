@@ -1,3 +1,7 @@
+import { BUILD_FOLDER } from 'Root/lib/utils.js'
+import { DEBUG_FOLDER } from 'Root/lib/utils.js'
+import { TRAFFIC_FOLDER } from 'Root/lib/utils.js'
+
 import debug from 'debug'
 const log = debug('wp-cs:app:plugins')
 
@@ -25,7 +29,7 @@ export function getPluginControls(plugins, hook) {
 	return controls
 }
 
-// plugin pathing utilities
+// returns a plugin's wp-creative-server related settings object
 export function getPluginSettings(plugins, plugin) {
 	if ('wp-creative-server' in plugins.installed[plugin]) {
 		return plugins.installed[plugin]['wp-creative-server']
@@ -36,6 +40,7 @@ export function hasHook(settings, hook) {
 }
 
 // appends an additional query-string to a plugin-route
+// NOTE: default arguments are appended by ./routes/plugins
 export function getPluginRequest(plugin, route, args) {
 	const p = getPluginRoute(route)
 	const query = p.query ? `?${p.query}&` : `?`
@@ -43,6 +48,7 @@ export function getPluginRequest(plugin, route, args) {
 	if (args) {
 		Object.keys(args).forEach(arg => {
 			let value = args[arg]
+			// serialize arg values that are objects
 			if (typeof value === 'object') {
 				value = JSON.stringify(value)
 			}

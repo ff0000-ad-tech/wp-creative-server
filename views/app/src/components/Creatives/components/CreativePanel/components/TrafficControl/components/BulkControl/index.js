@@ -36,7 +36,7 @@ class BulkControl extends PureComponent {
 							alert(err)
 						},
 						result => {
-							alert('Complete!')
+							log(result)
 						}
 					)
 					return
