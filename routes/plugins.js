@@ -82,7 +82,6 @@ module.exports = (app, express) => {
 
 			// requests to the app origin will have get wp-creative-server params appended to qs
 			app.get(`/${plugin}/app/*`, (req, res) => {
-				log(req.params)
 				// reconstruct params path
 				let ps = ''
 				Object.keys(req.params).forEach(param => {
