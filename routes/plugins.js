@@ -79,7 +79,6 @@ module.exports = (app, express) => {
 
 			// requests to the app origin will have get wp-creative-server params appended to qs
 			app.get(`/${plugin}/app`, (req, res) => {
-				log('app origin')
 				let appOrigin
 				if (routes.app.match(/^http/)) {
 					appOrigin = routes.app
@@ -89,7 +88,6 @@ module.exports = (app, express) => {
 
 				// merge default query with requested query
 				const query = Object.assign(req.query, plugins.getDefaultQuery())
-
 				let qs = ''
 				Object.keys(query).forEach(arg => {
 					let value = query[arg]
@@ -107,9 +105,8 @@ module.exports = (app, express) => {
 			// serve static plugin assets
 			app.use(`/${plugin}/app`, express.static(`${staticRoute}`))
 
-			// proxy misc routes back to the plugin (so the plugin use any sub-routes)
+			// proxy misc routes back to the plugin (so the plugin can use its own sub-routes)
 			app.get(`/${plugin}/app/*`, (req, res) => {
-				log(req.url)
 				res.sendFile(`${staticRoute}/`)
 			})
 		}
