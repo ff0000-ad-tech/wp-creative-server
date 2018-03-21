@@ -77,12 +77,25 @@ module.exports = (app, express) => {
 				return
 			}
 
+			// if the route is to a static asset, serve it
+			app.use(`/${plugin}/app/`, express.static(`${staticRoute}`))
+
 			// requests to the app origin will have get wp-creative-server params appended to qs
-			app.get(`/${plugin}/app`, (req, res) => {
+			app.get(`/${plugin}/app/*`, (req, res) => {
+				log(req.params)
+				// reconstruct params path
+				let ps = ''
+				Object.keys(req.params).forEach(param => {
+					ps += `${req.params[param].replace(/\/*$/, '')}`
+				})
+
+				// build a redirect to requested asset + query params
 				let appOrigin
 				if (routes.app.match(/^http/)) {
+					// external requests
 					appOrigin = routes.app
 				} else {
+					// repath requests through the plugin's declared "app" route
 					appOrigin = `/${plugin}/app/${routes.app.replace(/^[\.\/]*/, '')}`
 				}
 
@@ -99,15 +112,7 @@ module.exports = (app, express) => {
 				})
 				qs = qs.slice(1)
 
-				res.redirect(`${appOrigin}?${qs}`)
-			})
-
-			// serve static plugin assets
-			app.use(`/${plugin}/app`, express.static(`${staticRoute}`))
-
-			// proxy misc routes back to the plugin (so the plugin can use its own sub-routes)
-			app.get(`/${plugin}/app/*`, (req, res) => {
-				res.sendFile(`${staticRoute}/`)
+				res.redirect(`${appOrigin}/${ps}?${qs}`)
 			})
 		}
 	})
