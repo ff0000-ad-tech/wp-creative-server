@@ -23,23 +23,30 @@ Manage deploy-profiles, Webpack settings, and any other collection data:
 
 ![Deploy Profile Settings](https://github.com/ff0000-ad-tech/readme-assets/blob/master/wp-creative-server/deploy-profile-settings.png)
 
-## Browser / Preview
+## Browser
 
-Enable navigation & preview of assets/outputs.
+Enable navigation of assets/outputs:
 
 ![Browser](https://github.com/ff0000-ad-tech/readme-assets/blob/master/wp-creative-server/browser.png)
 
-* Run compiled units in browser
 * Open files in associated editor app
 * Open directories in system file manager
 
+## Preview
+
+Provide a localhost for quickly testing builds:
+
 ![Preview](https://github.com/ff0000-ad-tech/readme-assets/blob/master/wp-creative-server/preview.png)
+
+* Run compiled units in browser
+* Easily refresh
+* Open units in a stand-alone tab for measuring k-weight
 
 ## Plugins
 
 Plugin architecture for running additional, custom processes.
 
-### Technical
+### Technical Overview
 
 The Webpack scripts are independent of Creative Server. They communicate with Creative Server's REST API via https://github.com/ff0000-ad-tech/wp-process-manager. Creative Server data is maintained only by ExpressJS runtime in the backend. State is made available to the React/Redux view via RPC, providing lowest-latency indication of:
 
