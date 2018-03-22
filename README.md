@@ -66,7 +66,6 @@ Installing adds the following to your project:
 
 # Usage
 
-You can then run Creative Server with:
 `node ./node_modules/\@ff0000-ad-tech/wp-creative-server/index.js --context ./`
 
 It is recommended that you add a script to your project `package.json` to make starting CS easy:
@@ -79,13 +78,11 @@ It is recommended that you add a script to your project `package.json` to make s
 ...
 ```
 
-Creative Server
-
-#### Size Targets
+### Size Targets
 
 Will match any folder in `[context]/['1-build']` like `/[0-9]+x[0-9]+/`.
 
-#### Index Targets
+### Index Targets
 
 Will match any file in `[context]/['1-build']/[size]` like `/index/`.
 
@@ -155,3 +152,10 @@ Currently available hooks are:
 
 * `profile` - name of the currently selected deploy profile (also the folder to which traffic-compiled ads are output)
 * `targets` - an object with keys specifying paths to traffic-compiled output folders
+
+# CS Frontend Development
+
+To compile the React/Redux/ES6 frontend:
+
+1.  Install all of the dev-dependencies.
+2.  Run `npm run build`
