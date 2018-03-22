@@ -18,17 +18,16 @@ Enables navigation & preview of assets/outputs.
 
 Plugin architecture for running additional, custom processes.
 
-The Webpack scripts are independent of Creative Server. They communicate with Creative Server's REST API via https://github.com/ff0000-ad-tech/wp-process-manager. Creative Server data is maintained only by ExpressJS runtime in the backend. State is made available to the React/Redux view via RPC, providing lowest-latency indication of 1) busy-state, 2) error-state, 3) last update time, and 4) a link to run the command in a shell manually.
+The Webpack scripts are independent of Creative Server. They communicate with Creative Server's REST API via https://github.com/ff0000-ad-tech/wp-process-manager. Creative Server data is maintained only by ExpressJS runtime in the backend. State is made available to the React/Redux view via RPC, providing lowest-latency indication of:
+
+1.  busy-state
+2.  error-state
+3.  last update time
+4.  a link to run the command in a shell manually
 
 # Install
 
-`npm install --save-dev git://github.com/ff0000-ad-tech/wp-creative-server.git`
-
-# Usage
-
-`npm run server --context ./`
-
-Creative Server expects your banner project `--context` to be organized in the following way:
+Creative Server can be installed in your banner project. CS expects the following hierarchy:
 
 ```
 . Project Context
@@ -52,6 +51,35 @@ Creative Server expects your banner project `--context` to be organized in the f
 ├── webpack.config.js
 └── ...
 ```
+
+`npm install --save-dev @ff0000-ad-tech/wp-creative-server.git`
+
+Installing adds the following to your project:
+
+```
+├── node_modules
+| └── @ff0000-ad-tech
+|  └── wp-creative-server
+|   ├── index.js
+|   └── ...
+```
+
+# Usage
+
+You can then run Creative Server with:
+`node ./node_modules/\@ff0000-ad-tech/wp-creative-server/index.js --context ./`
+
+It is recommended that you add a script to your project `package.json` to make starting CS easy:
+
+```
+...
+"scripts": {
+	"server": "node ./node_modules/@ff0000-ad-tech/wp-creative-server/index.js --context ./"
+}
+...
+```
+
+Creative Server
 
 #### Size Targets
 
