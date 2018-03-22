@@ -8,7 +8,6 @@ const log = debug('wp-cs:app:plugins')
 /* notes
 	*	plugins may "hook" into various points in creative server by defining api callbacks.
 	*	each hook will send different inputs to the callback
-	*	in this case, a list of selected targets
 	*/
 export function getPluginControls(plugins, hook) {
 	if (!plugins) {
