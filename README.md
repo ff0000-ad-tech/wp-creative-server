@@ -66,6 +66,8 @@ Installing adds the following to your project:
 
 # Usage
 
+To launch Creative Server:
+
 `node ./node_modules/\@ff0000-ad-tech/wp-creative-server/index.js --context ./`
 
 It is recommended that you add a script to your project `package.json` to make starting CS easy:
@@ -78,13 +80,17 @@ It is recommended that you add a script to your project `package.json` to make s
 ...
 ```
 
+Then you can launch with:
+
+`npm run server`
+
 ### Size Targets
 
-Will match any folder in `[context]/['1-build']` like `/[0-9]+x[0-9]+/`.
+Sizes will be discovered in `[context]/['1-build']` on folder-names that match `/[0-9]+x[0-9]+/`.
 
 ### Index Targets
 
-Will match any file in `[context]/['1-build']/[size]` like `/index/`.
+Indexes will be discovered in `[context]/['1-build']/[size]` on file-names that match `/index/`.
 
 # Plugins
 
@@ -95,7 +101,8 @@ Add a `./plugins.json` at your `--context` location. It will contain an object w
 ```
 {
 	"ad-es6-particles": "git+ssh://git@stash.ff0000.com:7999/at/ad-es6-particles.git",
-	"argparse": "0.0.1"
+	"@ff0000-ad-tech/cs-plugin-bulk-compile": "git+ssh://git@github.com:ff0000-ad-tech/cs-plugin-bulk-compile.git",
+	"@ff0000-ad-tech/cs-plugin-vendor-indexes": "git+ssh://git@github.com:ff0000-ad-tech/cs-plugin-vendor-indexes.git"
 }
 ```
 
@@ -146,12 +153,11 @@ Currently available hooks are:
 
 1.  `size-control` - your command will appear in a menu next to each ad-size. It will be passed:
 
-* `size` - the requested size-folder name.
+    * `size` - the requested size-folder name.
 
 2.  `bulk-control` - your command will appear in a drop-down that will execute when the 🔥 is clicked. It will be passed:
-
-* `profile` - name of the currently selected deploy profile (also the folder to which traffic-compiled ads are output)
-* `targets` - an object with keys specifying paths to traffic-compiled output folders
+    * `profile` - name of the currently selected deploy profile (also the folder to which traffic-compiled ads are output)
+    * `targets` - an object with keys specifying paths to traffic-compiled output folders
 
 # CS Frontend Development
 
