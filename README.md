@@ -16,9 +16,9 @@ Enables navigation & preview of assets/outputs.
 * Open files in associated editor app
 * Open directories in system file manager
 
-Plugin architecture for running additional processes
+Plugin architecture for running additional, custom processes.
 
-The spawned webpack scripts are connected to a Reactive view over an RPC pipe of the stdout/stderr of each script, providing low-latency indication of 1) busy-state, 2) error-state, 3) last update time, and 4) a link to run the command in a shell manually.
+The Webpack scripts are independent of Creative Server. They communicate with Creative Server's REST API via https://github.com/ff0000-ad-tech/wp-process-manager. Creative Server data is maintained only by ExpressJS runtime in the backend. State is made available to the React/Redux view via RPC, providing lowest-latency indication of 1) busy-state, 2) error-state, 3) last update time, and 4) a link to run the command in a shell manually.
 
 # Install
 
@@ -30,6 +30,7 @@ The spawned webpack scripts are connected to a Reactive view over an RPC pipe of
 
 Creative Server expects your banner project `--context` to be organized in the following way:
 
+```
 . Project Context
 ├── 1-build
 | ├── 300x250
@@ -50,6 +51,7 @@ Creative Server expects your banner project `--context` to be organized in the f
 ├── plugins.json
 ├── webpack.config.js
 └── ...
+```
 
 #### Size Targets
 
