@@ -2,12 +2,13 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import moment from 'moment'
+import _ from 'lodash'
 
 import Rpc from 'AppSrc/lib/rpc.js'
 import { TRAFFIC_FOLDER } from 'Root/lib/utils.js'
 import { xhr, getOutputRoute } from 'AppSrc/lib/utils.js'
 import { updateWatch } from 'AppSrc/services/targets/actions.js'
-import { updateDeployAt } from 'AppSrc/services/profiles/actions.js'
+import { updateDeployAt, updateProfiles } from 'AppSrc/services/profiles/actions.js'
 import { route } from 'AppSrc/services/browser/actions.js'
 
 import './style.scss'
@@ -31,7 +32,11 @@ class TrafficButton extends PureComponent {
 	}
 	// events
 	updateCheckbox() {
-		const targets = this.props.currentProfile.profile.targets
+		const currentProfile = this.props.profiles[this.props.currentProfile.name]
+		if (!currentProfile) {
+			return
+		}
+		const targets = this.props.profiles[this.props.currentProfile.name].targets
 		for (var i = 0; i < targets.length; i++) {
 			if (targets[i].size === this.props.ad.size && targets[i].index === this.props.ad.index) {
 				this.checkbox.checked = true
@@ -42,9 +47,9 @@ class TrafficButton extends PureComponent {
 	}
 	onChecked = e => {
 		if (e.target.checked) {
-			this.rpc.addDeployTargets(this.props.currentProfile.name, this.props.ad)
+			this.rpc.addDeployTargets(this.props.profiles, this.props.currentProfile.name, this.props.ad)
 		} else {
-			this.rpc.removeDeployTargets(this.props.currentProfile.name, this.props.ad)
+			this.rpc.removeDeployTargets(this.props.profiles, this.props.currentProfile.name, this.props.ad)
 		}
 	}
 
@@ -122,7 +127,7 @@ class TrafficButton extends PureComponent {
 							this.checkbox = checkbox
 						}}
 						type="checkbox"
-						onChange={this.onChecked}
+						onClick={this.onChecked}
 					/>
 				</div>
 			</div>
