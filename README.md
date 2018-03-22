@@ -2,6 +2,8 @@
 
 # Webpack - Creative Server
 
+![full-app](https://github.com/ff0000-ad-tech/readme-assets/blob/master/wp-creative-server/full-app.png)
+
 Implements Webpack in a browser interface for ES6 banner development.
 
 * many sizes, many indexes
@@ -86,11 +88,11 @@ Then you can launch with:
 
 ### Size Targets
 
-Sizes will be discovered in `[context]/['1-build']` on folder-names that match `/[0-9]+x[0-9]+/`.
+Sizes will be discovered in `./[context]/['1-build']/...` on folder-names that match `/[0-9]+x[0-9]+/`.
 
 ### Index Targets
 
-Indexes will be discovered in `[context]/['1-build']/[size]` on file-names that match `/index/`.
+Indexes will be discovered in `./[context]/['1-build']/[size]/...` on file-names that match `/index/`.
 
 # Plugins
 
