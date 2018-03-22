@@ -2,23 +2,42 @@
 
 # Webpack - Creative Server
 
-![full-app](https://github.com/ff0000-ad-tech/readme-assets/blob/master/wp-creative-server/full-app.png)
+## Dashboard
 
-Implements Webpack in a browser interface for ES6 banner development.
+Utilize Webpack in a browser interface for ES6 banner development:
+
+![Creative Server](https://github.com/ff0000-ad-tech/readme-assets/blob/master/wp-creative-server/full-app.png)
 
 * many sizes, many indexes
 * non-redundant, modular builds
 * watch states per size/index, optionally concurrent
 * debug & production bundles
-* save-able deploy profiles
 
-Enables navigation & preview of assets/outputs.
+![Dashboard](https://github.com/ff0000-ad-tech/readme-assets/blob/master/wp-creative-server/dashboard.png)
+
+## Deploy Profiles
+
+Manage deploy-profiles, Webpack settings, and any other collection data:
+
+![Deploy Profile Settings](https://github.com/ff0000-ad-tech/readme-assets/blob/master/wp-creative-server/deploy-profile-settings.png)
+
+## Browser / Preview
+
+Enable navigation & preview of assets/outputs.
+
+![Browser](https://github.com/ff0000-ad-tech/readme-assets/blob/master/wp-creative-server/browser.png)
 
 * Run compiled units in browser
 * Open files in associated editor app
 * Open directories in system file manager
 
+![Preview](https://github.com/ff0000-ad-tech/readme-assets/blob/master/wp-creative-server/preview.png)
+
+## Plugins
+
 Plugin architecture for running additional, custom processes.
+
+### Technical
 
 The Webpack scripts are independent of Creative Server. They communicate with Creative Server's REST API via https://github.com/ff0000-ad-tech/wp-process-manager. Creative Server data is maintained only by ExpressJS runtime in the backend. State is made available to the React/Redux view via RPC, providing lowest-latency indication of:
 
