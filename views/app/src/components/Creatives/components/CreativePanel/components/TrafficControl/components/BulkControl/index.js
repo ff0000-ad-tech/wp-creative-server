@@ -58,18 +58,23 @@ class BulkControl extends PureComponent {
 		if (!this.checkbox) {
 			return
 		}
-		if (!Object.keys(this.props.targets).length) {
+		const currentProfile = this.props.profiles[this.props.currentProfile.name]
+		if (!currentProfile) {
+			return
+		}
+		const targets = this.props.profiles[this.props.currentProfile.name].targets
+		if (!Object.keys(targets).length) {
 			this.checkbox.checked = false
 			return
 		}
 		// check available targets
 		for (var key in this.props.targets) {
-			const target = this.props.targets[key]
+			const atarget = this.props.targets[key]
 			// check if selected-profile has available target
 			let isSelected = false
-			const profileTargets = this.props.currentProfile.profile.targets
-			for (var i = 0; i < profileTargets.length; i++) {
-				if (profileTargets[i].size === target.size && profileTargets[i].index === target.index) {
+			// const profileTargets = this.props.currentProfile.profile.targets
+			for (var i = 0; i < targets.length; i++) {
+				if (targets[i].size === atarget.size && targets[i].index === atarget.index) {
 					isSelected = true
 					break
 				}
@@ -85,9 +90,9 @@ class BulkControl extends PureComponent {
 	// select/deselect all targets
 	onChecked = e => {
 		if (e.target.checked) {
-			this.rpc.addDeployTargets(this.props.currentProfile.name, this.getAllTargets())
+			this.rpc.addDeployTargets(this.props.profiles, this.props.currentProfile.name, this.getAllTargets())
 		} else {
-			this.rpc.removeDeployTargets(this.props.currentProfile.name, this.getAllTargets())
+			this.rpc.removeDeployTargets(this.props.profiles, this.props.currentProfile.name, this.getAllTargets())
 		}
 	}
 	getAllTargets() {

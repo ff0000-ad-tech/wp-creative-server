@@ -138,7 +138,16 @@ export default class Rpc {
 			err => {}
 		)
 	}
-	addDeployTargets(name, target) {
+	addDeployTargets(profiles, name, target) {
+		// temp add target (to make state snappy)
+		profiles[name].targets.push({
+			size: target.size,
+			index: target.index,
+			deployAt: null
+		})
+		this.store.dispatch(profilesUpdate(profiles))
+
+		// backend add target
 		this.remote.addDeployTargets(
 			name,
 			target,
@@ -148,7 +157,18 @@ export default class Rpc {
 			err => {}
 		)
 	}
-	removeDeployTargets(name, target) {
+	removeDeployTargets(profiles, name, target) {
+		// temp remove target (to make state snappy)
+		profiles[name].targets = profiles[name].targets.filter(ptarget => {
+			if (ptarget.size === target.size && ptarget.index === target.index) {
+				return false
+			} else {
+				return true
+			}
+		})
+		this.store.dispatch(profilesUpdate(profiles))
+
+		// backend remove target
 		this.remote.removeDeployTargets(
 			name,
 			target,

@@ -61,7 +61,6 @@ class DebugButton extends PureComponent {
 	}
 
 	gotoDebugSizeIndex = () => {
-		log(getOutputRoute(this.props.ad.size, this.props.ad.index))
 		this.props.dispatch(route(getOutputRoute(this.props.ad.size, this.props.ad.index)))
 	}
 
