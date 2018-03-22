@@ -39,7 +39,7 @@ export function hasHook(settings, hook) {
 }
 
 // appends an additional query-string to a plugin-route
-// NOTE: default arguments are appended by ./routes/plugins
+// *** NOTE: default arguments are appended by ./routes/plugins
 export function getPluginRequest(plugin, route, args) {
 	const p = getPluginRoute(route)
 	const query = p.query ? `?${p.query}&` : `?`

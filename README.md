@@ -26,22 +26,42 @@ The spawned webpack scripts are connected to a Reactive view over an RPC pipe of
 
 # Usage
 
-`npm run server --context ./ --src build --webpack ./webpack.config.js --env '[src]/[size]/[index]_settings.json'`
+`npm run server --context ./`
 
-* `context` base path for subpathing, and root path of the browser directory.
-* `src` path to a directory containing size folders.
-* `webpack` path to webpack config, optionally unique-per-index.
-* `env` path to specific compile settings, likely unique-per-index.
+Creative Server expects your banner project `--context` to be organized in the following way:
 
-#### Size Folders
+. Project Context
+├── 1-build
+| ├── 300x250
+| | ├── index.html
+| | └── ...
+| ├── 320x50
+| | ├── index.html
+| | └── ...
+| └── ...
+|
+├── 2-debug
+| └── ...
+|
+├── 3-traffic
+| └── ...
+|
+├── package.json
+├── plugins.json
+├── webpack.config.js
+└── ...
 
-Will match any folder in `[context]/[src]` like `/[0-9]+x[0-9]+/`.
+#### Size Targets
+
+Will match any folder in `[context]/['1-build']` like `/[0-9]+x[0-9]+/`.
 
 #### Index Targets
 
-Will match any file in `[context]/[src]/[size]` like `/index/`.
+Will match any file in `[context]/['1-build']/[size]` like `/index/`.
 
 # Plugins
+
+#### Declaring a Plugin
 
 Add a `./plugins.json` at your `--context` location. It will contain an object with NPM-style dependencies, like:
 
@@ -52,32 +72,56 @@ Add a `./plugins.json` at your `--context` location. It will contain an object w
 }
 ```
 
-## Plugin Routes
+#### Writing a Plugin
 
-Once these are installed in your `--context`'s `node_modules`, Creative Server will create several routes, based on the plugin's `package.json`.
+A plugin can be a frontend tool that runs in the browser ("app" style plugin) and makes calls to a system-level backend. Or it can simply hook into various UI elements
+in the app and spawn system-level operations ("api" style plugin).
+
+To make your plugin compatible, the following object must be added to your plugin's `package.json`:
+
+```
+	"name": "ad-es6-particles", // standard NPM name
+	...
+	"wp-creative-server": {
+		"routes": {
+			"app": "/dist", // route to the directory in your plugin that will be served as the app root
+			"api": "/lib/api.js" // route to the Node script in your plugin that will be used as the API endpoint
+		},
+		"hooks": {
+			"size-control": {
+				"Particle Simulator": "/app/index.html" // the query to either "/app/" or "api", plus whatever static paths & params are needed
+			}
+		}
+	}
+```
+
+##### Plugin Routes
+
+Once a plugin is installed in your `--context`'s `node_modules`, Creative Server will create several routes, based on the plugin's `package.json`.
 These will be available on the server like:
 
 ```
 http://10.0.7.126:5200/ad-es6-particles
 ```
 
-#### main
+All plugin routes are sent the following:
 
-`package.json -> main` describes a path, normally to `index.js`. Creative Server will statically serve that directory. So your plugin should have
-an `index.html` at that location that runs your frontend.
+* `api` - Creative Server endpoint URL
+* `folders.build` - name of the build folder
+* `folders.debug` - name of the debug folder
+* `folders.traffic` - name of the traffic folder
 
-#### api
+##### Plugin Hooks
 
-If `package.json -> api` has a valid path to a node.js file, Creative Server will execute api requests to it, like:
+Hooks are various UI-elements in Creative Server to which plugins can be attributed. Depending on the hook, additional data is passed.
 
-```
-http://10.0.7.126:5200/ad-es6-particles/api/?arg=value&arg2=value
-```
+Currently available hooks are:
 
-executes:
+1.  `size-control` - your command will appear in a menu next to each ad-size. It will be passed:
 
-```
-node '/Users/greg.connell/Documents/_CLIENTS/_AD_APP_TESTING/RED_Dev/ES6/mar13/node_modules/ad-es6-particles/./lib/api.js' --arg value --arg2 value
-```
+* `size` - the requested size-folder name.
 
-This gives your plugin full access to the filesystem, to do whatever you need to do.
+2.  `bulk-control` - your command will appear in a drop-down that will execute when the 🔥 is clicked. It will be passed:
+
+* `profile` - name of the currently selected deploy profile (also the folder to which traffic-compiled ads are output)
+* `targets` - an object with keys specifying paths to traffic-compiled output folders
