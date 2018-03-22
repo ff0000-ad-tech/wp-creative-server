@@ -2,6 +2,8 @@
 
 # Webpack - Creative Server
 
+Configurable interface designed to simplify the process of building properly packaged, highly optimized, technically respectable banner campaigns.
+
 ## Dashboard
 
 Utilize Webpack in a browser interface for ES6 banner development:
