@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 
 import PluginsManager from './components/PluginsManager'
 
 import './style.scss'
 import logo from './images/icon_32.png'
-import appPackage from 'Root/package.json'
 
 import debug from 'debug'
 const log = debug('wp-cs:app:Header')
@@ -47,7 +47,7 @@ class Header extends PureComponent {
 							<div>
 								<img src={logo} className="left" />
 								<div className="app-name left">Creative Server</div>
-								<div className="version left">v{appPackage.version}</div>
+								<div className="version left">v{this.props.appMeta.version || ''}</div>
 							</div>
 						</a>
 					</div>
@@ -63,4 +63,10 @@ class Header extends PureComponent {
 	}
 }
 
-export default Header
+const mapStateToProps = function(state) {
+	return {
+		appMeta: state.appMeta
+	}
+}
+
+export default connect(mapStateToProps)(Header)

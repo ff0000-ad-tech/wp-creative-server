@@ -1,3 +1,4 @@
+import { update as appMetaUpdate } from '../services/app/actions.js'
 import { update as pluginsUpdate } from '../services/plugins/actions.js'
 import { update as creativeUpdate } from '../services/creative/actions.js'
 import { update as targetsUpdate } from '../services/targets/actions.js'
@@ -28,6 +29,17 @@ export default class Rpc {
 			}
 			this.remote = r
 			cb()
+		})
+	}
+
+	/* -- APP META -------------------------
+	*
+	*
+	*
+	*/
+	getAppMeta(cb) {
+		this.remote.getAppMeta(app => {
+			this.store.dispatch(appMetaUpdate(app))
 		})
 	}
 

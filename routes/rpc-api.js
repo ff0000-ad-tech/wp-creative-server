@@ -13,6 +13,8 @@ var log = debug('wp-creative-server:rpc-api')
 
 // API METHODS EXPOSED via RPC
 const api = {
+	getAppMeta: miscRpc.getAppMeta,
+
 	getPlugins: pluginsRpc.getPlugins,
 	copyToClipboard: miscRpc.copyToClipboard,
 

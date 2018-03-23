@@ -3,6 +3,7 @@ import { createStore, applyMiddleware, combineReducers } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 // import { createLogger } from 'redux-logger'
 
+import { appMeta } from './services/app-meta/reducers.js'
 import { browser } from './services/browser/reducers.js'
 import { plugins } from './services/plugins/reducers.js'
 import { creative } from './services/creative/reducers.js'
@@ -13,6 +14,7 @@ import debug from 'debug'
 const log = debug('wp-cs:app:store')
 
 const rootReducer = combineReducers({
+	appMeta,
 	browser,
 	plugins,
 	creative,
