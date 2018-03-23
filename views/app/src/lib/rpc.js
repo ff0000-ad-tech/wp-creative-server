@@ -1,4 +1,4 @@
-import { update as appMetaUpdate } from '../services/app/actions.js'
+import { update as appMetaUpdate } from '../services/app-meta/actions.js'
 import { update as pluginsUpdate } from '../services/plugins/actions.js'
 import { update as creativeUpdate } from '../services/creative/actions.js'
 import { update as targetsUpdate } from '../services/targets/actions.js'

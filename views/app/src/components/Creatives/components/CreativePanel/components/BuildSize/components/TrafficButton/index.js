@@ -55,7 +55,7 @@ class TrafficButton extends PureComponent {
 
 	// copy command to clipboard
 	webpackOnClick = e => {
-		this.rpc.addDeployTargets(this.props.currentProfile.name, this.props.ad)
+		this.rpc.addDeployTargets(this.props.profiles, this.props.currentProfile.name, this.props.ad)
 		this.rpc.copyWpCmd(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, () => {
 			this.setState({
 				showCopiedDialog: true
@@ -73,7 +73,7 @@ class TrafficButton extends PureComponent {
 		if (this.props.ad.watching.debug.processing || this.props.ad.watching.debug.watching) {
 			return
 		}
-		this.rpc.addDeployTargets(this.props.currentProfile.name, this.props.ad)
+		this.rpc.addDeployTargets(this.props.profiles, this.props.currentProfile.name, this.props.ad)
 		this.props.dispatch(
 			updateWatch(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, {
 				processing: true
