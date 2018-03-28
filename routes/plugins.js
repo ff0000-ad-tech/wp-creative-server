@@ -35,6 +35,12 @@ module.exports = (app, express) => {
 			// serve api requests
 			app.get(`/${plugin}/api/`, (req, res) => {
 				executePluginApi(pluginPath, routes, req.query)
+					.then(result => {
+						res.status(200).send(result)
+					})
+					.catch(err => {
+						res.status(500).send(err)
+					})
 			})
 			app.post(`/${plugin}/api/`, (req, res) => {
 				executePluginApi(pluginPath, routes, req.body)
