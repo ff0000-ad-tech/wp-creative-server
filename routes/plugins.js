@@ -34,37 +34,16 @@ module.exports = (app, express) => {
 
 			// serve api requests
 			app.get(`/${plugin}/api/`, (req, res) => {
-				// merge default query with requested query
-				const query = Object.assign(req.query, plugins.getDefaultQuery())
-
-				// prepare cli args
-				let args = ['node', `${pluginPath}/${routes.api}`]
-				Object.keys(query).forEach(arg => {
-					let cliArg = `-${arg}`
-					if (arg.length > 1) {
-						cliArg = `--${arg}`
-					}
-					args.push(cliArg)
-					args.push(`${query[arg]}`)
-				})
-
-				// execute api command
-				const cmd = shellescape(args)
-				log(`API -> ${cmd}`)
-				exec(cmd, (err, stdout, stderr) => {
-					if (err) {
-						res.status(500).send({
-							stdout,
-							stderr,
-							error: err.message
-						})
-					} else {
-						res.status(200).send({
-							stdout,
-							stderr
-						})
-					}
-				})
+				executePluginApi(req.query)
+			})
+			app.post(`/${plugin}/api/`, (req, res) => {
+				executePluginApi(req.body)
+					.then(result => {
+						res.status(200).send(result)
+					})
+					.catch(err => {
+						res.status(500).send(err)
+					})
 			})
 		}
 
@@ -114,5 +93,41 @@ module.exports = (app, express) => {
 				res.redirect(`${appOrigin}/${ps}?${qs}`)
 			})
 		}
+	})
+}
+
+function executePluginApi(params) {
+	return new Promise((resolve, reject) => {
+		// merge default query with requested query
+		const query = Object.assign(params, plugins.getDefaultQuery())
+
+		// prepare cli args
+		let args = ['node', `${pluginPath}/${routes.api}`]
+		Object.keys(query).forEach(arg => {
+			let cliArg = `-${arg}`
+			if (arg.length > 1) {
+				cliArg = `--${arg}`
+			}
+			args.push(cliArg)
+			args.push(`${query[arg]}`)
+		})
+
+		// execute api command
+		const cmd = shellescape(args)
+		log(`API -> ${cmd}`)
+		exec(cmd, (err, stdout, stderr) => {
+			if (err) {
+				resolve({
+					stdout,
+					stderr,
+					error: err.message
+				})
+			} else {
+				resolve({
+					stdout,
+					stderr
+				})
+			}
+		})
 	})
 }
