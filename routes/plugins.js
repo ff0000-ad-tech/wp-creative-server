@@ -2,7 +2,6 @@ const fs = require('fs')
 const path = require('path')
 const exec = require('child_process').exec
 const shellescape = require('shell-escape')
-const bodyParser = require('body-parser')
 
 const plugins = require('../lib/plugins.js')
 
@@ -10,9 +9,6 @@ const debug = require('debug')
 var log = debug('wp-creative-server:route:plugins')
 
 module.exports = (app, express) => {
-	app.use(bodyParser.json()) // support json encoded bodies
-	app.use(bodyParser.urlencoded({ extended: true })) // support encoded bodies
-
 	/* -- DYNAMIC PLUGIN ROUTES -----------------------------------
 	 *
 	 *
@@ -36,9 +32,9 @@ module.exports = (app, express) => {
 		if ('api' in routes) {
 			log(`${plugin} api available on route: /${plugin}/api`)
 
-			// serve api requests
-			app.get(`/${plugin}/api/`, (req, res) => {
-				executePluginApi(pluginPath, routes, req.query)
+			// serve api POST requests
+			app.post(`/${plugin}/api/`, (req, res) => {
+				executePluginApi(pluginPath, routes, req.body)
 					.then(result => {
 						res.status(200).send(result)
 					})
@@ -46,9 +42,10 @@ module.exports = (app, express) => {
 						res.status(500).send(err)
 					})
 			})
-			app.post(`/${plugin}/api/`, (req, res) => {
-				log(req.body)
-				executePluginApi(pluginPath, routes, req.body)
+
+			// serve api GET requests
+			app.get(`/${plugin}/api/`, (req, res) => {
+				executePluginApi(pluginPath, routes, req.query)
 					.then(result => {
 						res.status(200).send(result)
 					})

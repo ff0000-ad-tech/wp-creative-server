@@ -1,4 +1,5 @@
 const express = require('express')
+
 const argv = require('minimist')(process.argv.slice(2))
 const path = require('path')
 const open = require('open')
@@ -41,6 +42,8 @@ try {
 
 // express set up
 var app = express()
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
 
 /* -- STATE ----------------------------------------------
  *
@@ -63,10 +66,11 @@ var sock = rpcApi.connect()
  *
  *
  */
+
 require('./routes/app')(app, express)
-require('./routes/browse')(app, express)
 require('./routes/api')(app, express)
 require('./routes/plugins')(app, express)
+require('./routes/browse')(app, express)
 
 /* -- START SERVER ----------------------------------------------
  *
