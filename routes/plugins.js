@@ -104,12 +104,21 @@ function executePluginApi(pluginPath, routes, params) {
 		// prepare cli args
 		let args = ['node', `${pluginPath}/${routes.api}`]
 		Object.keys(query).forEach(arg => {
+			// key
 			let cliArg = `-${arg}`
 			if (arg.length > 1) {
 				cliArg = `--${arg}`
 			}
 			args.push(cliArg)
-			args.push(`${query[arg]}`)
+
+			// value
+			let cliValue = query[arg]
+			if (typeof cliValue === 'object') {
+				cliValue = JSON.stringify(cliValue)
+			} else {
+				cliValue = cliValue.toString()
+			}
+			args.push(cliValue)
 		})
 
 		// execute api command
