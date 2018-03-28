@@ -34,10 +34,10 @@ module.exports = (app, express) => {
 
 			// serve api requests
 			app.get(`/${plugin}/api/`, (req, res) => {
-				executePluginApi(req.query)
+				executePluginApi(pluginPath, routes, req.query)
 			})
 			app.post(`/${plugin}/api/`, (req, res) => {
-				executePluginApi(req.body)
+				executePluginApi(pluginPath, routes, req.body)
 					.then(result => {
 						res.status(200).send(result)
 					})
@@ -96,7 +96,7 @@ module.exports = (app, express) => {
 	})
 }
 
-function executePluginApi(params) {
+function executePluginApi(pluginPath, routes, params) {
 	return new Promise((resolve, reject) => {
 		// merge default query with requested query
 		const query = Object.assign(params, plugins.getDefaultQuery())
