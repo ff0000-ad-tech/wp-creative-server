@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const exec = require('child_process').exec
 const shellescape = require('shell-escape')
+const bodyParser = require('body-parser')
 
 const plugins = require('../lib/plugins.js')
 
@@ -9,6 +10,9 @@ const debug = require('debug')
 var log = debug('wp-creative-server:route:plugins')
 
 module.exports = (app, express) => {
+	app.use(bodyParser.json()) // support json encoded bodies
+	app.use(bodyParser.urlencoded({ extended: true })) // support encoded bodies
+
 	/* -- DYNAMIC PLUGIN ROUTES -----------------------------------
 	 *
 	 *
@@ -43,6 +47,7 @@ module.exports = (app, express) => {
 					})
 			})
 			app.post(`/${plugin}/api/`, (req, res) => {
+				log(req.body)
 				executePluginApi(pluginPath, routes, req.body)
 					.then(result => {
 						res.status(200).send(result)
