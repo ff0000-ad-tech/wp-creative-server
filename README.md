@@ -95,6 +95,8 @@ Installing adds the following to your project:
 |   ├── index.js
 |   └── ...
 ```
+## RECOMMENDED
+We recommend you start with a full, working project template. For example, our ["Standard Base"](https://github.com/ff0000-ad-tech/tmpl-standard-base/blob/master/README.md). Once you have a feel for the eco-system, adapt CS as needed to your process.
 
 # Usage
 
