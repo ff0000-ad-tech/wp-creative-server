@@ -48,7 +48,7 @@ Plugin architecture for running additional, custom processes.
 
 ## Technical Overview
 
-The Webpack scripts are independent of Creative Server. They communicate with Creative Server's REST API via https://github.com/ff0000-ad-tech/wp-process-manager. Creative Server data is a proxy of the file-system; state is maintained by the Express/NodeJS runtime in the backend. State is then made available to the React/Redux view via RPC on-demand, providing lowest-latency indication of:
+The Webpack scripts are independent of Creative Server. They run as their own process & communicate with Creative Server's REST API via https://github.com/ff0000-ad-tech/wp-process-manager. Otherwise, Creative Server data is a proxy of the file-system, the only source of truth. Persistant state is maintained by `profile.json`, `plugins.json`, and the like. Said state is then acquired by the Express/NodeJS runtime and is made available to the React/Redux view via RPC, on-demand, providing low-latency indication of:
 
 1.  busy-state
 2.  error-state
