@@ -28,7 +28,7 @@ class DebugButton extends PureComponent {
 
 	terminalWatchOnClick = e => {
 		// only one debug compile is tracked, regardless of selected profile
-		this.rpc.copyWpCmd('@ff0000-ad-tech/debug', this.props.ad.size, this.props.ad.index, () => {
+		this.rpc.copyWpCmd('debug', this.props.ad.size, this.props.ad.index, () => {
 			this.setState({
 				showTerminalWatchDialog: true
 			})
@@ -45,7 +45,7 @@ class DebugButton extends PureComponent {
 			return
 		}
 		this.props.dispatch(
-			updateWatch('@ff0000-ad-tech/debug', this.props.ad.size, this.props.ad.index, {
+			updateWatch('debug', this.props.ad.size, this.props.ad.index, {
 				processing: true
 			})
 		)
@@ -53,7 +53,7 @@ class DebugButton extends PureComponent {
 	}
 	stopCompiling = () => {
 		this.props.dispatch(
-			updateWatch('@ff0000-ad-tech/debug', this.props.ad.size, this.props.ad.index, {
+			updateWatch('debug', this.props.ad.size, this.props.ad.index, {
 				processing: true
 			})
 		)
