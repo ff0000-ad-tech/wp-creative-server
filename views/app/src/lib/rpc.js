@@ -4,7 +4,7 @@ import { update as creativeUpdate } from '../services/creative/actions.js'
 import { update as targetsUpdate } from '../services/targets/actions.js'
 import { update as profilesUpdate } from '../services/profiles/actions.js'
 
-import debug from 'debug'
+import debug from '@ff0000-ad-tech/debug'
 const log = debug('wp-cs:app:rpc')
 const log1 = debug('wp-cs:app:rpc+')
 debug.disable('wp-cs:app:rpc+') // comment this line to get an idea of the pace of the update cycle

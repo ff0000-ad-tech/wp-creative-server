@@ -5,7 +5,7 @@ const serveIndex = require('@ff0000-ad-tech/serve-index')
 
 const utils = require('../lib/utils.js')
 
-const debug = require('debug')
+const debug = require('@ff0000-ad-tech/debug')
 var log = debug('wp-creative-server:route:browse')
 
 module.exports = (app, express) => {

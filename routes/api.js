@@ -8,7 +8,7 @@ const targets = require('../lib/targets.js')
 const watching = require('../lib/compiling/watching.js')
 const background = require('../lib/compiling/background.js')
 
-const debug = require('debug')
+const debug = require('@ff0000-ad-tech/debug')
 var log = debug('wp-creative-server:route:api')
 
 module.exports = (app, express) => {

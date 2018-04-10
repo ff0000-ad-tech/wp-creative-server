@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import * as plugins from 'AppSrc/lib/plugins.js'
 
-import debug from 'debug'
+import debug from '@ff0000-ad-tech/debug'
 const log = debug('wp-cs:app:PluginsMenu')
 
 import './style.scss'

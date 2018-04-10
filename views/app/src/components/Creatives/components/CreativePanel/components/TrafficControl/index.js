@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Rpc from 'AppSrc/lib/rpc.js'
 import { addProfile } from 'AppSrc/services/profiles/actions.js'
 
-import debug from 'debug'
+import debug from '@ff0000-ad-tech/debug'
 const log = debug('wp-cs:app:TrafficControl')
 
 import SettingsEditor from './components/SettingsEditor'

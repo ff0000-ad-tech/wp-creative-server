@@ -8,7 +8,7 @@ const profilesRpc = require('../lib/rpc/profiles.js')
 const compilingRpc = require('../lib/rpc/compiling.js')
 const miscRpc = require('../lib/rpc/misc.js')
 
-const debug = require('debug')
+const debug = require('@ff0000-ad-tech/debug')
 var log = debug('wp-creative-server:rpc-api')
 
 // API METHODS EXPOSED via RPC

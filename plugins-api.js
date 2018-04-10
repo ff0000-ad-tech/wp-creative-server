@@ -4,7 +4,7 @@ const open = require('open')
 
 const plugins = require('./lib/plugins.js')
 
-const debug = require('debug')
+const debug = require('@ff0000-ad-tech/debug')
 var log = debug('wp-creative-server:plugins-api')
 
 // serve-path is the location to look for

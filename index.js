@@ -6,7 +6,7 @@ const open = require('open')
 
 const network = require('./lib/network.js')
 
-const debug = require('debug')
+const debug = require('@ff0000-ad-tech/debug')
 var log = debug('wp-creative-server')
 
 // determine IP

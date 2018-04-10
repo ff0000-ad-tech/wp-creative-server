@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import Rpc from 'AppSrc/lib/rpc.js'
 import AvailablePlugin from './components/AvailablePlugin'
 
-import debug from 'debug'
+import debug from '@ff0000-ad-tech/debug'
 const log = debug('wp-cs:app:PluginsManager')
 
 import './style.scss'

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import './style.scss'
 
-import debug from 'debug'
+import debug from '@ff0000-ad-tech/debug'
 const log = debug('wp-cs:DragBar')
 
 class DragBar extends PureComponent {

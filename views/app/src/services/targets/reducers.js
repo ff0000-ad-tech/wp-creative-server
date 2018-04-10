@@ -1,6 +1,6 @@
 import { UPDATE, UPDATE_WATCH } from './actions.js'
 
-import debug from 'debug'
+import debug from '@ff0000-ad-tech/debug'
 const log = debug('wp-cs:app:services:reducers:targets')
 
 export function targets(targets = {}, action) {

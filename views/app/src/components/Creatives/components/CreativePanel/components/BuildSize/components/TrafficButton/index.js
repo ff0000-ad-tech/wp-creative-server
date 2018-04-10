@@ -13,7 +13,7 @@ import { route } from 'AppSrc/services/browser/actions.js'
 
 import './style.scss'
 
-import debug from 'debug'
+import debug from '@ff0000-ad-tech/debug'
 const log = debug('wp-cs:app:TrafficButton')
 
 import processingGif from '../../images/preloader.gif'

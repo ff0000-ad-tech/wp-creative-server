@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import BuildSize from './components/BuildSize'
 import TrafficControl from './components/TrafficControl'
 
-import debug from 'debug'
+import debug from '@ff0000-ad-tech/debug'
 const log = debug('wp-cs:app:CreativePanel')
 
 import './style.scss'

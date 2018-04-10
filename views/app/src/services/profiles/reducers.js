@@ -2,7 +2,7 @@ import _ from 'lodash'
 
 import { UPDATE_PROFILES, UPDATE_DEPLOY_AT, UPDATE_CURRENT, ADD_PROFILE } from './actions.js'
 
-import debug from 'debug'
+import debug from '@ff0000-ad-tech/debug'
 const log = debug('wp-cs:app:services:reducers:profiles')
 
 export function profiles(profiles = {}, action) {

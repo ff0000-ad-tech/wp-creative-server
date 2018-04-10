@@ -14,7 +14,7 @@ import pluginSvg from './images/plugin.svg'
 import nextChild from './images/next-child.png'
 import lastChild from './images/last-child.png'
 
-import debug from 'debug'
+import debug from '@ff0000-ad-tech/debug'
 const log = debug('wp-cs:app:BuildSize')
 
 class BuildSize extends PureComponent {

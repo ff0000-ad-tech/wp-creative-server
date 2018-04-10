@@ -5,7 +5,7 @@ import Rpc from 'AppSrc/lib/rpc.js'
 import { xhr, getOutputRoute } from 'AppSrc/lib/utils.js'
 import * as plugins from 'AppSrc/lib/plugins.js'
 
-import debug from 'debug'
+import debug from '@ff0000-ad-tech/debug'
 const log = debug('wp-cs:app:BulkControl')
 
 import './style.scss'

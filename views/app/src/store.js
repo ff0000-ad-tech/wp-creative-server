@@ -10,7 +10,7 @@ import { creative } from './services/creative/reducers.js'
 import { targets } from './services/targets/reducers.js'
 import { profiles, currentProfile } from './services/profiles/reducers.js'
 
-import debug from 'debug'
+import debug from '@ff0000-ad-tech/debug'
 const log = debug('wp-cs:app:store')
 
 const rootReducer = combineReducers({

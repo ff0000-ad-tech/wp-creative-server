@@ -2,7 +2,7 @@ import { createStore, combineReducers } from 'redux'
 import { Provider } from 'react-redux'
 import configureStore from './store.js'
 
-import debug from 'debug'
+import debug from '@ff0000-ad-tech/debug'
 const log = debug('wp-cs:app:index')
 
 // create redux store

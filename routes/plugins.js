@@ -5,7 +5,7 @@ const shellescape = require('shell-escape')
 
 const plugins = require('../lib/plugins.js')
 
-const debug = require('debug')
+const debug = require('@ff0000-ad-tech/debug')
 var log = debug('wp-creative-server:route:plugins')
 
 module.exports = (app, express) => {

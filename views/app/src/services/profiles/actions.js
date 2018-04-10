@@ -1,4 +1,4 @@
-import debug from 'debug'
+import debug from '@ff0000-ad-tech/debug'
 const log = debug('wp-cs:app:services:actions:profiles')
 
 export const UPDATE = 'PROFILES-UPDATE'

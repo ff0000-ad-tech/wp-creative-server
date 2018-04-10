@@ -4,7 +4,7 @@ import { Route, NavLink, HashRouter } from 'react-router-dom'
 import Header from './Header'
 import Creatives from './Creatives'
 
-import debug from 'debug'
+import debug from '@ff0000-ad-tech/debug'
 const log = debug('wp-cs:app:Main')
 
 import 'reset-css/reset.css'

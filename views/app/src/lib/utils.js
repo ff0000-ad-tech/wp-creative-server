@@ -1,7 +1,7 @@
 import { DEBUG_FOLDER } from 'Root/lib/utils.js'
 import { TRAFFIC_FOLDER } from 'Root/lib/utils.js'
 
-import debug from 'debug'
+import debug from '@ff0000-ad-tech/debug'
 const log = debug('wp-cs:app:utils')
 
 export function xhr(url, err, callback) {

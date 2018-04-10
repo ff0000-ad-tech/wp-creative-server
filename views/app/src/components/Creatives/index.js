@@ -3,7 +3,7 @@ import CreativePanel from './components/CreativePanel'
 import BrowsePanel from './components/BrowsePanel'
 import DragBar from './components/DragBar'
 
-import debug from 'debug'
+import debug from '@ff0000-ad-tech/debug'
 const log = debug('wp-cs:app:Creatives')
 
 import './style.scss'

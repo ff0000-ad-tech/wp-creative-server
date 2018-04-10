@@ -1,5 +1,5 @@
 const path = require('path')
-const debug = require('debug')
+const debug = require('@ff0000-ad-tech/debug')
 var log = debug('wp-creative-server-app')
 
 module.exports = {

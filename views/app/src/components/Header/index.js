@@ -6,7 +6,7 @@ import PluginsManager from './components/PluginsManager'
 import './style.scss'
 import logo from './images/icon_32.png'
 
-import debug from 'debug'
+import debug from '@ff0000-ad-tech/debug'
 const log = debug('wp-cs:app:Header')
 
 class Header extends PureComponent {

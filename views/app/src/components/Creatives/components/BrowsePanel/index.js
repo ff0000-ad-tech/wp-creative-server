@@ -4,7 +4,7 @@ import { route, iframeSrcCanUpdateState } from '../../../../services/browser/act
 
 import Breadcrumbs from './components/Breadcrumbs'
 
-import debug from 'debug'
+import debug from '@ff0000-ad-tech/debug'
 const log = debug('wp-cs:BrowsePanel')
 const log1 = debug('wp-cs:BrowsePanel+')
 debug.disable('wp-cs:BrowsePanel+')
