@@ -5,6 +5,7 @@ const path = require('path')
 const open = require('open')
 
 const network = require('./lib/network.js')
+const background = require('./lib/compiling/background.js')
 
 const debug = require('@ff0000-ad-tech/debug')
 var log = debug('wp-creative-server')
@@ -88,3 +89,23 @@ sock.install(
 	}),
 	'/dnode'
 )
+
+
+function cleanup() {
+	background.killAll()
+	log('Goodbye~')
+	process.exit()
+}
+process.stdin.resume() // so the program will not terminate instantly
+process.on('SIGINT', cleanup)
+process.on('SIGUSR1', cleanup)
+process.on('SIGUSR2', cleanup)
+process.on('SIGTERM', cleanup)
+// process.on('SIGKILL', cleanup)
+process.on('exit', code => {
+	log(`Exit code: ${code}`)
+})
+process.on('uncaughtException', err => {
+	log(err)
+	cleanup()
+})
