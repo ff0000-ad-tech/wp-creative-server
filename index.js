@@ -5,7 +5,6 @@ const path = require('path')
 const open = require('open')
 
 const network = require('./lib/network.js')
-const background = require('./lib/compiling/background.js')
 
 const debug = require('@ff0000-ad-tech/debug')
 var log = debug('wp-creative-server')
@@ -90,7 +89,7 @@ sock.install(
 	'/dnode'
 )
 
-
+const background = require('./lib/compiling/background.js')
 function cleanup() {
 	background.killAll()
 	log('Goodbye~')
