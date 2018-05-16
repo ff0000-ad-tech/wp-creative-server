@@ -51,13 +51,14 @@ module.exports = (app, express) => {
 	// get webpack command
 	app.get('/api/get-wp-cmd/:type/:size/:index', (req, res) => {
 		log(req.url)
-		const cmd = watching.getWpCmd(type, size, index)
+		const cmd = watching.getWpCmd(targets, req.params.type, req.params.size, req.params.index)
 		if (cmd instanceof Error) {
-			res.status(500).send({ error: cmd })
+			res.status(500).send({ error: cmd.message })
+		} else {
+			res.status(200).send({
+				cmd: cmd
+			})
 		}
-		res.status(200).send({
-			cmd: cmd
-		})
 	})
 
 	// watching - called by wp-process-manager
