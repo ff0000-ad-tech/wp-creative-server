@@ -55,9 +55,7 @@ module.exports = (app, express) => {
 		if (cmd instanceof Error) {
 			res.status(500).send({ error: cmd.message })
 		} else {
-			res.status(200).send({
-				cmd: cmd
-			})
+			res.status(200).send(cmd)
 		}
 	})
 
