@@ -52,7 +52,6 @@ class TrafficControl extends PureComponent {
 		}
 		this.props.dispatch(addProfile(name))
 		this.rpc.newProfile(name)
-		this.checkbox.checked = false
 	}
 	updateProfile = json => {
 		this.rpc.updateProfile(this.profileSelect.value, json)

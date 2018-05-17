@@ -70,9 +70,6 @@ class TrafficButton extends PureComponent {
 
 	// run deploy
 	startCompiling = e => {
-		if (this.props.ad.watching.debug.processing || this.props.ad.watching.debug.watching) {
-			return
-		}
 		this.rpc.addDeployTargets(this.props.profiles, this.props.currentProfile.name, this.props.ad)
 		this.props.dispatch(
 			updateWatch(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, {

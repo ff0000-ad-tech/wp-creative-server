@@ -133,6 +133,7 @@ class BrowsePanel extends Component {
 		this.props.dispatch(route(routePath, renderIframe))
 	}
 	refreshIframe = e => {
+		console.clear()
 		const iframeRoute = this.getIframeRoute(this.iframe.contentWindow.location)
 		this.iframe.src = iframeRoute
 	}

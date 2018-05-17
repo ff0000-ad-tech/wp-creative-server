@@ -42,7 +42,7 @@ module.exports = (app, express) => {
 
 	// get targets
 	app.get('/api/targets', (req, res) => {
-		rpcApi.getTargets(targets => {
+		rpcApi.api.getTargets(targets => {
 			res.setHeader('Content-Type', 'application/json')
 			res.send(JSON.stringify(targets))
 		})

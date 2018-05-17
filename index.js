@@ -88,3 +88,23 @@ sock.install(
 	}),
 	'/dnode'
 )
+
+const background = require('./lib/compiling/background.js')
+function cleanup() {
+	background.killAll()
+	log('Goodbye~')
+	process.exit()
+}
+process.stdin.resume() // so the program will not terminate instantly
+process.on('SIGINT', cleanup)
+process.on('SIGUSR1', cleanup)
+process.on('SIGUSR2', cleanup)
+process.on('SIGTERM', cleanup)
+// process.on('SIGKILL', cleanup)
+process.on('exit', code => {
+	log(`Exit code: ${code}`)
+})
+process.on('uncaughtException', err => {
+	log(err)
+	cleanup()
+})

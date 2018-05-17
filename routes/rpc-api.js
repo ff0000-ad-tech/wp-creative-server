@@ -47,5 +47,6 @@ function connect(options) {
 
 // NOTE: RPC methods need to be exposed on the API, not as exports to the backend
 module.exports = {
-	connect
+	connect,
+	api
 }
