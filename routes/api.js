@@ -13,63 +13,7 @@ var log = debug('wp-creative-server:route:api')
 
 module.exports = (app, express) => {
 	var routes = {
-		description:
-			'`/api` endpoint enables anybody with access to this Creative Server to manage the Webpack processes, for watching and deployment.',
-		'/api': {
-			description: 'Returns this document.',
-			type: 'GET',
-			params: []
-		},
-		// TODO: bring these up to date:
-		//
-		// '/api/start-watching': {
-		// 	description: 'Starts a Webpack watch process on the specified build-size/-index.',
-		// 	type: 'GET',
-		// 	params: [
-		// 		{
-		// 			name: 'size',
-		// 			description: 'Matches a folder in the `./build` that contains an ad index.'
-		// 		},
-		// 		{
-		// 			name: 'index',
-		// 			description: 'Matches a file in `./build/size/` that is an ad.'
-		// 		}
-		// 	]
-		// },
-		// '/api/stop-watching': {
-		// 	description: 'If it exists, stops the Webpack watch process on the specified build-size/-index.',
-		// 	type: 'GET',
-		// 	params: [
-		// 		{
-		// 			name: 'size',
-		// 			description: 'Matches a folder in the `./build` that contains an ad index.'
-		// 		},
-		// 		{
-		// 			name: 'index',
-		// 			description: 'Matches a file in `./build/size/` that is an ad.'
-		// 		}
-		// 	]
-		// },
-		'/api/open-directory': {
-			description: 'Open the target in the file-system navigator.',
-			type: 'GET',
-			params: [
-				{
-					name: 'target',
-					description: 'A path relative to the server context.'
-				}
-			]
-		},
-		'/api/edit-file': {
-			description: 'Open the target in the application set to handle this type of file.',
-			type: 'GET',
-			params: [
-				{
-					name: 'target',
-					description: 'A path relative to the server context.'
-				}
-			]
-		}
+		TODO: 'Document API routes'
 	}
 
 	/**
@@ -102,6 +46,17 @@ module.exports = (app, express) => {
 			res.setHeader('Content-Type', 'application/json')
 			res.send(JSON.stringify(targets))
 		})
+	})
+
+	// get webpack command
+	app.get('/api/get-wp-cmd/:type/:size/:index', (req, res) => {
+		log(req.url)
+		const cmd = watching.getWpCmd(targets, req.params.type, req.params.size, req.params.index)
+		if (cmd instanceof Error) {
+			res.status(500).send({ error: cmd.message })
+		} else {
+			res.status(200).send(cmd)
+		}
 	})
 
 	// watching - called by wp-process-manager
