@@ -61,6 +61,14 @@ state.reset()
 var rpcApi = require('./routes/rpc-api.js')
 var sock = rpcApi.connect()
 
+// round-robin the api to establish backend state
+rpcApi.api.getAppMeta(() => {})
+rpcApi.api.getPlugins(() => {})
+rpcApi.api.getCreative(() => {})
+rpcApi.api.readTargets(() => {})
+rpcApi.api.getProfiles(() => {})
+rpcApi.api.refreshTargets(() => {})
+
 /* -- ROUTES ----------------------------------------------
  *
  *
