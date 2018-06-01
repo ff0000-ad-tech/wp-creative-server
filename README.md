@@ -1,6 +1,6 @@
 ##### RED Interactive Agency - Ad Technology
-[![npm version](https://img.shields.io/npm/v/wp-creative-server/ff0000-ad-tech.svg?style=flat-square)](https://www.npmjs.com/package/@ff0000-ad-tech%2Fwp-creative-server)
-[![npm downloads](https://img.shields.io/npm/dm/wp-creative-server.svg?style=flat-square)](https://www.npmjs.com/package/wp-creative-server)
+[![npm version](https://img.shields.io/npm/v/wp-creative-server/@ff0000-ad-tech.svg?style=flat-square)](https://www.npmjs.com/package/@ff0000-ad-tech%2Fwp-creative-server)
+[![npm downloads](https://img.shields.io/npm/dm/@ff0000-ad-tech%2Fwp-creative-server.svg?style=flat-square)](https://www.npmjs.com/package/@ff0000-ad-tech%2Fwp-creative-server)
 
 # Webpack - Creative Server
 
