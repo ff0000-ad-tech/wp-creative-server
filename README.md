@@ -10,9 +10,29 @@
 
 # Webpack - Creative Server
 
+[Getting Started](#getting-started)
+
+[Features](#features)
+
+[Technical Overview](#technical-overview)
+
+[Plugins](#plugins)
+
+[CS Frontend Development](#cs-frontend-development)
+
 Configurable interface designed to simplify the process of building properly packaged, highly optimized, technically respectable banner campaigns.
 
-## Dashboard
+## Getting Started
+
+<a name="getting-started"></a>
+
+We recommend you start with ["a working template"](https://github.com/ff0000-ad-tech/tmpl-standard-base/blob/master/README.md). Once you have a feel for the eco-system, adapt CS as needed to your process.
+
+## Features
+
+<a name="features"></a>
+
+### Dashboard
 
 Utilize Webpack in a browser interface for ES6 banner development:
 
@@ -25,13 +45,13 @@ Utilize Webpack in a browser interface for ES6 banner development:
 
 ![Dashboard](https://github.com/ff0000-ad-tech/readme-assets/blob/master/wp-creative-server/dashboard.png)
 
-## Deploy Profiles
+### Deploy Profiles
 
 Manage deploy-profiles, Webpack settings, and any other collection data:
 
 ![Deploy Profile Settings](https://github.com/ff0000-ad-tech/readme-assets/blob/master/wp-creative-server/deploy-profile-settings.png)
 
-## Browser
+### Browser
 
 Enable navigation of assets/outputs:
 
@@ -40,7 +60,7 @@ Enable navigation of assets/outputs:
 * Open files in associated editor app
 * Open directories in system file manager
 
-## Preview
+### Preview
 
 Provide a localhost for quickly testing builds:
 
@@ -50,11 +70,13 @@ Provide a localhost for quickly testing builds:
 * Easily refresh
 * Open units in a stand-alone tab for measuring k-weight
 
-## Plugins
+### Plugins
 
 Plugin architecture for running additional, custom processes.
 
 ## Technical Overview
+
+<a name="technical-overview"></a>
 
 The Webpack scripts are independent of Creative Server. They run as their own process & communicate with Creative Server's REST API via https://github.com/ff0000-ad-tech/wp-process-manager. Otherwise, Creative Server data is a proxy of the file-system, the only source of truth. Persistant state is maintained by `profile.json`, `plugins.json`, and the like. Said state is then acquired by the Express/NodeJS runtime and is made available to the React/Redux view via RPC, on-demand, providing low-latency indication of:
 
@@ -65,7 +87,7 @@ The Webpack scripts are independent of Creative Server. They run as their own pr
 5.  last conpile time
 6.  a view of the project file-system
 
-# Install
+### Default Hierarchy
 
 Creative Server can be installed in your banner project. CS expects the following hierarchy:
 
@@ -103,32 +125,6 @@ Installing adds the following to your project:
 |   ├── index.js
 |   └── ...
 ```
-## RECOMMENDED
-We recommend you start with a full, working project template. For example, our ["Standard Base"](https://github.com/ff0000-ad-tech/tmpl-standard-base/blob/master/README.md). Once you have a feel for the eco-system, adapt CS as needed to your process.
-
-# Usage
-
-To launch Creative Server:
-
-```sh
-node ./node_modules/\@ff0000-ad-tech/wp-creative-server/index.js --context ./
-```
-
-It is recommended that you add a script to your project `package.json` to make starting CS easy:
-
-```json
-...
-"scripts": {
-	"server": "node ./node_modules/@ff0000-ad-tech/wp-creative-server/index.js --context ./"
-}
-...
-```
-
-Then you can launch with:
-
-```sh
-npm run server
-```
 
 ### Size Targets
 
@@ -138,9 +134,11 @@ Sizes will be discovered in `./[context]/['1-build']/...` on folder-names that m
 
 Indexes will be discovered in `./[context]/['1-build']/[size]/...` on file-names that match `/index/`.
 
-# Plugins
+## Plugins
 
-#### Declaring a Plugin
+<a name="plugins"></a>
+
+### Declaring a Plugin
 
 Add a `./plugins.json` at your `--context` location. It will contain an object with NPM-style dependencies, like:
 
@@ -152,7 +150,7 @@ Add a `./plugins.json` at your `--context` location. It will contain an object w
 }
 ```
 
-#### Writing a Plugin
+### Writing a Plugin
 
 A plugin can be a frontend tool that runs in the browser ("app" style plugin) and makes calls to a system-level backend. Or it can simply hook into various UI elements
 in the app and spawn system-level operations ("api" style plugin).
@@ -175,7 +173,7 @@ To make your plugin compatible, the following object must be added to your plugi
 	}
 ```
 
-##### Plugin Routes
+#### Plugin Routes
 
 Once a plugin is installed in your `--context`'s `node_modules`, Creative Server will create several routes, based on the plugin's `package.json`.
 These will be available on the server like:
@@ -191,7 +189,7 @@ All plugin routes are sent the following:
 * `folders.debug` - name of the debug folder
 * `folders.traffic` - name of the traffic folder
 
-##### Plugin Hooks
+#### Plugin Hooks
 
 Hooks are various UI-elements in Creative Server to which plugins can be attributed. Depending on the hook, additional data is passed.
 
@@ -205,9 +203,11 @@ Currently available hooks are:
     * `profile` - name of the currently selected deploy profile (also the folder to which traffic-compiled ads are output)
     * `targets` - an object with keys specifying paths to traffic-compiled output folders
 
-# CS Frontend Development
+## CS Frontend Development
 
-To compile the React/Redux/ES6 frontend:
+<a name="cs-frontend-development"></a>
+
+To build the React/Redux/ES6 frontend:
 
 1.  Install all of the dev-dependencies.
 2.  Run `npm run build`
