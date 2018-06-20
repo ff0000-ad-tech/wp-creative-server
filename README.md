@@ -110,11 +110,13 @@ We recommend you start with a full, working project template. For example, our [
 
 To launch Creative Server:
 
-`node ./node_modules/\@ff0000-ad-tech/wp-creative-server/index.js --context ./`
+```sh
+node ./node_modules/\@ff0000-ad-tech/wp-creative-server/index.js --context ./
+```
 
 It is recommended that you add a script to your project `package.json` to make starting CS easy:
 
-```
+```json
 ...
 "scripts": {
 	"server": "node ./node_modules/@ff0000-ad-tech/wp-creative-server/index.js --context ./"
@@ -124,7 +126,9 @@ It is recommended that you add a script to your project `package.json` to make s
 
 Then you can launch with:
 
-`npm run server`
+```sh
+npm run server
+```
 
 ### Size Targets
 
@@ -140,7 +144,7 @@ Indexes will be discovered in `./[context]/['1-build']/[size]/...` on file-names
 
 Add a `./plugins.json` at your `--context` location. It will contain an object with NPM-style dependencies, like:
 
-```
+```json
 {
 	"ad-es6-particles": "git+ssh://git@stash.ff0000.com:7999/at/ad-es6-particles.git",
 	"@ff0000-ad-tech/cs-plugin-bulk-compile": "git+ssh://git@github.com:ff0000-ad-tech/cs-plugin-bulk-compile.git",
@@ -155,7 +159,7 @@ in the app and spawn system-level operations ("api" style plugin).
 
 To make your plugin compatible, the following object must be added to your plugin's `package.json`:
 
-```
+```json
 	"name": "ad-es6-particles", // standard NPM name
 	...
 	"wp-creative-server": {
