@@ -10,6 +10,8 @@
 
 # Webpack - Creative Server
 
+Configurable interface designed to simplify the process of building properly packaged, highly optimized, technically respectable banner campaigns.
+
 [Getting Started](#getting-started)
 
 [Features](#features)
@@ -20,15 +22,13 @@
 
 [CS Frontend Development](#cs-frontend-development)
 
-Configurable interface designed to simplify the process of building properly packaged, highly optimized, technically respectable banner campaigns.
-
-## Getting Started
+# Getting Started
 
 <a name="getting-started"></a>
 
-We recommend you start with ["a working template"](https://github.com/ff0000-ad-tech/tmpl-standard-base/blob/master/README.md). Once you have a feel for the eco-system, adapt CS as needed to your process.
+We recommend you start with [a working template](https://github.com/ff0000-ad-tech/tmpl-standard-base). Once you have a feel for the eco-system, adapt CS as needed to your process.
 
-## Features
+# Features
 
 <a name="features"></a>
 
@@ -74,11 +74,15 @@ Provide a localhost for quickly testing builds:
 
 Plugin architecture for running additional, custom processes.
 
-## Technical Overview
+# Technical Overview
 
 <a name="technical-overview"></a>
 
-The Webpack scripts are independent of Creative Server. They run as their own process & communicate with Creative Server's REST API via https://github.com/ff0000-ad-tech/wp-process-manager. Otherwise, Creative Server data is a proxy of the file-system, the only source of truth. Persistant state is maintained by `profile.json`, `plugins.json`, and the like. Said state is then acquired by the Express/NodeJS runtime and is made available to the React/Redux view via RPC, on-demand, providing low-latency indication of:
+The Webpack scripts are independent of Creative Server. They run as their own process & communicate with Creative Server's REST API via https://github.com/ff0000-ad-tech/wp-process-manager.
+
+Otherwise, Creative Server data is a proxy of the file-system, the only source of truth.
+
+Persistant state is maintained by `profile.json`, `plugins.json`, and the like. Said state is then acquired by the Express/NodeJS runtime and is made available to the React/Redux view via RPC, on-demand, providing low-latency indication of:
 
 1.  available sizes/indexes
 2.  deploy profiles
@@ -134,7 +138,7 @@ Sizes will be discovered in `./[context]/['1-build']/...` on folder-names that m
 
 Indexes will be discovered in `./[context]/['1-build']/[size]/...` on file-names that match `/index/`.
 
-## Plugins
+# Plugins
 
 <a name="plugins"></a>
 
@@ -203,7 +207,7 @@ Currently available hooks are:
     * `profile` - name of the currently selected deploy profile (also the folder to which traffic-compiled ads are output)
     * `targets` - an object with keys specifying paths to traffic-compiled output folders
 
-## CS Frontend Development
+# CS Frontend Development
 
 <a name="cs-frontend-development"></a>
 
