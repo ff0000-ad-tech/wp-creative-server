@@ -159,7 +159,7 @@ in the app and spawn system-level operations ("api" style plugin).
 
 To make your plugin compatible, the following object must be added to your plugin's `package.json`:
 
-```json
+```javascript
 	"name": "ad-es6-particles", // standard NPM name
 	...
 	"wp-creative-server": {
