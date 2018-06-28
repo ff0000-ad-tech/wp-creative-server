@@ -19,8 +19,8 @@ module.exports = {
 					{
 						loader: 'babel-loader',
 						options: {
-							presets: ['react', 'stage-3', 'es2015'],
-							plugins: ['transform-class-properties']
+							presets: ['@babel/preset-react', '@babel/preset-stage-3', '@babel/preset-env'],
+							plugins: ['@babel/plugin-proposal-class-properties']
 						}
 					}
 				]
