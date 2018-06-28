@@ -3,6 +3,7 @@ const debug = require('@ff0000-ad-tech/debug')
 var log = debug('wp-creative-server-app')
 
 module.exports = {
+	mode: 'production',
 	context: __dirname,
 	// devtool: debug ? 'inline-sourcemap' : null,
 	entry: './src/index.js',
