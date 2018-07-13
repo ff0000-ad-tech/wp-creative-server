@@ -3,6 +3,7 @@ const debug = require('@ff0000-ad-tech/debug')
 var log = debug('wp-creative-server-app')
 
 module.exports = {
+	mode: 'production',
 	context: __dirname,
 	// devtool: debug ? 'inline-sourcemap' : null,
 	entry: './src/index.js',
@@ -19,8 +20,8 @@ module.exports = {
 					{
 						loader: 'babel-loader',
 						options: {
-							presets: ['react', 'stage-3', 'es2015'],
-							plugins: ['transform-class-properties']
+							presets: ['@babel/preset-react', '@babel/preset-stage-3', '@babel/preset-env'],
+							plugins: ['@babel/plugin-proposal-class-properties']
 						}
 					}
 				]
