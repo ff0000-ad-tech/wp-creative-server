@@ -28,6 +28,10 @@ Configurable interface designed to simplify the process of building properly pac
 
 We recommend you start with [a working template](https://github.com/ff0000-ad-tech/tmpl-standard-base). Once you have a feel for the eco-system, adapt CS as needed to your process.
 
+# Webpack 4 Migration
+
+We're currently migrating the build process to Webpack 4. You read more about it [here](MIGRATION.md).
+
 # Features
 
 <a name="features"></a>
@@ -38,10 +42,10 @@ Utilize Webpack in a browser interface for ES6 banner development:
 
 ![Creative Server](https://github.com/ff0000-ad-tech/readme-assets/blob/master/wp-creative-server/full-app.png)
 
-* many sizes, many indexes
-* non-redundant, modular builds
-* watch states per size/index, optionally concurrent
-* debug & production bundles
+- many sizes, many indexes
+- non-redundant, modular builds
+- watch states per size/index, optionally concurrent
+- debug & production bundles
 
 ![Dashboard](https://github.com/ff0000-ad-tech/readme-assets/blob/master/wp-creative-server/dashboard.png)
 
@@ -57,8 +61,8 @@ Enable navigation of assets/outputs:
 
 ![Browser](https://github.com/ff0000-ad-tech/readme-assets/blob/master/wp-creative-server/browser.png)
 
-* Open files in associated editor app
-* Open directories in system file manager
+- Open files in associated editor app
+- Open directories in system file manager
 
 ### Preview
 
@@ -66,9 +70,9 @@ Provide a localhost for quickly testing builds:
 
 ![Preview](https://github.com/ff0000-ad-tech/readme-assets/blob/master/wp-creative-server/preview.png)
 
-* Run compiled units in browser
-* Easily refresh
-* Open units in a stand-alone tab for measuring k-weight
+- Run compiled units in browser
+- Easily refresh
+- Open units in a stand-alone tab for measuring k-weight
 
 ### Plugins
 
@@ -148,9 +152,12 @@ Add a `./plugins.json` at your `--context` location. It will contain an object w
 
 ```json
 {
-	"ad-es6-particles": "git+ssh://git@stash.ff0000.com:7999/at/ad-es6-particles.git",
-	"@ff0000-ad-tech/cs-plugin-bulk-compile": "git+ssh://git@github.com:ff0000-ad-tech/cs-plugin-bulk-compile.git",
-	"@ff0000-ad-tech/cs-plugin-vendor-indexes": "git+ssh://git@github.com:ff0000-ad-tech/cs-plugin-vendor-indexes.git"
+  "ad-es6-particles":
+    "git+ssh://git@stash.ff0000.com:7999/at/ad-es6-particles.git",
+  "@ff0000-ad-tech/cs-plugin-bulk-compile":
+    "git+ssh://git@github.com:ff0000-ad-tech/cs-plugin-bulk-compile.git",
+  "@ff0000-ad-tech/cs-plugin-vendor-indexes":
+    "git+ssh://git@github.com:ff0000-ad-tech/cs-plugin-vendor-indexes.git"
 }
 ```
 
@@ -188,10 +195,10 @@ http://10.0.7.126:5200/ad-es6-particles
 
 All plugin routes are sent the following:
 
-* `api` - Creative Server endpoint URL
-* `folders.build` - name of the build folder
-* `folders.debug` - name of the debug folder
-* `folders.traffic` - name of the traffic folder
+- `api` - Creative Server endpoint URL
+- `folders.build` - name of the build folder
+- `folders.debug` - name of the debug folder
+- `folders.traffic` - name of the traffic folder
 
 #### Plugin Hooks
 
@@ -201,11 +208,11 @@ Currently available hooks are:
 
 1.  `size-control` - your command will appear in a menu next to each ad-size. It will be passed:
 
-    * `size` - the requested size-folder name.
+    - `size` - the requested size-folder name.
 
 2.  `bulk-control` - your command will appear in a drop-down that will execute when the 🔥 is clicked. It will be passed:
-    * `profile` - name of the currently selected deploy profile (also the folder to which traffic-compiled ads are output)
-    * `targets` - an object with keys specifying paths to traffic-compiled output folders
+    - `profile` - name of the currently selected deploy profile (also the folder to which traffic-compiled ads are output)
+    - `targets` - an object with keys specifying paths to traffic-compiled output folders
 
 # CS Frontend Development
 
