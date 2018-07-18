@@ -1,16 +1,16 @@
 # Webpack 4 Migration
 
 ## Changes
-- Introduces new @index alias, which allows for script and/or payload variations per index file
-  - @index resolves to a directory that is the index file name without the .html extension. For example, if compiling a build for `index_onchannel.html`, `@index` would resolve to "index_onchannel"
-  - If no file exists after @index is resolved, it simply falls back to the parent directory that would have held the index folder. For example, if importing from "./images/@index/pic.jpg" and no index-specific folders exists, the resolver will import from "./images/pic.jpg" instead and let the developer know
+- Introduces new `@index` alias, which allows for script and/or payload variations per index file
+  - `@index` resolves to a directory that is the index file name without the .html extension. For example, if compiling a build for `index_onchannel.html`, `@index` would resolve to `index_onchannel`
+  - If no file exists after `@index` is resolved, it simply falls back to the parent directory that would have held the index folder. For example, if importing from `./images/@index/pic.jpg` and no index-specific folders exists, the resolver will import from `./images/pic.jpg` instead and let the developer know
   - If the resolver still can't find a file after falling back to the parent directory, Webpack will import an error about being unable to resolve the file, per usual 
 - Updated all of our Webpack plugins to use the new plugin/[Tapable](https://github.com/webpack/tapable) API
-- Updated Deploy Manager to use these Webpack 4 plugins as well as using [this uglify plugin](https://github.com/webpack-contrib/uglifyjs-webpack-plugin) since Uglify is no longer included within Webpack's core package
+- Updated Deploy Manager to use these Webpack 4 plugins as well as using [this Uglify plugin](https://github.com/webpack-contrib/uglifyjs-webpack-plugin) since Uglify is no longer included within Webpack's core package
 - Adjusted [wp-plugin-asset's](https://github.com/ff0000-ad-tech/wp-plugin-assets) recursive binary asset finding for Webpack's new internal graph representation
 - Using Webpack 4 modes:
-  - "development" in debug settings, which seems to only include plugins that work with HMR
-  - "production" in production settings, which contain plugins focused on optimization, such as on file size or browser performance
+  - `development` in debug settings, which seems to only include plugins that work with HMR
+  - `production` in production settings, which contain plugins focused on optimization, such as on file size or browser performance
   - more notes on mode and mode-specific plugins available [here](https://github.com/derekmiranda/ad-tech-notes/blob/master/webpack_4/mode_plugins.md)
 
 ## What would the migration affect?
