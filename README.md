@@ -30,7 +30,7 @@ We recommend you start with [a working template](https://github.com/ff0000-ad-te
 
 # Webpack 4 Migration
 
-We're currently migrating the build process to Webpack 4. You read more about it [here](MIGRATION.md).
+We migrated our build process to Webpack 4 on July 18, 2018. You can read more about it [here](https://github.com/ff0000-ad-tech/ad-docs/blob/master/MIGRATION/webpack4.md).
 
 # Features
 
@@ -152,12 +152,9 @@ Add a `./plugins.json` at your `--context` location. It will contain an object w
 
 ```json
 {
-  "ad-es6-particles":
-    "git+ssh://git@stash.ff0000.com:7999/at/ad-es6-particles.git",
-  "@ff0000-ad-tech/cs-plugin-bulk-compile":
-    "git+ssh://git@github.com:ff0000-ad-tech/cs-plugin-bulk-compile.git",
-  "@ff0000-ad-tech/cs-plugin-vendor-indexes":
-    "git+ssh://git@github.com:ff0000-ad-tech/cs-plugin-vendor-indexes.git"
+	"ad-es6-particles": "git+ssh://git@stash.ff0000.com:7999/at/ad-es6-particles.git",
+	"@ff0000-ad-tech/cs-plugin-bulk-compile": "git+ssh://git@github.com:ff0000-ad-tech/cs-plugin-bulk-compile.git",
+	"@ff0000-ad-tech/cs-plugin-vendor-indexes": "git+ssh://git@github.com:ff0000-ad-tech/cs-plugin-vendor-indexes.git"
 }
 ```
 
