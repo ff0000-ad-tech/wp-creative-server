@@ -16,7 +16,7 @@ const api = {
 	getAppMeta: miscRpc.getAppMeta,
 
 	getPlugins: pluginsRpc.getPlugins,
-	copyToClipboard: miscRpc.copyToClipboard,
+	copyPluginInstallCmd: pluginsRpc.copyPluginInstallCmd,
 
 	getCreative: creativeRpc.getCreative,
 
@@ -30,7 +30,8 @@ const api = {
 	addDeployTargets: profilesRpc.addDeployTargets,
 	removeDeployTargets: profilesRpc.removeDeployTargets,
 
-	copyWpCmd: compilingRpc.copyWpCmd
+	copyWpCmd: compilingRpc.copyWpCmd,
+	copyToClipboard: miscRpc.copyToClipboard
 }
 
 // connect dnode

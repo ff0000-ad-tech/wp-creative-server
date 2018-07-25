@@ -191,6 +191,19 @@ export default class Rpc {
 		)
 	}
 
+	/* -- PLUGINS -------------------------
+	*
+	*
+	*
+	*/
+	// npm install git+ssh://git@stash.ff0000.com:7999/at/ad-es6-particles.git --save
+	// npm install latest --save
+	copyPluginInstallCmd(dep, cb) {
+		this.remote.copyPluginInstallCmd(dep, cb, err => {
+			alert(err.message)
+		})
+	}
+
 	/* -- UTILS -------------------------
 	*
 	*

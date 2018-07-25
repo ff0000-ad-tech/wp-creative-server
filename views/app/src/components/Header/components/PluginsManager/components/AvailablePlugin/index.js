@@ -38,8 +38,8 @@ class AvailablePlugin extends Component {
 	}
 
 	copyPluginInstallCmd() {
-		const installCmd = `npm install ${this.props.plugins.available[this.props.plugin]} --save`
-		this.rpc.copyToClipboard(installCmd, () => {
+		// const installCmd = `npm install ${this.props.plugins.available[this.props.plugin]} --save`
+		this.rpc.copyPluginInstallCmd(this.props.plugin, () => {
 			this.setState({
 				showDialog: true
 			})
