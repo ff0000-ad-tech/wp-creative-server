@@ -23,7 +23,7 @@ class AvailablePlugin extends Component {
 		return (
 			<li key={this.props.plugin} className="clear-after">
 				<div className="name-col left">{this.props.plugin}</div>
-				<div className="state-col install-code left" title="Copy NPM install command to clipboard">
+				<div className="state-col install-code right" title="Copy NPM install command to clipboard">
 					<input
 						type="button"
 						onClick={() => {

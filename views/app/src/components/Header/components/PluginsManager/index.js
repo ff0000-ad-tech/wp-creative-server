@@ -76,7 +76,7 @@ class PluginsManager extends Component {
 		return (
 			<li key={plugin}>
 				<div className="name-col left">{plugin}</div>
-				<div className="state-col version left">v{this.props.plugins.installed[plugin].version}</div>
+				<div className="state-col version right">v{this.props.plugins.installed[plugin].version}</div>
 			</li>
 		)
 	}
