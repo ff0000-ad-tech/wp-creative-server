@@ -110,7 +110,7 @@ function executePluginApi(pluginPath, routes, params) {
 		const query = Object.assign(params, plugins.getDefaultQuery())
 
 		// prepare cli args
-		let args = ['node', `${pluginPath}/${routes.api}`]
+		let args = []
 		Object.keys(query).forEach(arg => {
 			// key
 			let cliArg = `-${arg}`
@@ -129,8 +129,17 @@ function executePluginApi(pluginPath, routes, params) {
 			args.push(cliValue)
 		})
 
+		let cmd = `node "${pluginPath}/${routes.api}"`
+		// windows
+		if (process.platform === 'win32') {
+			cmd += ` ${escapeCmdArgs(args)}`
+		}
+		// macos & other platforms
+		else {
+			cmd += ` ${shellescape(args)}`
+		}
+
 		// execute api command
-		const cmd = shellescape(args)
 		log(`API -> ${cmd}`)
 		exec(cmd, (err, stdout, stderr) => {
 			if (err) {
@@ -146,5 +155,16 @@ function executePluginApi(pluginPath, routes, params) {
 				})
 			}
 		})
+	})
+}
+
+function escapeCmdArgs(args) {
+	return args.map(arg => {
+		if (!arg.match(/^--/)) {
+			arg = arg.replace(/"/g, '\\"')
+			return `"${arg}"`
+		} else {
+			return arg
+		}
 	})
 }
