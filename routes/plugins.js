@@ -130,15 +130,8 @@ function executePluginApi(pluginPath, routes, params) {
 			args.push(cliValue)
 		})
 
-		let cmd = `node "${pluginPath}/${routes.api}"`
-		// windows
-		if (process.platform === 'win32') {
-			cmd += ` ${cmdEscape(args)}`
-		}
-		// macos & other platforms
-		else {
-			cmd += ` ${shellescape(args)}`
-		}
+		// using double-quotes to be compatible with winblows
+		const cmd = `node "${pluginPath}/${routes.api}" ${cmdEscape(args)}`
 
 		// execute api command
 		log(`API -> ${cmd}`)
