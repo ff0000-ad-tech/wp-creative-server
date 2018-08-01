@@ -132,7 +132,7 @@ function executePluginApi(pluginPath, routes, params) {
 		let cmd = `node "${pluginPath}/${routes.api}"`
 		// windows
 		if (process.platform === 'win32') {
-			cmd += ` ${escapeCmdArgs(args)}`
+			cmd += ` ${cmdEscape(args)}`
 		}
 		// macos & other platforms
 		else {
@@ -158,13 +158,15 @@ function executePluginApi(pluginPath, routes, params) {
 	})
 }
 
-function escapeCmdArgs(args) {
-	return args.map(arg => {
-		if (!arg.match(/^--/)) {
-			arg = arg.replace(/"/g, '\\"')
-			return `"${arg}"`
-		} else {
-			return arg
-		}
-	})
+function cmdEscape(args) {
+	return args
+		.map(arg => {
+			if (!arg.match(/^--/)) {
+				arg = arg.replace(/"/g, '\\"')
+				return `"${arg}"`
+			} else {
+				return arg
+			}
+		})
+		.join(' ')
 }
