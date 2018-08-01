@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const exec = require('child_process').exec
 const shellescape = require('shell-escape')
+const cmdEscape = require('cmd-escape')
 
 const plugins = require('../lib/plugins.js')
 
@@ -156,17 +157,4 @@ function executePluginApi(pluginPath, routes, params) {
 			}
 		})
 	})
-}
-
-function cmdEscape(args) {
-	return args
-		.map(arg => {
-			if (!arg.match(/^--/)) {
-				arg = arg.replace(/"/g, '\\"')
-				return `"${arg}"`
-			} else {
-				return arg
-			}
-		})
-		.join(' ')
 }
