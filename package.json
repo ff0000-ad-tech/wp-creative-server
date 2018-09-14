@@ -24,6 +24,7 @@
 		"clipboardy": "^1.2.2",
 		"dnode": "^1.2.2",
 		"express": "^4.16.2",
+		"get-port": "^4.0.0",
 		"is-semver": "^1.0.8",
 		"lodash": "^4.17.4",
 		"minimist": "^1.2.0",
