@@ -18,13 +18,12 @@
 	"author": "RED Interactive Agency",
 	"license": "MIT",
 	"dependencies": {
-		"@ff0000-ad-tech/debug": "latest",
-		"@ff0000-ad-tech/serve-index": "latest",
-		"@ff0000-ad-tech/unix-path-literal": "latest",
+		"@ff0000-ad-tech/debug": "^4.0.2",
+		"@ff0000-ad-tech/serve-index": "^1.9.5",
+		"@ff0000-ad-tech/unix-path-literal": "^1.0.2",
 		"clipboardy": "^1.2.2",
 		"dnode": "^1.2.2",
 		"express": "^4.16.2",
-		"get-port": "^4.0.0",
 		"is-semver": "^1.0.8",
 		"lodash": "^4.17.4",
 		"minimist": "^1.2.0",
@@ -32,7 +31,8 @@
 		"open": "0.0.5",
 		"serve-static": "^1.13.2",
 		"shell-escape": "^0.2.0",
-		"shoe": "0.0.15"
+		"shoe": "0.0.15",
+		"tcp-port-used": "^1.0.0"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.0.0-beta.51",
