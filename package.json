@@ -31,8 +31,7 @@
 		"open": "0.0.5",
 		"serve-static": "^1.13.2",
 		"shell-escape": "^0.2.0",
-		"shoe": "0.0.15",
-		"tcp-port-used": "^1.0.0"
+		"shoe": "0.0.15"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.0.0-beta.51",

@@ -12,10 +12,12 @@ var log = debug('wp-creative-server')
 
 // determine IP
 global.serveIp = network.getIp()
+// will increase sequentially until available ip/port is found
 global.servePort = 5200
-global.origin = `http://${global.serveIp}:${global.servePort}`
-global.app = `${global.origin}/app`
-global.api = `${global.origin}/api`
+// set once the server is running
+global.origin
+global.app
+global.api
 
 // set app-path
 global.appPath = __dirname
@@ -86,13 +88,16 @@ require('./routes/browse')(app, express)
  *
  */
 portManager
-	.getNextAvailable(global)
+	.getNextAvailable(app, global.serveIp, global.servePort)
 	.then(port => {
 		global.servePort = port
-
 		// start server and install duplex RPC
 		sock.install(
 			app.listen(global.servePort, global.serveIp, () => {
+				global.origin = `http://${global.serveIp}:${global.servePort}`
+				global.app = `${global.origin}/app`
+				global.api = `${global.origin}/api`
+
 				log(`Server running at ${global.app}`)
 				// open browser, after server is ready
 				if ('browser' in argv) {
