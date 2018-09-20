@@ -28,7 +28,6 @@ global.appPath = __dirname
 // ex: `node node_modules/wp-creative-server/index.js --context ./`
 global.servePath = path.resolve('context' in argv ? argv.context : global.appPath)
 log(`Requested --context ${argv.context}`)
-log(` Origin is: ${global.origin}`)
 log(` Serve path is: ${global.servePath}`)
 
 /* -- Setup -----------------------------------------------
@@ -97,7 +96,9 @@ portManager
 				global.origin = `http://${global.serveIp}:${global.servePort}`
 				global.app = `${global.origin}/app`
 				global.api = `${global.origin}/api`
-
+				log(`Origin: ${global.origin}`)
+				log(`API: ${global.api}`)
+				log(``)
 				log(`Server running at ${global.app}`)
 				// open browser, after server is ready
 				if ('browser' in argv) {
