@@ -5,16 +5,19 @@ const path = require('path')
 const open = require('open')
 
 const network = require('./lib/network.js')
+const portManager = require('./lib/port-manager.js')
 
 const debug = require('@ff0000-ad-tech/debug')
 var log = debug('wp-creative-server')
 
 // determine IP
 global.serveIp = network.getIp()
-global.servePort = '5200'
-global.origin = `http://${global.serveIp}:${global.servePort}`
-global.app = `${global.origin}/app`
-global.api = `${global.origin}/api`
+// will increase sequentially until available ip/port is found
+global.servePort = 5200
+// set once the server is running
+global.origin
+global.app
+global.api
 
 // set app-path
 global.appPath = __dirname
@@ -84,18 +87,30 @@ require('./routes/browse')(app, express)
  *
  *
  */
+portManager
+	.getNextAvailable(app, global.serveIp, global.servePort)
+	.then(port => {
+		global.servePort = port
+		// start server and install duplex RPC
+		sock.install(
+			app.listen(global.servePort, global.serveIp, () => {
+				global.origin = `http://${global.serveIp}:${global.servePort}`
+				global.app = `${global.origin}/app`
+				global.api = `${global.origin}/api`
 
-// start server and install duplex RPC
-sock.install(
-	app.listen(global.servePort, global.serveIp, () => {
-		log(`Server running at ${global.app}`)
-		// open browser, after server is ready
-		if ('browser' in argv) {
-			open(`${global.app}`)
-		}
-	}),
-	'/dnode'
-)
+				log(`Server running at ${global.app}`)
+				// open browser, after server is ready
+				if ('browser' in argv) {
+					open(`${global.app}`)
+				}
+			}),
+			'/dnode'
+		)
+	})
+	.catch(err => {
+		log(`Unable to start server!`)
+		log(err)
+	})
 
 const background = require('./lib/compiling/background.js')
 function cleanup() {
