@@ -1,7 +1,6 @@
 const fs = require('fs')
 const path = require('path')
 const exec = require('child_process').exec
-const shellescape = require('shell-escape')
 const cmdEscape = require('@ff0000-ad-tech/cmd-escape')
 
 const plugins = require('../lib/plugins.js')
