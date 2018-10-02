@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const exec = require('child_process').exec
-const shellescape = require('shell-escape')
+const cmdEscape = require('@ff0000-ad-tech/cmd-escape')
 
 const plugins = require('../lib/plugins.js')
 
@@ -110,7 +110,7 @@ function executePluginApi(pluginPath, routes, params) {
 		const query = Object.assign(params, plugins.getDefaultQuery())
 
 		// prepare cli args
-		let args = ['node', `${pluginPath}/${routes.api}`]
+		let args = []
 		Object.keys(query).forEach(arg => {
 			// key
 			let cliArg = `-${arg}`
@@ -129,8 +129,10 @@ function executePluginApi(pluginPath, routes, params) {
 			args.push(cliValue)
 		})
 
+		// using double-quotes to be compatible with winblows
+		const cmd = `node "${pluginPath}/${routes.api}" ${cmdEscape(args)}`
+
 		// execute api command
-		const cmd = shellescape(args)
 		log(`API -> ${cmd}`)
 		exec(cmd, (err, stdout, stderr) => {
 			if (err) {
