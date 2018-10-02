@@ -130,4 +130,10 @@ module.exports = (app, express) => {
 		open(path.resolve(`${global.servePath}/${target}`))
 		res.sendStatus(200)
 	})
+
+	// SHUTDOWN CREATIVE SERVER
+	app.get('/api/exit', (req, res) => {
+		res.sendStatus(200)
+		process.exit()
+	})
 }
