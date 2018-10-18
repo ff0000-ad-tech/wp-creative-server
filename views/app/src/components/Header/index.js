@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 
 import PluginsManager from './components/PluginsManager'
+import { xhr } from 'AppSrc/lib/utils.js'
 
 import './style.scss'
 import logo from './images/icon_32.png'
@@ -33,6 +34,12 @@ class Header extends PureComponent {
 		})
 	}
 
+	exitCs() {
+		if (window.confirm('Do you want to shut down Creative Server?')) {
+			window.open('/api/exit')
+		}
+	}
+
 	refreshApp = () => {
 		location.href = '/app'
 	}
@@ -52,9 +59,12 @@ class Header extends PureComponent {
 						</a>
 					</div>
 
-					<div className="right">
+					<div className="control-menu right">
 						<div className="plugins button" onClick={this.showEditor}>
 							PLUGINS
+						</div>
+						<div className="exit button" onClick={this.exitCs}>
+							X
 						</div>
 					</div>
 				</div>

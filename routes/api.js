@@ -133,7 +133,7 @@ module.exports = (app, express) => {
 
 	// SHUTDOWN CREATIVE SERVER
 	app.get('/api/exit', (req, res) => {
-		res.sendStatus(200)
+		res.send('This instance of Creative Server has been shut down.')
 		process.exit()
 	})
 }

@@ -8,7 +8,8 @@
 	"main": "index.js",
 	"scripts": {
 		"server": "NODE_ENV=development DEBUG=* node index.js",
-		"build": "webpack --config views/app/webpack.config.js",
+		"build": "webpack --config views/app/webpack.config.js --mode=development",
+		"prod": "webpack --config views/app/webpack.config.js --mode=production",
 		"pub": "np"
 	},
 	"repository": {
@@ -35,7 +36,10 @@
 	},
 	"devDependencies": {
 		"@babel/core": "^7.0.0-beta.51",
-		"@babel/plugin-proposal-class-properties": "^7.0.0-beta.51",
+		"@babel/plugin-proposal-class-properties": "^7.1.0",
+		"@babel/plugin-proposal-json-strings": "^7.0.0",
+		"@babel/plugin-syntax-dynamic-import": "^7.0.0",
+		"@babel/plugin-syntax-import-meta": "^7.0.0",
 		"@babel/preset-env": "^7.0.0-beta.51",
 		"@babel/preset-react": "^7.0.0-beta.51",
 		"@babel/preset-stage-3": "^7.0.0-beta.51",
