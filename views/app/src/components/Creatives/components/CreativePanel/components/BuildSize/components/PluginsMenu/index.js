@@ -71,7 +71,7 @@ class PluginsMenu extends Component {
 		}
 		const settings = plugins.getPluginSettings(this.props.plugins, plugin)
 		const req = plugins.getPluginRequest(plugin, settings.hooks['size-control'][label], args)
-		location.href = req
+		plugins.execute(req)
 	}
 }
 

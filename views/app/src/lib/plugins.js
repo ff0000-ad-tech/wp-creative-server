@@ -1,6 +1,4 @@
-import { BUILD_FOLDER } from 'Root/lib/utils.js'
-import { DEBUG_FOLDER } from 'Root/lib/utils.js'
-import { TRAFFIC_FOLDER } from 'Root/lib/utils.js'
+import { xhr } from 'AppSrc/lib/utils.js'
 
 import debug from '@ff0000-ad-tech/debug'
 const log = debug('wp-cs:app:plugins')
@@ -55,7 +53,10 @@ export function getPluginRequest(plugin, route, args) {
 		})
 		qs = qs.slice(1)
 	}
-	return `/${plugin}${p.route}/${query}${qs}`
+	return {
+		type: p.type,
+		url: `/${plugin}${p.route}/${query}${qs}`
+	}
 }
 
 // prepares a plugin's declared route (which may contain hard-coded query-string params)
@@ -71,8 +72,35 @@ function getPluginRoute(str) {
 		})
 		query = args.join('&')
 	}
+	// determine route type
+	let type = 'api'
+	if (route.match(/^\/app/)) {
+		type = 'app'
+	}
 	return {
+		type,
 		route,
 		query
+	}
+}
+
+export function execute(req, cb) {
+	// "app" type urls open a new window
+	if (req.type === 'app') {
+		location.href = req.url
+	}
+	// "api" type urls XHR data
+	else {
+		xhr(
+			req.url,
+			err => {
+				alert(err)
+			},
+			result => {
+				if (cb) {
+					cb(result)
+				}
+			}
+		)
 	}
 }
