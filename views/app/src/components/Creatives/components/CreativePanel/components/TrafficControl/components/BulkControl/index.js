@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Rpc from 'AppSrc/lib/rpc.js'
-import { xhr, getOutputRoute } from 'AppSrc/lib/utils.js'
+import { getOutputRoute } from 'AppSrc/lib/utils.js'
 import * as plugins from 'AppSrc/lib/plugins.js'
 
 import debug from '@ff0000-ad-tech/debug'
@@ -30,15 +30,9 @@ class BulkControl extends PureComponent {
 						targets: this.getSelectedTargets()
 					}
 					const req = plugins.getPluginRequest(plugin, settings.hooks['bulk-control'][this.bulkControl.value], args)
-					xhr(
-						req,
-						err => {
-							alert(err)
-						},
-						result => {
-							log(result)
-						}
-					)
+					plugins.execute(req, result => {
+						log(result)
+					})
 					return
 				}
 			}
