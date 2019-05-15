@@ -40,39 +40,39 @@ We migrated our build process to Webpack 4 on July 18, 2018. You can read more a
 
 Utilize Webpack in a browser interface for ES6 banner development:
 
-![Creative Server](https://github.com/ff0000-ad-tech/readme-assets/blob/master/wp-creative-server/full-app.png)
+![Creative Server](https://github.com/ff0000-ad-tech/ad-docs/blob/master/assets/wp-creative-server/full-app.png)
 
-- many sizes, many indexes
-- non-redundant, modular builds
-- watch states per size/index, optionally concurrent
-- debug & production bundles
+-   many sizes, many indexes
+-   non-redundant, modular builds
+-   watch states per size/index, optionally concurrent
+-   debug & production bundles
 
-![Dashboard](https://github.com/ff0000-ad-tech/readme-assets/blob/master/wp-creative-server/dashboard.png)
+![Dashboard](https://github.com/ff0000-ad-tech/ad-docs/blob/master/assets/wp-creative-server/dashboard.png)
 
 ### Deploy Profiles
 
 Manage deploy-profiles, Webpack settings, and any other collection data:
 
-![Deploy Profile Settings](https://github.com/ff0000-ad-tech/readme-assets/blob/master/wp-creative-server/deploy-profile-settings.png)
+![Deploy Profile Settings](https://github.com/ff0000-ad-tech/ad-docs/blob/master/assets/wp-creative-server/deploy-profile-settings.png)
 
 ### Browser
 
 Enable navigation of assets/outputs:
 
-![Browser](https://github.com/ff0000-ad-tech/readme-assets/blob/master/wp-creative-server/browser.png)
+![Browser](https://github.com/ff0000-ad-tech/ad-docs/blob/master/assets/wp-creative-server/browser.png)
 
-- Open files in associated editor app
-- Open directories in system file manager
+-   Open files in associated editor app
+-   Open directories in system file manager
 
 ### Preview
 
 Provide a localhost for quickly testing builds:
 
-![Preview](https://github.com/ff0000-ad-tech/readme-assets/blob/master/wp-creative-server/preview.png)
+![Preview](https://github.com/ff0000-ad-tech/ad-docs/blob/master/assets/wp-creative-server/preview.png)
 
-- Run compiled units in browser
-- Easily refresh
-- Open units in a stand-alone tab for measuring k-weight
+-   Run compiled units in browser
+-   Easily refresh
+-   Open units in a stand-alone tab for measuring k-weight
 
 ### Plugins
 
@@ -192,10 +192,10 @@ http://10.0.7.126:5200/ad-es6-particles
 
 All plugin routes are sent the following:
 
-- `api` - Creative Server endpoint URL
-- `folders.build` - name of the build folder
-- `folders.debug` - name of the debug folder
-- `folders.traffic` - name of the traffic folder
+-   `api` - Creative Server endpoint URL
+-   `folders.build` - name of the build folder
+-   `folders.debug` - name of the debug folder
+-   `folders.traffic` - name of the traffic folder
 
 #### Plugin Hooks
 
@@ -205,11 +205,11 @@ Currently available hooks are:
 
 1.  `size-control` - your command will appear in a menu next to each ad-size. It will be passed:
 
-    - `size` - the requested size-folder name.
+    -   `size` - the requested size-folder name.
 
 2.  `bulk-control` - your command will appear in a drop-down that will execute when the 🔥 is clicked. It will be passed:
-    - `profile` - name of the currently selected deploy profile (also the folder to which traffic-compiled ads are output)
-    - `targets` - an object with keys specifying paths to traffic-compiled output folders
+    -   `profile` - name of the currently selected deploy profile (also the folder to which traffic-compiled ads are output)
+    -   `targets` - an object with keys specifying paths to traffic-compiled output folders
 
 # CS Frontend Development
 
