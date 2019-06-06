@@ -27,5 +27,12 @@ const rootReducer = combineReducers({
 
 export default function configureStore(initialState) {
 	log('configureStore()')
-	return createStore(rootReducer, initialState, applyMiddleware(thunkMiddleware)) //, loggerMiddleware))
+	return createStore(
+		rootReducer,
+		initialState,
+		// allows usage w/ Redux DevTools: https://github.com/zalmoxisus/redux-devtools-extension
+		window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+		applyMiddleware(thunkMiddleware)
+	)
+	//, loggerMiddleware))
 }
