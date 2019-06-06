@@ -40,9 +40,10 @@ export function getOutputRoute(size, index, profile) {
 	return `/${context + size + name}/${getLocationQueryStr()}`
 }
 
-// would use window.location.search to easily get query string
-// but that property isn't supported in IE :/
 export function getLocationQueryStr() {
+	if (window.location.search) {
+		return window.location.search
+	}
 	// look for query string on current window location
 	const queryStrMatch = /[^\?]+(\?.*)?/.exec(window.location.href)
 	return (queryStrMatch && queryStrMatch[1]) || ''
