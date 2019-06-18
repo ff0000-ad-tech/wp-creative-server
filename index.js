@@ -107,7 +107,7 @@ portManager
 				}
 				// start request timeout, if requested
 				if ('timeout' in argv) {
-					timeout.setCsTimeout(Number(argv.timeout))
+					timeout.setCsTimeout(Number(argv.timeout), cleanup)
 				}
 			}),
 			'/dnode'
