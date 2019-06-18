@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux'
+import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
 
 import thunkMiddleware from 'redux-thunk'
 // import { createLogger } from 'redux-logger'
@@ -25,7 +25,12 @@ const rootReducer = combineReducers({
 
 // let loggerMiddleware = createLogger()
 
+// use compose to allow enhanced store w/ Redux DevTools
+// more details: https://github.com/zalmoxisus/redux-devtools-extension
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+
 export default function configureStore(initialState) {
 	log('configureStore()')
-	return createStore(rootReducer, initialState, applyMiddleware(thunkMiddleware)) //, loggerMiddleware))
+	return createStore(rootReducer, initialState, composeEnhancers(applyMiddleware(thunkMiddleware)))
+	//, loggerMiddleware))
 }

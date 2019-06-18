@@ -37,5 +37,14 @@ export function getOutputRoute(size, index, profile) {
 	if (name !== '') {
 		name = `__${name}`
 	}
-	return `/${context + size + name}/`
+	return `/${context + size + name}/${getLocationQueryStr()}`
+}
+
+export function getLocationQueryStr() {
+	if (window.location.search) {
+		return window.location.search
+	}
+	// look for query string on current window location
+	const queryStrMatch = /[^\?]+(\?.*)?/.exec(window.location.href)
+	return (queryStrMatch && queryStrMatch[1]) || ''
 }
