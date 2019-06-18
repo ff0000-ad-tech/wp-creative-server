@@ -36,8 +36,8 @@ const api = {
 
 // connect dnode
 function connect(options) {
-	log('Connecting Public API:')
-	log(api)
+	log('Connecting RPC-API')
+	// log(api)
 	// on request
 	var sock = shoe(function(stream) {
 		var d = dnode(api)
