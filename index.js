@@ -6,6 +6,7 @@ const open = require('open')
 
 const network = require('./lib/network.js')
 const portManager = require('./lib/port-manager.js')
+const timeout = require('./lib/timeout.js')
 
 const debug = require('@ff0000-ad-tech/debug')
 var log = debug('wp-creative-server')
@@ -103,6 +104,10 @@ portManager
 				// open browser, after server is ready
 				if ('browser' in argv) {
 					open(`${global.app}`)
+				}
+				// start request timeout, if requested
+				if ('timeout' in argv) {
+					timeout.setCsTimeout(Number(argv.timeout))
 				}
 			}),
 			'/dnode'
