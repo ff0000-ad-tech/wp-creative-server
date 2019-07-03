@@ -115,7 +115,7 @@ portManager
 	})
 	.catch(err => {
 		log(`Unable to start server!`)
-		log(err)
+		throw err
 	})
 
 const background = require('./lib/compiling/background.js')
@@ -134,6 +134,5 @@ process.on('exit', code => {
 	log(`Exit code: ${code}`)
 })
 process.on('uncaughtException', err => {
-	log(err)
-	cleanup()
+	throw err
 })
