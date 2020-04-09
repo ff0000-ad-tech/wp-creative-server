@@ -7,6 +7,8 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
+		"watch-backend": "npx nodemon --ignore ./views --ignore ./data --ignore ./data-tmp",
+		"watch": "webpack --config views/app/webpack.config.js --mode=development --watch",
 		"server": "NODE_ENV=development DEBUG=* node index.js",
 		"build": "webpack --config views/app/webpack.config.js --mode=development",
 		"prod": "webpack --config views/app/webpack.config.js --mode=production",
@@ -56,6 +58,7 @@
 		"eslint-config-prettier": "^2.9.0",
 		"eslint-plugin-prettier": "^2.5.0",
 		"node-sass": "^4.8.2",
+		"nodemon": "^2.0.3",
 		"np": "^2.19.0",
 		"prettier": "^1.10.2",
 		"react": "^16.2.0",
