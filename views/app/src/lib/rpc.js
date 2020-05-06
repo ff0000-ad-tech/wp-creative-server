@@ -65,9 +65,9 @@ export default class Rpc {
 		log('rpc.js getPlugins()')
 		axios
 			.get('/api/get-plugins')
-			.then(plugins => {
-				log('		getPlugins().plugins:', plugins)
-				this.store.dispatch(pluginsUpdate(plugins))
+			.then(res => {
+				log('		getPlugins().res.data:', res.data)
+				this.store.dispatch(pluginsUpdate(res.data))
 			})
 			.catch(error => {
 				log(error)

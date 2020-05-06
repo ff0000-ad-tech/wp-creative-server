@@ -148,6 +148,7 @@ module.exports = (app, express) => {
 
 		// get available plugins
 		const available = plugins.getAvailable()
+		log('		available', available)
 		if (!available) {
 			// return cb()
 			res.status(200).send({})
