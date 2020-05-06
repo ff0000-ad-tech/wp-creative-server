@@ -10,6 +10,9 @@ const targets = require('../lib/targets.js')
 const watching = require('../lib/compiling/watching.js')
 const background = require('../lib/compiling/background.js')
 
+const pkg = require('../package.json')
+const plugins = require('../lib/plugins.js')
+
 const debug = require('@ff0000-ad-tech/debug')
 var log = debug('wp-creative-server:route:api')
 
@@ -131,6 +134,37 @@ module.exports = (app, express) => {
 		const target = decodeURIComponent(req.query.target)
 		open(path.resolve(`${global.servePath}/${target}`))
 		res.sendStatus(200)
+	})
+
+	// get App Meta
+	app.get('/api/get-app-meta', (req, res) => {
+		log('api.js /api/get-app-meta')
+		res.status(200).send({ version: pkg.version })
+	})
+
+	// get plugins
+	app.get('/api/get-plugins', [mw.markActivity], (req, res) => {
+		log('api.js /api/get-plugins')
+
+		// get available plugins
+		const available = plugins.getAvailable()
+		if (!available) {
+			// return cb()
+			res.status(200).send({})
+		}
+
+		// get installed plugins
+		const installed = plugins.getInstalled(available)
+
+		var out = {
+			available,
+			installed
+		}
+		// cb(out)
+
+		// const target = decodeURIComponent(req.query.target)
+		// open(path.resolve(`${global.servePath}/${target}`))
+		res.status(200).send(out)
 	})
 
 	// SHUTDOWN CREATIVE SERVER
