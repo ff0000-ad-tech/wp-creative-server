@@ -12,6 +12,7 @@ const background = require('../lib/compiling/background.js')
 
 const pkg = require('../package.json')
 const plugins = require('../lib/plugins.js')
+const clipboardy = require('clipboardy')
 
 const debug = require('@ff0000-ad-tech/debug')
 var log = debug('wp-creative-server:route:api')
@@ -143,7 +144,7 @@ module.exports = (app, express) => {
 	})
 
 	// get plugins
-	app.get('/api/get-plugins', [mw.markActivity], (req, res) => {
+	app.get('/api/get-plugins', (req, res) => {
 		log('api.js /api/get-plugins')
 
 		// get available plugins
@@ -167,6 +168,84 @@ module.exports = (app, express) => {
 		// open(path.resolve(`${global.servePath}/${target}`))
 		res.status(200).send(out)
 	})
+
+	app.get('/api/get-creative', (req, res) => {
+		log('api.js /api/get-creative')
+		var out = {
+			name: state.getCreativeName()
+		}
+		res.status(200).send(out)
+	})
+
+	app.get('/api/read-targets', (req, res) => {
+		log('api.js /api/read-targets')
+		// targets.readTargets()
+		const targets = state.getTargets()
+		log(targets)
+		const out = {}
+		// pair down the result
+		for (var id in targets) {
+			out[id] = {
+				size: targets[id].size,
+				index: targets[id].index,
+				watching: {}
+			}
+			Object.keys(targets[id].watching).forEach(profile => {
+				out[id].watching[profile] = {
+					watching: targets[id].watching[profile].watching,
+					processing: targets[id].watching[profile].processing,
+					error: targets[id].watching[profile].error
+				}
+			})
+		}
+		log(out)
+		res.status(200).send(targets)
+	})
+
+	app.get('/api/refresh-targets', (req, res) => {
+		log('api.js /api/refresh-targets')
+		const targets = state.getTargets()
+		log(targets)
+		const out = {}
+		// pair down the result
+		for (var id in targets) {
+			out[id] = {
+				size: targets[id].size,
+				index: targets[id].index,
+				watching: {}
+			}
+			Object.keys(targets[id].watching).forEach(profile => {
+				out[id].watching[profile] = {
+					watching: targets[id].watching[profile].watching,
+					processing: targets[id].watching[profile].processing,
+					error: targets[id].watching[profile].error
+				}
+			})
+		}
+		log(out)
+		res.status(200).send(targets)
+	})
+
+	app.post('/api/copy-wp-cmd', (req, res) => {
+		const body = req.body
+		log('api.js /api/copy-wp-cmd')
+		log('		body:', body)
+		log('		clipboardy:', clipboardy)
+		const cmd = watching.getWpCmd(targets, body.type, body.size, body.index)
+		if (cmd instanceof Error) {
+			return err(cmd)
+		}
+		clipboardy.writeSync(cmd.shell)
+		res.status(200).send(res)
+	})
+	/* app.get('/api/copy-wp-cmd/:ctype/:size/:index', (req, res) => {
+		// req.params.ctype
+		// req.params.size
+		// req.params.index
+		res.status(200).send(res)
+	}) */
+
+	// app.get('api/get-profile/:name', (req, res) => {})
 
 	// SHUTDOWN CREATIVE SERVER
 	app.get('/api/exit', [mw.markActivity], (req, res) => {

@@ -84,13 +84,18 @@ export default class Rpc {
 	*/
 	getCreative() {
 		log('rpc.js getCreative()')
-		/* axios.get('../lib/rpc/creative.js:getCreative', creative => {
+		axios
+			.get('/api/get-creative')
+			.then(res => {
+				log('		getCreative:', res.data)
+				this.store.dispatch(creativeUpdate(res.data))
+			})
+			.catch(error => {
+				log(error)
+			})
+		/* this.remote.getCreative(creative => {
 			this.store.dispatch(creativeUpdate(creative))
-			log('		getCreative().creative:' + creative)
 		}) */
-		this.remote.getCreative(creative => {
-			this.store.dispatch(creativeUpdate(creative))
-		})
 	}
 
 	/* -- TARGETS -------------------------
@@ -100,7 +105,16 @@ export default class Rpc {
 	*/
 	readTargets() {
 		log('rpc.js readTargets()')
-		this.remote.readTargets(
+		axios
+			.get('/api/read-targets')
+			.then(res => {
+				log1('READ', res.data)
+				this.store.dispatch(targetsUpdate(res.data))
+			})
+			.catch(error => {
+				log(error)
+			})
+		/* this.remote.readTargets(
 			targets => {
 				log1('READ', targets)
 				this.store.dispatch(targetsUpdate(targets))
@@ -108,11 +122,20 @@ export default class Rpc {
 			err => {
 				console.log(err)
 			}
-		)
+		) */
 	}
 	refreshTargets() {
 		// log('rpc.js refreshTargets()')
-		this.remote.refreshTargets(
+		axios
+			.get('/api/refresh-targets')
+			.then(res => {
+				log1('refresh', res.data)
+				this.store.dispatch(targetsUpdate(res.data))
+			})
+			.catch(error => {
+				log(error)
+			})
+		/* this.remote.refreshTargets(
 			targets => {
 				log1('refresh', targets)
 				this.store.dispatch(targetsUpdate(targets))
@@ -120,7 +143,7 @@ export default class Rpc {
 			err => {
 				console.log(err)
 			}
-		)
+		) */
 	}
 
 	/* -- COMPILING -------------------------
@@ -130,9 +153,22 @@ export default class Rpc {
 	*/
 	copyWpCmd(ctype, size, index, cb) {
 		log('rpc.js copyWpCmd()')
-		this.remote.copyWpCmd(ctype, size, index, cb, err => {
+		axios
+			.post('/api/copy-wp-cmd', {
+				type: ctype,
+				size: size,
+				index: index
+			})
+			// .get('/api/copy-wp-cmd', ctype, size, index)
+			.then(res => {
+				alert(res.data.err)
+			})
+			.catch(error => {
+				log(error)
+			})
+		/* this.remote.copyWpCmd(ctype, size, index, cb, err => {
 			alert(err.message)
-		})
+		}) */
 	}
 
 	/* -- PROFILES -------------------------
