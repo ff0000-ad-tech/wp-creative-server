@@ -24,7 +24,7 @@ export default class Rpc {
 
 	// connect-remote is browserified and <script>-loaded
 	connect(cb) {
-		log('rpc.js connect()')
+		log('connect()')
 		window.connectRemote((err, r) => {
 			if (err) {
 				throw 'Unable to connect-remote!'
@@ -40,7 +40,7 @@ export default class Rpc {
 	*
 	*/
 	getAppMeta(cb) {
-		log('rpc.js getAppMeta()')
+		log('getAppMeta()')
 		// axios.get('../lib/rpc/misc.js:getAppMeta', app => {
 		axios
 			.get('/api/get-app-meta')
@@ -62,7 +62,7 @@ export default class Rpc {
 	*
 	*/
 	getPlugins() {
-		log('rpc.js getPlugins()')
+		log('getPlugins()')
 		axios
 			.get('/api/get-plugins')
 			.then(res => {
@@ -83,7 +83,7 @@ export default class Rpc {
 	*
 	*/
 	getCreative() {
-		log('rpc.js getCreative()')
+		log('getCreative()')
 		axios
 			.get('/api/get-creative')
 			.then(res => {
@@ -104,7 +104,7 @@ export default class Rpc {
 	*
 	*/
 	readTargets() {
-		log('rpc.js readTargets()')
+		log('readTargets()')
 		axios
 			.get('/api/read-targets')
 			.then(res => {
@@ -125,7 +125,7 @@ export default class Rpc {
 		) */
 	}
 	refreshTargets() {
-		// log('rpc.js refreshTargets()')
+		// log('refreshTargets()')
 		axios
 			.get('/api/refresh-targets')
 			.then(res => {
@@ -152,7 +152,7 @@ export default class Rpc {
 	*
 	*/
 	copyWpCmd(ctype, size, index, cb) {
-		log('rpc.js copyWpCmd()')
+		log('copyWpCmd()')
 		axios
 			.post('/api/copy-wp-cmd', {
 				type: ctype,
@@ -160,8 +160,11 @@ export default class Rpc {
 				index: index
 			})
 			// .get('/api/copy-wp-cmd', ctype, size, index)
-			.then(res => {
-				alert(res.data.err)
+			.then(err => {
+				// alert(res.data.err)
+				// alert(res.data.message)
+				// alert(err.message)
+				// ** must revisit to figure out how to get the small 'Copied!' alert to show
 			})
 			.catch(error => {
 				log(error)
@@ -177,8 +180,18 @@ export default class Rpc {
 	*
 	*/
 	getProfiles() {
-		// log('rpc.js getProfiles()')
-		this.remote.getProfiles(
+		// log('getProfiles()')
+		axios
+			.get('/api/get-profiles')
+			.then(res => {
+				log1('res.data', res.data)
+				this.store.dispatch(profilesUpdate(res.data))
+			})
+			.catch(error => {
+				// TODO: handle RPC errors better, more consistently
+				alert(error.message)
+			})
+		/* this.remote.getProfiles(
 			profiles => {
 				log1('profiles', profiles)
 				this.store.dispatch(profilesUpdate(profiles))
@@ -187,21 +200,32 @@ export default class Rpc {
 				// TODO: handle RPC errors better, more consistently
 				alert(err.message)
 			}
-		)
+		) */
 	}
 	newProfile(name) {
-		log('rpc.js newProfile()')
-		this.remote.newProfile(
+		log('newProfile()')
+		axios
+			.post('/api/new-profile', {
+				name: name
+			})
+			.then(res => {
+				this.readTargets()
+				this.getProfiles()
+			})
+			.catch(error => {
+				alert(error.message)
+			})
+		/* this.remote.newProfile(
 			name,
 			() => {
 				this.readTargets()
 				this.getProfiles()
 			},
 			err => {}
-		)
+		) */
 	}
 	updateProfile(name, profile) {
-		log('rpc.js updateProfile()')
+		log('updateProfile()')
 		this.remote.updateProfile(
 			name,
 			profile,
@@ -212,17 +236,27 @@ export default class Rpc {
 		)
 	}
 	deleteProfile(name) {
-		log('rpc.js deleteProfile()')
-		this.remote.deleteProfile(
+		log('deleteProfile()')
+		axios
+			.post('/api/delete-profile', {
+				name: name
+			})
+			.then(res => {
+				this.getProfiles()
+			})
+			.catch(error => {
+				alert(error.message)
+			})
+		/* this.remote.deleteProfile(
 			name,
 			() => {
 				this.getProfiles()
 			},
 			err => {}
-		)
+		) */
 	}
 	addDeployTargets(profiles, name, target) {
-		log('rpc.js addDeployTargets()')
+		log('addDeployTargets()')
 		// temp add target (to make state snappy)
 		profiles[name].targets.push({
 			size: target.size,
@@ -242,7 +276,7 @@ export default class Rpc {
 		)
 	}
 	removeDeployTargets(profiles, name, target) {
-		log('rpc.js removeDeployTargets()')
+		log('removeDeployTargets()')
 		// temp remove target (to make state snappy)
 		profiles[name].targets = profiles[name].targets.filter(ptarget => {
 			if (ptarget.size === target.size && ptarget.index === target.index) {
@@ -272,7 +306,7 @@ export default class Rpc {
 	// npm install git+ssh://git@stash.ff0000.com:7999/at/ad-es6-particles.git --save
 	// npm install latest --save
 	copyPluginInstallCmd(dep, cb) {
-		log('rpc.js copyPluginInstallCmd()')
+		log('copyPluginInstallCmd()')
 		this.remote.copyPluginInstallCmd(dep, cb, err => {
 			alert(err.message)
 		})
@@ -284,7 +318,7 @@ export default class Rpc {
 	*
 	*/
 	copyToClipboard(str, cb) {
-		log('rpc.js copyToClipboard()')
+		log('copyToClipboard()')
 		this.remote.copyToClipboard(str, cb, err => {
 			alert(err.message)
 		})

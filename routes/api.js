@@ -13,6 +13,7 @@ const background = require('../lib/compiling/background.js')
 const pkg = require('../package.json')
 const plugins = require('../lib/plugins.js')
 const clipboardy = require('clipboardy')
+const profiles = require('../lib/profiles.js')
 
 const debug = require('@ff0000-ad-tech/debug')
 var log = debug('wp-creative-server:route:api')
@@ -139,13 +140,13 @@ module.exports = (app, express) => {
 
 	// get App Meta
 	app.get('/api/get-app-meta', (req, res) => {
-		log('api.js /api/get-app-meta')
+		log('/api/get-app-meta')
 		res.status(200).send({ version: pkg.version })
 	})
 
 	// get plugins
 	app.get('/api/get-plugins', (req, res) => {
-		log('api.js /api/get-plugins')
+		log('/api/get-plugins')
 
 		// get available plugins
 		const available = plugins.getAvailable()
@@ -170,7 +171,7 @@ module.exports = (app, express) => {
 	})
 
 	app.get('/api/get-creative', (req, res) => {
-		log('api.js /api/get-creative')
+		log('/api/get-creative')
 		var out = {
 			name: state.getCreativeName()
 		}
@@ -178,7 +179,7 @@ module.exports = (app, express) => {
 	})
 
 	app.get('/api/read-targets', (req, res) => {
-		log('api.js /api/read-targets')
+		log('/api/read-targets')
 		// targets.readTargets()
 		const targets = state.getTargets()
 		log(targets)
@@ -203,7 +204,7 @@ module.exports = (app, express) => {
 	})
 
 	app.get('/api/refresh-targets', (req, res) => {
-		log('api.js /api/refresh-targets')
+		log('/api/refresh-targets')
 		const targets = state.getTargets()
 		log(targets)
 		const out = {}
@@ -227,8 +228,8 @@ module.exports = (app, express) => {
 	})
 
 	app.post('/api/copy-wp-cmd', (req, res) => {
+		log('/api/copy-wp-cmd')
 		const body = req.body
-		log('api.js /api/copy-wp-cmd')
 		log('		body:', body)
 		log('		clipboardy:', clipboardy)
 		const cmd = watching.getWpCmd(targets, body.type, body.size, body.index)
@@ -236,7 +237,11 @@ module.exports = (app, express) => {
 			return err(cmd)
 		}
 		clipboardy.writeSync(cmd.shell)
-		res.status(200).send(res)
+		// res.status(200).send(res)
+		const out = {
+			message: 'Copied!'
+		}
+		res.status(200).send(cmd)
 	})
 	/* app.get('/api/copy-wp-cmd/:ctype/:size/:index', (req, res) => {
 		// req.params.ctype
@@ -244,6 +249,34 @@ module.exports = (app, express) => {
 		// req.params.index
 		res.status(200).send(res)
 	}) */
+
+	app.get('/api/get-profiles', (req, res) => {
+		log('/api/get-profiles')
+		const out = profiles.getProfiles()
+		if (out instanceof Error) {
+			return err(out)
+		}
+		log(out)
+		res.status(200).send(out)
+	})
+
+	app.post('/api/new-profile', (req, res) => {
+		const body = req.body
+		const out = profiles.addProfile(body.name)
+		if (out instanceof Error) {
+			return err(out)
+		}
+		res.status(200).send(out)
+	})
+
+	app.post('/api/delete-profile', (req, res) => {
+		const body = req.body
+		const out = profiles.deleteProfile(body.name)
+		if (out instanceof Error) {
+			return err(out)
+		}
+		res.status(200).send(out)
+	})
 
 	// app.get('api/get-profile/:name', (req, res) => {})
 
