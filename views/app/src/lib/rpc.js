@@ -159,12 +159,9 @@ export default class Rpc {
 				size: size,
 				index: index
 			})
-			// .get('/api/copy-wp-cmd', ctype, size, index)
-			.then(err => {
-				// alert(res.data.err)
-				// alert(res.data.message)
-				// alert(err.message)
-				// ** must revisit to figure out how to get the small 'Copied!' alert to show
+			.then(res => {
+				log('	res.data.shell', res.data.shell)
+				cb()
 			})
 			.catch(error => {
 				log(error)
@@ -226,14 +223,25 @@ export default class Rpc {
 	}
 	updateProfile(name, profile) {
 		log('updateProfile()')
-		this.remote.updateProfile(
+		axios
+			.post('/api/update-profile', {
+				name: name,
+				profile: profile
+			})
+			.then(res => {
+				this.getProfiles()
+			})
+			.catch(error => {
+				alert(error.message)
+			})
+		/* this.remote.updateProfile(
 			name,
 			profile,
 			() => {
 				this.getProfiles()
 			},
 			err => {}
-		)
+		) */
 	}
 	deleteProfile(name) {
 		log('deleteProfile()')
@@ -257,6 +265,7 @@ export default class Rpc {
 	}
 	addDeployTargets(profiles, name, target) {
 		log('addDeployTargets()')
+		log('		target:', target)
 		// temp add target (to make state snappy)
 		profiles[name].targets.push({
 			size: target.size,
@@ -266,14 +275,25 @@ export default class Rpc {
 		this.store.dispatch(profilesUpdate(profiles))
 
 		// backend add target
-		this.remote.addDeployTargets(
+		/* this.remote.addDeployTargets(
 			name,
 			target,
 			() => {
 				this.getProfiles()
 			},
 			err => {}
-		)
+		) */
+		axios
+			.post('/api/add-deploy-targets', {
+				name: name,
+				target: target
+			})
+			.then(res => {
+				this.getProfiles()
+			})
+			.catch(error => {
+				alert(error.message)
+			})
 	}
 	removeDeployTargets(profiles, name, target) {
 		log('removeDeployTargets()')
@@ -288,14 +308,25 @@ export default class Rpc {
 		this.store.dispatch(profilesUpdate(profiles))
 
 		// backend remove target
-		this.remote.removeDeployTargets(
+		/* this.remote.removeDeployTargets(
 			name,
 			target,
 			() => {
 				this.getProfiles()
 			},
 			err => {}
-		)
+		) */
+		axios
+			.post('/api/remove-deploy-targets', {
+				name: name,
+				target: target
+			})
+			.then(res => {
+				this.getProfiles()
+			})
+			.catch(error => {
+				alert(error.message)
+			})
 	}
 
 	/* -- PLUGINS -------------------------
@@ -307,14 +338,25 @@ export default class Rpc {
 	// npm install latest --save
 	copyPluginInstallCmd(dep, cb) {
 		log('copyPluginInstallCmd()')
-		this.remote.copyPluginInstallCmd(dep, cb, err => {
+		axios
+			.post('/api/copy-plugin-install-cmd', {
+				plugin: dep
+			})
+			.then(res => {
+				log('	res.data', res.data)
+				cb()
+			})
+			.catch(error => {
+				log(error)
+			})
+		/* this.remote.copyPluginInstallCmd(dep, cb, err => {
 			alert(err.message)
-		})
+		}) */
 	}
 
 	/* -- UTILS -------------------------
 	*
-	*
+	*  This function doesn't seem to actually be used. Remove??
 	*
 	*/
 	copyToClipboard(str, cb) {

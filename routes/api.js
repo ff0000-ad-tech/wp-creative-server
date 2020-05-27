@@ -14,6 +14,7 @@ const pkg = require('../package.json')
 const plugins = require('../lib/plugins.js')
 const clipboardy = require('clipboardy')
 const profiles = require('../lib/profiles.js')
+const targetsRpc = require('../lib/rpc/targets.js')
 
 const debug = require('@ff0000-ad-tech/debug')
 var log = debug('wp-creative-server:route:api')
@@ -138,12 +139,22 @@ module.exports = (app, express) => {
 		res.sendStatus(200)
 	})
 
+	/* -- APP META -------------------------
+	*
+	*
+	*
+	*/
 	// get App Meta
 	app.get('/api/get-app-meta', (req, res) => {
 		log('/api/get-app-meta')
 		res.status(200).send({ version: pkg.version })
 	})
 
+	/* -- PLUGINS -------------------------
+	*
+	*
+	*
+	*/
 	// get plugins
 	app.get('/api/get-plugins', (req, res) => {
 		log('/api/get-plugins')
@@ -170,6 +181,29 @@ module.exports = (app, express) => {
 		res.status(200).send(out)
 	})
 
+	app.post('/api/copy-plugin-install-cmd', (req, res) => {
+		const body = req.body
+		const available = plugins.getAvailable()
+		const semver = available[body.plugin]
+
+		let cmd = `cd "${global.servePath}" && npm install `
+
+		// if plugin is set to install a github repo:
+		if (semver.match(/^git\+/)) {
+			cmd += available[body.plugin]
+		} else {
+			cmd += body.plugin
+		}
+		cmd += ` --save`
+		clipboardy.writeSync(cmd)
+		res.status(200).send(cmd)
+	})
+
+	/* -- CREATIVE -------------------------
+	*
+	*
+	*
+	*/
 	app.get('/api/get-creative', (req, res) => {
 		log('/api/get-creative')
 		var out = {
@@ -178,55 +212,32 @@ module.exports = (app, express) => {
 		res.status(200).send(out)
 	})
 
+	/* -- TARGETS -------------------------
+	*
+	*
+	*
+	*/
 	app.get('/api/read-targets', (req, res) => {
 		log('/api/read-targets')
-		// targets.readTargets()
-		const targets = state.getTargets()
-		log(targets)
-		const out = {}
-		// pair down the result
-		for (var id in targets) {
-			out[id] = {
-				size: targets[id].size,
-				index: targets[id].index,
-				watching: {}
-			}
-			Object.keys(targets[id].watching).forEach(profile => {
-				out[id].watching[profile] = {
-					watching: targets[id].watching[profile].watching,
-					processing: targets[id].watching[profile].processing,
-					error: targets[id].watching[profile].error
-				}
-			})
-		}
-		log(out)
-		res.status(200).send(targets)
+		targetsRpc.readTargets(targetsList => {
+			log('		targetsList', targetsList)
+			res.status(200).send(targetsList)
+		})
 	})
 
 	app.get('/api/refresh-targets', (req, res) => {
 		log('/api/refresh-targets')
-		const targets = state.getTargets()
-		log(targets)
-		const out = {}
-		// pair down the result
-		for (var id in targets) {
-			out[id] = {
-				size: targets[id].size,
-				index: targets[id].index,
-				watching: {}
-			}
-			Object.keys(targets[id].watching).forEach(profile => {
-				out[id].watching[profile] = {
-					watching: targets[id].watching[profile].watching,
-					processing: targets[id].watching[profile].processing,
-					error: targets[id].watching[profile].error
-				}
-			})
-		}
-		log(out)
-		res.status(200).send(targets)
+		targetsRpc.refreshTargets(targetsList => {
+			log('		targetsList', targetsList)
+			res.status(200).send(targetsList)
+		})
 	})
 
+	/* -- COMPILING -------------------------
+	*
+	*
+	*
+	*/
 	app.post('/api/copy-wp-cmd', (req, res) => {
 		log('/api/copy-wp-cmd')
 		const body = req.body
@@ -237,10 +248,6 @@ module.exports = (app, express) => {
 			return err(cmd)
 		}
 		clipboardy.writeSync(cmd.shell)
-		// res.status(200).send(res)
-		const out = {
-			message: 'Copied!'
-		}
 		res.status(200).send(cmd)
 	})
 	/* app.get('/api/copy-wp-cmd/:ctype/:size/:index', (req, res) => {
@@ -250,6 +257,11 @@ module.exports = (app, express) => {
 		res.status(200).send(res)
 	}) */
 
+	/* -- PROFILES -------------------------
+	*
+	*
+	*
+	*/
 	app.get('/api/get-profiles', (req, res) => {
 		log('/api/get-profiles')
 		const out = profiles.getProfiles()
@@ -269,12 +281,33 @@ module.exports = (app, express) => {
 		res.status(200).send(out)
 	})
 
+	app.post('/api/update-profile', (req, res) => {
+		const body = req.body
+		const out = profiles.updateProfile(body.name, body.profile)
+		if (out instanceof Error) {
+			return err(out)
+		}
+		res.status(200).send(out)
+	})
+
 	app.post('/api/delete-profile', (req, res) => {
 		const body = req.body
 		const out = profiles.deleteProfile(body.name)
 		if (out instanceof Error) {
 			return err(out)
 		}
+		res.status(200).send(out)
+	})
+
+	app.post('/api/add-deploy-targets', (req, res) => {
+		const body = req.body
+		const out = profiles.addDeployTargets(body.name, body.target)
+		res.status(200).send(out)
+	})
+
+	app.post('/api/remove-deploy-targets', (req, res) => {
+		const body = req.body
+		const out = profiles.removeDeployTargets(body.name, body.target)
 		res.status(200).send(out)
 	})
 
