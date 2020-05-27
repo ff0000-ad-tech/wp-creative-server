@@ -5,15 +5,17 @@ import { update as targetsUpdate } from '../services/targets/actions.js'
 import { update as profilesUpdate } from '../services/profiles/actions.js'
 
 import debug from '@ff0000-ad-tech/debug'
-const log = debug('wp-cs:app:rpc')
-const log1 = debug('wp-cs:app:rpc+')
-debug.disable('wp-cs:app:rpc+') // comment this line to get an idea of the pace of the update cycle
+const log = debug('wp-cs:app:backend')
+const log1 = debug('wp-cs:app:backend+')
+debug.disable('wp-cs:app:backend+') // comment this line to get an idea of the pace of the update cycle
 
 const axios = require('axios').default
 
+// ** rename file to backend.js (backendservices? REST?)
+
 let instance
 
-export default class Rpc {
+export default class Backend {
 	constructor(options) {
 		if (!instance) {
 			instance = this
@@ -23,7 +25,7 @@ export default class Rpc {
 	}
 
 	// connect-remote is browserified and <script>-loaded
-	connect(cb) {
+	/* connect(cb) {
 		log('connect()')
 		window.connectRemote((err, r) => {
 			if (err) {
@@ -32,7 +34,7 @@ export default class Rpc {
 			this.remote = r
 			cb()
 		})
-	}
+	} */
 
 	/* -- APP META -------------------------
 	*

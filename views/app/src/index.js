@@ -15,37 +15,37 @@ let store = configureStore({
 })
 
 // server connection
-import Rpc from './lib/rpc.js'
-let rpc = new Rpc({
+import Backend from './lib/backend.js'
+let backend = new Backend({
 	store: store
 })
-rpc.connect(() => {
-	rpc.getAppMeta()
-	rpc.getPlugins()
-	rpc.getCreative()
-	rpc.readTargets()
-	rpc.getProfiles()
-	rpc.refreshTargets()
+// backend.connect(() => {
+backend.getAppMeta()
+backend.getPlugins()
+backend.getCreative()
+backend.readTargets()
+backend.getProfiles()
+backend.refreshTargets()
 
-	// update cycle
-	let cycle = 0
-	const readFsOn = 20
-	const readPackageOn = 7
-	const returnStateOn = 2
-	const cycleLength = 500 // milliseconds
-	setInterval(() => {
-		if (cycle % readFsOn === 0) {
-			rpc.readTargets()
-		}
-		if (cycle % readPackageOn === 0) {
-			rpc.getProfiles()
-		}
-		if (cycle % returnStateOn === 0) {
-			rpc.refreshTargets()
-		}
-		cycle++
-	}, cycleLength)
-})
+// update cycle
+let cycle = 0
+const readFsOn = 20
+const readPackageOn = 7
+const returnStateOn = 2
+const cycleLength = 500 // milliseconds
+setInterval(() => {
+	if (cycle % readFsOn === 0) {
+		backend.readTargets()
+	}
+	if (cycle % readPackageOn === 0) {
+		backend.getProfiles()
+	}
+	if (cycle % returnStateOn === 0) {
+		backend.refreshTargets()
+	}
+	cycle++
+}, cycleLength)
+// })
 
 // view
 log('Rendering Main')

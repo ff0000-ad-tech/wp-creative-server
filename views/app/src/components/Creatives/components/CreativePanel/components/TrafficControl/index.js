@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import Rpc from 'AppSrc/lib/rpc.js'
+import Backend from 'AppSrc/lib/backend.js'
 import { addProfile } from 'AppSrc/services/profiles/actions.js'
 
 import debug from '@ff0000-ad-tech/debug'
@@ -16,7 +16,7 @@ import settingsIcon from './images/settings-icon.svg'
 class TrafficControl extends PureComponent {
 	constructor(props) {
 		super(props)
-		this.rpc = new Rpc()
+		this.backend = new Backend()
 		this.state = {
 			isDefiningProfile: false,
 			showEditor: false
@@ -51,18 +51,18 @@ class TrafficControl extends PureComponent {
 			return
 		}
 		this.props.dispatch(addProfile(name))
-		this.rpc.newProfile(name)
+		this.backend.newProfile(name)
 	}
 	updateProfile = json => {
-		this.rpc.updateProfile(this.profileSelect.value, json)
+		this.backend.updateProfile(this.profileSelect.value, json)
 		this.hideEditor()
 	}
 	deleteProfile = () => {
-		this.rpc.deleteProfile(this.profileSelect.value)
+		this.backend.deleteProfile(this.profileSelect.value)
 		this.hideEditor()
 	}
 	selectProfile = e => {
-		this.rpc.updateProfile(this.profileSelect.value, this.props.profiles[this.profileSelect.value])
+		this.backend.updateProfile(this.profileSelect.value, this.props.profiles[this.profileSelect.value])
 	}
 
 	/* -- Editor Control ----

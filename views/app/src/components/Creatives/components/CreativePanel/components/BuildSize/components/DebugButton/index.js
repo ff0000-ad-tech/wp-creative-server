@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import Rpc from 'AppSrc/lib/rpc.js'
+import Backend from 'AppSrc/lib/backend.js'
 import { xhr, getOutputRoute } from 'AppSrc/lib/utils.js'
 import { updateWatch } from 'AppSrc/services/targets/actions.js'
 import { route } from 'AppSrc/services/browser/actions.js'
@@ -20,7 +20,7 @@ import viewIcon from '../../images/view-icon.svg'
 class DebugButton extends PureComponent {
 	constructor(props) {
 		super(props)
-		this.rpc = new Rpc()
+		this.backend = new Backend()
 		this.state = {
 			showTerminalWatchDialog: false
 		}
@@ -28,7 +28,7 @@ class DebugButton extends PureComponent {
 
 	terminalWatchOnClick = e => {
 		// only one debug compile is tracked, regardless of selected profile
-		this.rpc.copyWpCmd('debug', this.props.ad.size, this.props.ad.index, () => {
+		this.backend.copyWpCmd('debug', this.props.ad.size, this.props.ad.index, () => {
 			this.setState({
 				showTerminalWatchDialog: true
 			})

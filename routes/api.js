@@ -21,7 +21,20 @@ var log = debug('wp-creative-server:route:api')
 
 module.exports = (app, express) => {
 	var routes = {
-		TODO: 'Document API routes'
+		TODO: 'Document API routes',
+		getAppMeta: '/api/get-app-meta',
+		getPlugins: '/api/get-plugins',
+		getCreative: '/api/get-creative',
+		readTargets: '/api/read-targets',
+		refreshTargets: '/api/refresh-targets',
+		copyWpCmd: '/api/copy-wp-cmd',
+		getProfiles: '/api/get-profiles',
+		newProfile: '/api/new-profile',
+		updateProfile: '/api/update-profile',
+		deleteProfile: '/api/delete-profile',
+		addDeployTargets: '/api/add-deploy-targets',
+		removeDeployTargets: '/api/remove-deploy-targets',
+		copyPluginInstallCmd: '/api/copy-plugin-install-cmd'
 	}
 
 	/**
