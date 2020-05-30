@@ -14,7 +14,7 @@ const pkg = require('../package.json')
 const plugins = require('../lib/plugins.js')
 const clipboardy = require('clipboardy')
 const profiles = require('../lib/profiles.js')
-const targetsRpc = require('../lib/rpc/targets.js')
+// const targetsRpc = require('../lib/rpc/targets.js')
 
 const debug = require('@ff0000-ad-tech/debug')
 var log = debug('wp-creative-server:route:api')
@@ -160,7 +160,14 @@ module.exports = (app, express) => {
 	// get App Meta
 	app.get('/api/get-app-meta', (req, res) => {
 		log('/api/get-app-meta')
-		res.status(200).send({ version: pkg.version })
+		rpcApi.api.getAppMeta(resp => {
+			if (resp instanceof Error) {
+				res.status(500).send({ error: resp.message })
+			} else {
+				res.status(200).send(resp)
+			}
+		})
+		// res.status(200).send({ version: pkg.version })
 	})
 
 	/* -- PLUGINS -------------------------
@@ -171,12 +178,18 @@ module.exports = (app, express) => {
 	// get plugins
 	app.get('/api/get-plugins', (req, res) => {
 		log('/api/get-plugins')
+		rpcApi.api.getPlugins(resp => {
+			if (resp instanceof Error) {
+				res.status(500).send({ error: resp.message })
+			} else {
+				res.status(200).send(resp)
+			}
+		})
 
 		// get available plugins
-		const available = plugins.getAvailable()
+		/* const available = plugins.getAvailable()
 		log('		available', available)
 		if (!available) {
-			// return cb()
 			res.status(200).send({})
 		}
 
@@ -187,11 +200,7 @@ module.exports = (app, express) => {
 			available,
 			installed
 		}
-		// cb(out)
-
-		// const target = decodeURIComponent(req.query.target)
-		// open(path.resolve(`${global.servePath}/${target}`))
-		res.status(200).send(out)
+		res.status(200).send(out) */
 	})
 
 	app.post('/api/copy-plugin-install-cmd', (req, res) => {
@@ -219,10 +228,17 @@ module.exports = (app, express) => {
 	*/
 	app.get('/api/get-creative', (req, res) => {
 		log('/api/get-creative')
-		var out = {
+		rpcApi.api.getCreative(resp => {
+			if (resp instanceof Error) {
+				res.status(500).send({ error: resp.message })
+			} else {
+				res.status(200).send(resp)
+			}
+		})
+		/* var out = {
 			name: state.getCreativeName()
 		}
-		res.status(200).send(out)
+		res.status(200).send(out) */
 	})
 
 	/* -- TARGETS -------------------------
@@ -232,18 +248,32 @@ module.exports = (app, express) => {
 	*/
 	app.get('/api/read-targets', (req, res) => {
 		log('/api/read-targets')
-		targetsRpc.readTargets(targetsList => {
+		rpcApi.api.readTargets(resp => {
+			if (resp instanceof Error) {
+				res.status(500).send({ error: resp.message })
+			} else {
+				res.status(200).send(resp)
+			}
+		})
+		/* targets.rebuildTargets(targetsList => {
 			log('		targetsList', targetsList)
 			res.status(200).send(targetsList)
-		})
+		}) */
 	})
 
 	app.get('/api/refresh-targets', (req, res) => {
 		log('/api/refresh-targets')
-		targetsRpc.refreshTargets(targetsList => {
+		rpcApi.api.refreshTargets(resp => {
+			if (resp instanceof Error) {
+				res.status(500).send({ error: resp.message })
+			} else {
+				res.status(200).send(resp)
+			}
+		})
+		/* targets.refreshTargets(targetsList => {
 			log('		targetsList', targetsList)
 			res.status(200).send(targetsList)
-		})
+		}) */
 	})
 
 	/* -- COMPILING -------------------------
@@ -254,6 +284,14 @@ module.exports = (app, express) => {
 	app.post('/api/copy-wp-cmd', (req, res) => {
 		log('/api/copy-wp-cmd')
 		const body = req.body
+		rpcApi.api.copyWpCmd(body.type, body.size, body.index, resp => {
+			if (resp instanceof Error) {
+				res.status(500).send({ error: resp.message })
+			} else {
+				res.status(200).send(resp)
+			}
+		})
+		/* const body = req.body
 		log('		body:', body)
 		log('		clipboardy:', clipboardy)
 		const cmd = watching.getWpCmd(targets, body.type, body.size, body.index)
@@ -261,7 +299,7 @@ module.exports = (app, express) => {
 			return err(cmd)
 		}
 		clipboardy.writeSync(cmd.shell)
-		res.status(200).send(cmd)
+		res.status(200).send(cmd) */
 	})
 	/* app.get('/api/copy-wp-cmd/:ctype/:size/:index', (req, res) => {
 		// req.params.ctype
@@ -277,12 +315,19 @@ module.exports = (app, express) => {
 	*/
 	app.get('/api/get-profiles', (req, res) => {
 		log('/api/get-profiles')
-		const out = profiles.getProfiles()
+		rpcApi.api.getProfiles(resp => {
+			if (resp instanceof Error) {
+				res.status(500).send({ error: resp.message })
+			} else {
+				res.status(200).send(resp)
+			}
+		})
+		/* const out = profiles.getProfiles()
 		if (out instanceof Error) {
 			return err(out)
 		}
 		log(out)
-		res.status(200).send(out)
+		res.status(200).send(out) */
 	})
 
 	app.post('/api/new-profile', (req, res) => {

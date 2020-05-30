@@ -66,6 +66,7 @@ var rpcApi = require('./routes/rpc-api.js')
 
 // ** no longer needing rpcApi, try triggering the api.js routes directly. Use Axios?
 // round-robin the api to establish backend state
+// var backend = require('./views/app/src/lib/backend.js')
 rpcApi.api.getAppMeta(() => {})
 rpcApi.api.getPlugins(() => {})
 rpcApi.api.getCreative(() => {})
