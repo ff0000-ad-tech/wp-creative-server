@@ -205,7 +205,14 @@ module.exports = (app, express) => {
 
 	app.post('/api/copy-plugin-install-cmd', (req, res) => {
 		const body = req.body
-		const available = plugins.getAvailable()
+		rpcApi.api.copyPluginInstallCmd(body.plugin, resp => {
+			if (resp instanceof Error) {
+				res.status(500).send({ error: resp.message })
+			} else {
+				res.status(200).send(resp)
+			}
+		})
+		/* const available = plugins.getAvailable()
 		const semver = available[body.plugin]
 
 		let cmd = `cd "${global.servePath}" && npm install `
@@ -218,7 +225,7 @@ module.exports = (app, express) => {
 		}
 		cmd += ` --save`
 		clipboardy.writeSync(cmd)
-		res.status(200).send(cmd)
+		res.status(200).send(cmd) */
 	})
 
 	/* -- CREATIVE -------------------------
@@ -315,13 +322,14 @@ module.exports = (app, express) => {
 	*/
 	app.get('/api/get-profiles', (req, res) => {
 		log('/api/get-profiles')
-		rpcApi.api.getProfiles(resp => {
-			if (resp instanceof Error) {
-				res.status(500).send({ error: resp.message })
-			} else {
+		rpcApi.api.getProfiles(
+			resp => {
 				res.status(200).send(resp)
+			},
+			err => {
+				res.status(500).send({ err: resp.message })
 			}
-		})
+		)
 		/* const out = profiles.getProfiles()
 		if (out instanceof Error) {
 			return err(out)
@@ -332,41 +340,89 @@ module.exports = (app, express) => {
 
 	app.post('/api/new-profile', (req, res) => {
 		const body = req.body
-		const out = profiles.addProfile(body.name)
+		rpcApi.api.newProfile(
+			body.name,
+			resp => {
+				res.status(200).send(resp)
+			},
+			err => {
+				res.status(500).send({ err: resp.message })
+			}
+		)
+		/* const out = profiles.addProfile(body.name)
 		if (out instanceof Error) {
 			return err(out)
 		}
-		res.status(200).send(out)
+		res.status(200).send(out) */
 	})
 
 	app.post('/api/update-profile', (req, res) => {
 		const body = req.body
-		const out = profiles.updateProfile(body.name, body.profile)
+		rpcApi.api.updateProfile(
+			body.name,
+			body.profile,
+			resp => {
+				res.status(200).send(resp)
+			},
+			err => {
+				res.status(500).send({ err: resp.message })
+			}
+		)
+		/* const out = profiles.updateProfile(body.name, body.profile)
 		if (out instanceof Error) {
 			return err(out)
 		}
-		res.status(200).send(out)
+		res.status(200).send(out) */
 	})
 
 	app.post('/api/delete-profile', (req, res) => {
 		const body = req.body
-		const out = profiles.deleteProfile(body.name)
+		rpcApi.api.deleteProfile(
+			body.name,
+			resp => {
+				res.status(200).send(resp)
+			},
+			err => {
+				res.status(500).send({ err: resp.message })
+			}
+		)
+		/* const out = profiles.deleteProfile(body.name)
 		if (out instanceof Error) {
 			return err(out)
 		}
-		res.status(200).send(out)
+		res.status(200).send(out) */
 	})
 
 	app.post('/api/add-deploy-targets', (req, res) => {
 		const body = req.body
-		const out = profiles.addDeployTargets(body.name, body.target)
-		res.status(200).send(out)
+		rpcApi.api.addDeployTargets(
+			body.name,
+			body.target,
+			resp => {
+				res.status(200).send(resp)
+			},
+			err => {
+				res.status(500).send({ err: resp.message })
+			}
+		)
+		/* const out = profiles.addDeployTargets(body.name, body.target)
+		res.status(200).send(out) */
 	})
 
 	app.post('/api/remove-deploy-targets', (req, res) => {
 		const body = req.body
-		const out = profiles.removeDeployTargets(body.name, body.target)
-		res.status(200).send(out)
+		rpcApi.api.removeDeployTargets(
+			body.name,
+			body.target,
+			resp => {
+				res.status(200).send(resp)
+			},
+			err => {
+				res.status(500).send({ err: resp.message })
+			}
+		)
+		/* const out = profiles.removeDeployTargets(body.name, body.target)
+		res.status(200).send(out) */
 	})
 
 	// app.get('api/get-profile/:name', (req, res) => {})
