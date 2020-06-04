@@ -4,7 +4,7 @@ const open = require('open')
 
 const mw = require('./middleware.js')
 
-const rpcApi = require('./rpc-api.js')
+const backendApi = require('./backend-api.js')
 const state = require('../lib/state.js')
 const targets = require('../lib/targets.js')
 const watching = require('../lib/compiling/watching.js')
@@ -14,7 +14,6 @@ const pkg = require('../package.json')
 const plugins = require('../lib/plugins.js')
 const clipboardy = require('clipboardy')
 const profiles = require('../lib/profiles.js')
-// const targetsRpc = require('../lib/rpc/targets.js')
 
 const debug = require('@ff0000-ad-tech/debug')
 var log = debug('wp-creative-server:route:api')
@@ -63,7 +62,7 @@ module.exports = (app, express) => {
 
 	// get targets
 	app.get('/api/targets', [mw.markActivity], (req, res) => {
-		rpcApi.api.getTargets(targets => {
+		backendApi.api.getTargets(targets => {
 			res.setHeader('Content-Type', 'application/json')
 			res.send(JSON.stringify(targets))
 		})
@@ -160,7 +159,7 @@ module.exports = (app, express) => {
 	// get App Meta
 	app.get('/api/get-app-meta', (req, res) => {
 		log('/api/get-app-meta')
-		rpcApi.api.getAppMeta(resp => {
+		backendApi.api.getAppMeta(resp => {
 			if (resp instanceof Error) {
 				res.status(500).send({ error: resp.message })
 			} else {
@@ -178,7 +177,7 @@ module.exports = (app, express) => {
 	// get plugins
 	app.get('/api/get-plugins', (req, res) => {
 		log('/api/get-plugins')
-		rpcApi.api.getPlugins(resp => {
+		backendApi.api.getPlugins(resp => {
 			if (resp instanceof Error) {
 				res.status(500).send({ error: resp.message })
 			} else {
@@ -205,7 +204,7 @@ module.exports = (app, express) => {
 
 	app.post('/api/copy-plugin-install-cmd', (req, res) => {
 		const body = req.body
-		rpcApi.api.copyPluginInstallCmd(body.plugin, resp => {
+		backendApi.api.copyPluginInstallCmd(body.plugin, resp => {
 			if (resp instanceof Error) {
 				res.status(500).send({ error: resp.message })
 			} else {
@@ -235,7 +234,7 @@ module.exports = (app, express) => {
 	*/
 	app.get('/api/get-creative', (req, res) => {
 		log('/api/get-creative')
-		rpcApi.api.getCreative(resp => {
+		backendApi.api.getCreative(resp => {
 			if (resp instanceof Error) {
 				res.status(500).send({ error: resp.message })
 			} else {
@@ -255,7 +254,7 @@ module.exports = (app, express) => {
 	*/
 	app.get('/api/read-targets', (req, res) => {
 		log('/api/read-targets')
-		rpcApi.api.readTargets(resp => {
+		backendApi.api.readTargets(resp => {
 			if (resp instanceof Error) {
 				res.status(500).send({ error: resp.message })
 			} else {
@@ -270,7 +269,7 @@ module.exports = (app, express) => {
 
 	app.get('/api/refresh-targets', (req, res) => {
 		log('/api/refresh-targets')
-		rpcApi.api.refreshTargets(resp => {
+		backendApi.api.refreshTargets(resp => {
 			if (resp instanceof Error) {
 				res.status(500).send({ error: resp.message })
 			} else {
@@ -291,7 +290,7 @@ module.exports = (app, express) => {
 	app.post('/api/copy-wp-cmd', (req, res) => {
 		log('/api/copy-wp-cmd')
 		const body = req.body
-		rpcApi.api.copyWpCmd(body.type, body.size, body.index, resp => {
+		backendApi.api.copyWpCmd(body.type, body.size, body.index, resp => {
 			if (resp instanceof Error) {
 				res.status(500).send({ error: resp.message })
 			} else {
@@ -322,7 +321,7 @@ module.exports = (app, express) => {
 	*/
 	app.get('/api/get-profiles', (req, res) => {
 		log('/api/get-profiles')
-		rpcApi.api.getProfiles(
+		backendApi.api.getProfiles(
 			resp => {
 				res.status(200).send(resp)
 			},
@@ -340,7 +339,7 @@ module.exports = (app, express) => {
 
 	app.post('/api/new-profile', (req, res) => {
 		const body = req.body
-		rpcApi.api.newProfile(
+		backendApi.api.newProfile(
 			body.name,
 			resp => {
 				res.status(200).send(resp)
@@ -358,7 +357,7 @@ module.exports = (app, express) => {
 
 	app.post('/api/update-profile', (req, res) => {
 		const body = req.body
-		rpcApi.api.updateProfile(
+		backendApi.api.updateProfile(
 			body.name,
 			body.profile,
 			resp => {
@@ -377,7 +376,7 @@ module.exports = (app, express) => {
 
 	app.post('/api/delete-profile', (req, res) => {
 		const body = req.body
-		rpcApi.api.deleteProfile(
+		backendApi.api.deleteProfile(
 			body.name,
 			resp => {
 				res.status(200).send(resp)
@@ -395,7 +394,7 @@ module.exports = (app, express) => {
 
 	app.post('/api/add-deploy-targets', (req, res) => {
 		const body = req.body
-		rpcApi.api.addDeployTargets(
+		backendApi.api.addDeployTargets(
 			body.name,
 			body.target,
 			resp => {
@@ -411,7 +410,7 @@ module.exports = (app, express) => {
 
 	app.post('/api/remove-deploy-targets', (req, res) => {
 		const body = req.body
-		rpcApi.api.removeDeployTargets(
+		backendApi.api.removeDeployTargets(
 			body.name,
 			body.target,
 			resp => {

@@ -56,23 +56,23 @@ app.use(express.urlencoded({ extended: false }))
 var state = require('./lib/state.js')
 state.reset()
 
-/* -- RPC API ----------------------------------------------
+/* -- Backend API ----------------------------------------------
  *
  *
  *
  */
-var rpcApi = require('./routes/rpc-api.js')
-// var sock = rpcApi.connect()
+var backendApi = require('./routes/backend-api.js')
+// var sock = backendApi.connect()
 
-// ** no longer needing rpcApi, try triggering the api.js routes directly. Use Axios?
+// ** no longer needing backendApi, try triggering the api.js routes directly. Use Axios?
 // round-robin the api to establish backend state
 // var backend = require('./views/app/src/lib/backend.js')
-rpcApi.api.getAppMeta(() => {})
-rpcApi.api.getPlugins(() => {})
-rpcApi.api.getCreative(() => {})
-rpcApi.api.readTargets(() => {})
-rpcApi.api.getProfiles(() => {})
-rpcApi.api.refreshTargets(() => {})
+backendApi.api.getAppMeta(() => {})
+backendApi.api.getPlugins(() => {})
+backendApi.api.getCreative(() => {})
+backendApi.api.readTargets(() => {})
+backendApi.api.getProfiles(() => {})
+backendApi.api.refreshTargets(() => {})
 
 /* -- ROUTES ----------------------------------------------
  *
