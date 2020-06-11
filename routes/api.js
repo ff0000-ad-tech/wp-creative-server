@@ -166,7 +166,6 @@ module.exports = (app, express) => {
 				res.status(200).send(resp)
 			}
 		})
-		// res.status(200).send({ version: pkg.version })
 	})
 
 	/* -- PLUGINS -------------------------
@@ -184,22 +183,6 @@ module.exports = (app, express) => {
 				res.status(200).send(resp)
 			}
 		})
-
-		// get available plugins
-		/* const available = plugins.getAvailable()
-		log('		available', available)
-		if (!available) {
-			res.status(200).send({})
-		}
-
-		// get installed plugins
-		const installed = plugins.getInstalled(available)
-
-		var out = {
-			available,
-			installed
-		}
-		res.status(200).send(out) */
 	})
 
 	app.post('/api/copy-plugin-install-cmd', (req, res) => {
@@ -211,20 +194,6 @@ module.exports = (app, express) => {
 				res.status(200).send(resp)
 			}
 		})
-		/* const available = plugins.getAvailable()
-		const semver = available[body.plugin]
-
-		let cmd = `cd "${global.servePath}" && npm install `
-
-		// if plugin is set to install a github repo:
-		if (semver.match(/^git\+/)) {
-			cmd += available[body.plugin]
-		} else {
-			cmd += body.plugin
-		}
-		cmd += ` --save`
-		clipboardy.writeSync(cmd)
-		res.status(200).send(cmd) */
 	})
 
 	/* -- CREATIVE -------------------------
@@ -241,10 +210,6 @@ module.exports = (app, express) => {
 				res.status(200).send(resp)
 			}
 		})
-		/* var out = {
-			name: state.getCreativeName()
-		}
-		res.status(200).send(out) */
 	})
 
 	/* -- TARGETS -------------------------
@@ -261,10 +226,6 @@ module.exports = (app, express) => {
 				res.status(200).send(resp)
 			}
 		})
-		/* targets.rebuildTargets(targetsList => {
-			log('		targetsList', targetsList)
-			res.status(200).send(targetsList)
-		}) */
 	})
 
 	app.get('/api/refresh-targets', (req, res) => {
@@ -276,10 +237,6 @@ module.exports = (app, express) => {
 				res.status(200).send(resp)
 			}
 		})
-		/* targets.refreshTargets(targetsList => {
-			log('		targetsList', targetsList)
-			res.status(200).send(targetsList)
-		}) */
 	})
 
 	/* -- COMPILING -------------------------
@@ -297,22 +254,7 @@ module.exports = (app, express) => {
 				res.status(200).send(resp)
 			}
 		})
-		/* const body = req.body
-		log('		body:', body)
-		log('		clipboardy:', clipboardy)
-		const cmd = watching.getWpCmd(targets, body.type, body.size, body.index)
-		if (cmd instanceof Error) {
-			return err(cmd)
-		}
-		clipboardy.writeSync(cmd.shell)
-		res.status(200).send(cmd) */
 	})
-	/* app.get('/api/copy-wp-cmd/:ctype/:size/:index', (req, res) => {
-		// req.params.ctype
-		// req.params.size
-		// req.params.index
-		res.status(200).send(res)
-	}) */
 
 	/* -- PROFILES -------------------------
 	*
@@ -329,12 +271,6 @@ module.exports = (app, express) => {
 				res.status(500).send({ err: resp.message })
 			}
 		)
-		/* const out = profiles.getProfiles()
-		if (out instanceof Error) {
-			return err(out)
-		}
-		log(out)
-		res.status(200).send(out) */
 	})
 
 	app.post('/api/new-profile', (req, res) => {
@@ -348,11 +284,6 @@ module.exports = (app, express) => {
 				res.status(500).send({ err: resp.message })
 			}
 		)
-		/* const out = profiles.addProfile(body.name)
-		if (out instanceof Error) {
-			return err(out)
-		}
-		res.status(200).send(out) */
 	})
 
 	app.post('/api/update-profile', (req, res) => {
@@ -367,11 +298,6 @@ module.exports = (app, express) => {
 				res.status(500).send({ err: resp.message })
 			}
 		)
-		/* const out = profiles.updateProfile(body.name, body.profile)
-		if (out instanceof Error) {
-			return err(out)
-		}
-		res.status(200).send(out) */
 	})
 
 	app.post('/api/delete-profile', (req, res) => {
@@ -385,11 +311,6 @@ module.exports = (app, express) => {
 				res.status(500).send({ err: resp.message })
 			}
 		)
-		/* const out = profiles.deleteProfile(body.name)
-		if (out instanceof Error) {
-			return err(out)
-		}
-		res.status(200).send(out) */
 	})
 
 	app.post('/api/add-deploy-targets', (req, res) => {
@@ -404,8 +325,6 @@ module.exports = (app, express) => {
 				res.status(500).send({ err: resp.message })
 			}
 		)
-		/* const out = profiles.addDeployTargets(body.name, body.target)
-		res.status(200).send(out) */
 	})
 
 	app.post('/api/remove-deploy-targets', (req, res) => {
@@ -420,11 +339,7 @@ module.exports = (app, express) => {
 				res.status(500).send({ err: resp.message })
 			}
 		)
-		/* const out = profiles.removeDeployTargets(body.name, body.target)
-		res.status(200).send(out) */
 	})
-
-	// app.get('api/get-profile/:name', (req, res) => {})
 
 	// SHUTDOWN CREATIVE SERVER
 	app.get('/api/exit', [mw.markActivity], (req, res) => {

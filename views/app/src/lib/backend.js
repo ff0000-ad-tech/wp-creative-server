@@ -11,8 +11,6 @@ debug.disable('wp-cs:app:backend+') // comment this line to get an idea of the p
 
 const axios = require('axios').default
 
-// ** rename file to backend.js (backendservices? REST?)
-
 let instance
 
 export default class Backend {
@@ -24,18 +22,6 @@ export default class Backend {
 		return instance
 	}
 
-	// connect-remote is browserified and <script>-loaded
-	/* connect(cb) {
-		log('connect()')
-		window.connectRemote((err, r) => {
-			if (err) {
-				throw 'Unable to connect-remote!'
-			}
-			this.remote = r
-			cb()
-		})
-	} */
-
 	/* -- APP META -------------------------
 	*
 	*
@@ -43,7 +29,6 @@ export default class Backend {
 	*/
 	getAppMeta(cb) {
 		log('getAppMeta()')
-		// axios.get('../lib/rpc/misc.js:getAppMeta', app => {
 		axios
 			.get('/api/get-app-meta')
 			.then(res => {
@@ -53,9 +38,6 @@ export default class Backend {
 			.catch(error => {
 				log(error)
 			})
-		/* this.remote.getAppMeta(app => {
-			this.store.dispatch(appMetaUpdate(app))
-		}) */
 	}
 
 	/* -- PLUGINS -------------------------
@@ -74,9 +56,6 @@ export default class Backend {
 			.catch(error => {
 				log(error)
 			})
-		/* this.remote.getPlugins(plugins => {
-			this.store.dispatch(pluginsUpdate(plugins))
-		}) */
 	}
 
 	/* -- CREATIVE -------------------------
@@ -95,9 +74,6 @@ export default class Backend {
 			.catch(error => {
 				log(error)
 			})
-		/* this.remote.getCreative(creative => {
-			this.store.dispatch(creativeUpdate(creative))
-		}) */
 	}
 
 	/* -- TARGETS -------------------------
@@ -116,18 +92,8 @@ export default class Backend {
 			.catch(error => {
 				log(error)
 			})
-		/* this.remote.readTargets(
-			targets => {
-				log1('READ', targets)
-				this.store.dispatch(targetsUpdate(targets))
-			},
-			err => {
-				console.log(err)
-			}
-		) */
 	}
 	refreshTargets() {
-		// log('refreshTargets()')
 		axios
 			.get('/api/refresh-targets')
 			.then(res => {
@@ -137,15 +103,6 @@ export default class Backend {
 			.catch(error => {
 				log(error)
 			})
-		/* this.remote.refreshTargets(
-			targets => {
-				log1('refresh', targets)
-				this.store.dispatch(targetsUpdate(targets))
-			},
-			err => {
-				console.log(err)
-			}
-		) */
 	}
 
 	/* -- COMPILING -------------------------
@@ -168,9 +125,6 @@ export default class Backend {
 			.catch(error => {
 				log(error)
 			})
-		/* this.remote.copyWpCmd(ctype, size, index, cb, err => {
-			alert(err.message)
-		}) */
 	}
 
 	/* -- PROFILES -------------------------
@@ -179,7 +133,6 @@ export default class Backend {
 	*
 	*/
 	getProfiles() {
-		// log('getProfiles()')
 		axios
 			.get('/api/get-profiles')
 			.then(res => {
@@ -187,19 +140,8 @@ export default class Backend {
 				this.store.dispatch(profilesUpdate(res.data))
 			})
 			.catch(error => {
-				// TODO: handle RPC errors better, more consistently
 				alert(error.message)
 			})
-		/* this.remote.getProfiles(
-			profiles => {
-				log1('profiles', profiles)
-				this.store.dispatch(profilesUpdate(profiles))
-			},
-			err => {
-				// TODO: handle RPC errors better, more consistently
-				alert(err.message)
-			}
-		) */
 	}
 	newProfile(name) {
 		log('newProfile()')
@@ -214,14 +156,6 @@ export default class Backend {
 			.catch(error => {
 				alert(error.message)
 			})
-		/* this.remote.newProfile(
-			name,
-			() => {
-				this.readTargets()
-				this.getProfiles()
-			},
-			err => {}
-		) */
 	}
 	updateProfile(name, profile) {
 		log('updateProfile()')
@@ -236,14 +170,6 @@ export default class Backend {
 			.catch(error => {
 				alert(error.message)
 			})
-		/* this.remote.updateProfile(
-			name,
-			profile,
-			() => {
-				this.getProfiles()
-			},
-			err => {}
-		) */
 	}
 	deleteProfile(name) {
 		log('deleteProfile()')
@@ -257,13 +183,6 @@ export default class Backend {
 			.catch(error => {
 				alert(error.message)
 			})
-		/* this.remote.deleteProfile(
-			name,
-			() => {
-				this.getProfiles()
-			},
-			err => {}
-		) */
 	}
 	addDeployTargets(profiles, name, target) {
 		log('addDeployTargets()')
@@ -277,14 +196,6 @@ export default class Backend {
 		this.store.dispatch(profilesUpdate(profiles))
 
 		// backend add target
-		/* this.remote.addDeployTargets(
-			name,
-			target,
-			() => {
-				this.getProfiles()
-			},
-			err => {}
-		) */
 		axios
 			.post('/api/add-deploy-targets', {
 				name: name,
@@ -310,14 +221,6 @@ export default class Backend {
 		this.store.dispatch(profilesUpdate(profiles))
 
 		// backend remove target
-		/* this.remote.removeDeployTargets(
-			name,
-			target,
-			() => {
-				this.getProfiles()
-			},
-			err => {}
-		) */
 		axios
 			.post('/api/remove-deploy-targets', {
 				name: name,
@@ -351,9 +254,6 @@ export default class Backend {
 			.catch(error => {
 				log(error)
 			})
-		/* this.remote.copyPluginInstallCmd(dep, cb, err => {
-			alert(err.message)
-		}) */
 	}
 
 	/* -- UTILS -------------------------

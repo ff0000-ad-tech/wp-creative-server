@@ -62,11 +62,6 @@ state.reset()
  *
  */
 var backendApi = require('./routes/backend-api.js')
-// var sock = backendApi.connect()
-
-// ** no longer needing backendApi, try triggering the api.js routes directly. Use Axios?
-// round-robin the api to establish backend state
-// var backend = require('./views/app/src/lib/backend.js')
 backendApi.api.getAppMeta(() => {})
 backendApi.api.getPlugins(() => {})
 backendApi.api.getCreative(() => {})

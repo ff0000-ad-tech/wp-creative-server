@@ -19,7 +19,6 @@ import Backend from './lib/backend.js'
 let backend = new Backend({
 	store: store
 })
-// backend.connect(() => {
 backend.getAppMeta()
 backend.getPlugins()
 backend.getCreative()
@@ -45,7 +44,6 @@ setInterval(() => {
 	}
 	cycle++
 }, cycleLength)
-// })
 
 // view
 log('Rendering Main')
