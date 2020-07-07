@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import Rpc from 'AppSrc/lib/rpc.js'
+import Backend from 'AppSrc/lib/backend.js'
 
 import debug from '@ff0000-ad-tech/debug'
 const log = debug('wp-cs:app:AvailablePlugin')
@@ -12,7 +12,7 @@ import '../../style.scss'
 class AvailablePlugin extends Component {
 	constructor() {
 		super()
-		this.rpc = new Rpc()
+		this.backend = new Backend()
 		this.state = {
 			showDialog: false
 		}
@@ -39,7 +39,7 @@ class AvailablePlugin extends Component {
 
 	copyPluginInstallCmd() {
 		// const installCmd = `npm install ${this.props.plugins.available[this.props.plugin]} --save`
-		this.rpc.copyPluginInstallCmd(this.props.plugin, () => {
+		this.backend.copyPluginInstallCmd(this.props.plugin, () => {
 			this.setState({
 				showDialog: true
 			})

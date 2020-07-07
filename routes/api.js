@@ -4,18 +4,36 @@ const open = require('open')
 
 const mw = require('./middleware.js')
 
-const rpcApi = require('./rpc-api.js')
+const backendApi = require('./backend-api.js')
 const state = require('../lib/state.js')
 const targets = require('../lib/targets.js')
 const watching = require('../lib/compiling/watching.js')
 const background = require('../lib/compiling/background.js')
+
+const pkg = require('../package.json')
+const plugins = require('../lib/plugins.js')
+const clipboardy = require('clipboardy')
+const profiles = require('../lib/profiles.js')
 
 const debug = require('@ff0000-ad-tech/debug')
 var log = debug('wp-creative-server:route:api')
 
 module.exports = (app, express) => {
 	var routes = {
-		TODO: 'Document API routes'
+		TODO: 'Document API routes',
+		getAppMeta: '/api/get-app-meta',
+		getPlugins: '/api/get-plugins',
+		getCreative: '/api/get-creative',
+		readTargets: '/api/read-targets',
+		refreshTargets: '/api/refresh-targets',
+		copyWpCmd: '/api/copy-wp-cmd',
+		getProfiles: '/api/get-profiles',
+		newProfile: '/api/new-profile',
+		updateProfile: '/api/update-profile',
+		deleteProfile: '/api/delete-profile',
+		addDeployTargets: '/api/add-deploy-targets',
+		removeDeployTargets: '/api/remove-deploy-targets',
+		copyPluginInstallCmd: '/api/copy-plugin-install-cmd'
 	}
 
 	/**
@@ -44,7 +62,7 @@ module.exports = (app, express) => {
 
 	// get targets
 	app.get('/api/targets', [mw.markActivity], (req, res) => {
-		rpcApi.api.getTargets(targets => {
+		backendApi.api.getTargets(targets => {
 			res.setHeader('Content-Type', 'application/json')
 			res.send(JSON.stringify(targets))
 		})
@@ -131,6 +149,196 @@ module.exports = (app, express) => {
 		const target = decodeURIComponent(req.query.target)
 		open(path.resolve(`${global.servePath}/${target}`))
 		res.sendStatus(200)
+	})
+
+	/* -- APP META -------------------------
+	*
+	*
+	*
+	*/
+	// get App Meta
+	app.get('/api/get-app-meta', (req, res) => {
+		log('/api/get-app-meta')
+		backendApi.api.getAppMeta(resp => {
+			if (resp instanceof Error) {
+				res.status(500).send({ error: resp.message })
+			} else {
+				res.status(200).send(resp)
+			}
+		})
+	})
+
+	/* -- PLUGINS -------------------------
+	*
+	*
+	*
+	*/
+	// get plugins
+	app.get('/api/get-plugins', (req, res) => {
+		log('/api/get-plugins')
+		backendApi.api.getPlugins(resp => {
+			if (resp instanceof Error) {
+				res.status(500).send({ error: resp.message })
+			} else {
+				res.status(200).send(resp)
+			}
+		})
+	})
+
+	app.post('/api/copy-plugin-install-cmd', (req, res) => {
+		const body = req.body
+		backendApi.api.copyPluginInstallCmd(body.plugin, resp => {
+			if (resp instanceof Error) {
+				res.status(500).send({ error: resp.message })
+			} else {
+				res.status(200).send(resp)
+			}
+		})
+	})
+
+	/* -- CREATIVE -------------------------
+	*
+	*
+	*
+	*/
+	app.get('/api/get-creative', (req, res) => {
+		log('/api/get-creative')
+		backendApi.api.getCreative(resp => {
+			if (resp instanceof Error) {
+				res.status(500).send({ error: resp.message })
+			} else {
+				res.status(200).send(resp)
+			}
+		})
+	})
+
+	/* -- TARGETS -------------------------
+	*
+	*
+	*
+	*/
+	app.get('/api/read-targets', (req, res) => {
+		log('/api/read-targets')
+		backendApi.api.readTargets(resp => {
+			if (resp instanceof Error) {
+				res.status(500).send({ error: resp.message })
+			} else {
+				res.status(200).send(resp)
+			}
+		})
+	})
+
+	app.get('/api/refresh-targets', (req, res) => {
+		log('/api/refresh-targets')
+		backendApi.api.refreshTargets(resp => {
+			if (resp instanceof Error) {
+				res.status(500).send({ error: resp.message })
+			} else {
+				res.status(200).send(resp)
+			}
+		})
+	})
+
+	/* -- COMPILING -------------------------
+	*
+	*
+	*
+	*/
+	app.post('/api/copy-wp-cmd', (req, res) => {
+		log('/api/copy-wp-cmd')
+		const body = req.body
+		backendApi.api.copyWpCmd(body.type, body.size, body.index, resp => {
+			if (resp instanceof Error) {
+				res.status(500).send({ error: resp.message })
+			} else {
+				res.status(200).send(resp)
+			}
+		})
+	})
+
+	/* -- PROFILES -------------------------
+	*
+	*
+	*
+	*/
+	app.get('/api/get-profiles', (req, res) => {
+		log('/api/get-profiles')
+		backendApi.api.getProfiles(
+			resp => {
+				res.status(200).send(resp)
+			},
+			err => {
+				res.status(500).send({ err: resp.message })
+			}
+		)
+	})
+
+	app.post('/api/new-profile', (req, res) => {
+		const body = req.body
+		backendApi.api.newProfile(
+			body.name,
+			resp => {
+				res.status(200).send(resp)
+			},
+			err => {
+				res.status(500).send({ err: resp.message })
+			}
+		)
+	})
+
+	app.post('/api/update-profile', (req, res) => {
+		const body = req.body
+		backendApi.api.updateProfile(
+			body.name,
+			body.profile,
+			resp => {
+				res.status(200).send(resp)
+			},
+			err => {
+				res.status(500).send({ err: resp.message })
+			}
+		)
+	})
+
+	app.post('/api/delete-profile', (req, res) => {
+		const body = req.body
+		backendApi.api.deleteProfile(
+			body.name,
+			resp => {
+				res.status(200).send(resp)
+			},
+			err => {
+				res.status(500).send({ err: resp.message })
+			}
+		)
+	})
+
+	app.post('/api/add-deploy-targets', (req, res) => {
+		const body = req.body
+		backendApi.api.addDeployTargets(
+			body.name,
+			body.target,
+			resp => {
+				res.status(200).send(resp)
+			},
+			err => {
+				res.status(500).send({ err: resp.message })
+			}
+		)
+	})
+
+	app.post('/api/remove-deploy-targets', (req, res) => {
+		const body = req.body
+		backendApi.api.removeDeployTargets(
+			body.name,
+			body.target,
+			resp => {
+				res.status(200).send(resp)
+			},
+			err => {
+				res.status(500).send({ err: resp.message })
+			}
+		)
 	})
 
 	// SHUTDOWN CREATIVE SERVER

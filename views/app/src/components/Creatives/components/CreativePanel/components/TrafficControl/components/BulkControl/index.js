@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import Rpc from 'AppSrc/lib/rpc.js'
+import Backend from 'AppSrc/lib/backend.js'
 import { getOutputRoute } from 'AppSrc/lib/utils.js'
 import * as plugins from 'AppSrc/lib/plugins.js'
 
@@ -13,7 +13,7 @@ import './style.scss'
 class BulkControl extends PureComponent {
 	constructor(props) {
 		super(props)
-		this.rpc = new Rpc()
+		this.backend = new Backend()
 	}
 	componentDidUpdate() {
 		this.updateCheckbox()
@@ -84,9 +84,9 @@ class BulkControl extends PureComponent {
 	// select/deselect all targets
 	onChecked = e => {
 		if (e.target.checked) {
-			this.rpc.addDeployTargets(this.props.profiles, this.props.currentProfile.name, this.getAllTargets())
+			this.backend.addDeployTargets(this.props.profiles, this.props.currentProfile.name, this.getAllTargets())
 		} else {
-			this.rpc.removeDeployTargets(this.props.profiles, this.props.currentProfile.name, this.getAllTargets())
+			this.backend.removeDeployTargets(this.props.profiles, this.props.currentProfile.name, this.getAllTargets())
 		}
 	}
 	getAllTargets() {

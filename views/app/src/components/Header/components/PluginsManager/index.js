@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import Rpc from 'AppSrc/lib/rpc.js'
+import Backend from 'AppSrc/lib/backend.js'
 import AvailablePlugin from './components/AvailablePlugin'
 
 import debug from '@ff0000-ad-tech/debug'
@@ -13,7 +13,7 @@ import './style.scss'
 class PluginsManager extends Component {
 	constructor() {
 		super()
-		this.rpc = new Rpc()
+		this.backend = new Backend()
 		this.state = {
 			showDialog: false
 		}

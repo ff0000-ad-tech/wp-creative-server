@@ -56,21 +56,18 @@ app.use(express.urlencoded({ extended: false }))
 var state = require('./lib/state.js')
 state.reset()
 
-/* -- RPC API ----------------------------------------------
+/* -- Backend API ----------------------------------------------
  *
  *
  *
  */
-var rpcApi = require('./routes/rpc-api.js')
-var sock = rpcApi.connect()
-
-// round-robin the api to establish backend state
-rpcApi.api.getAppMeta(() => {})
-rpcApi.api.getPlugins(() => {})
-rpcApi.api.getCreative(() => {})
-rpcApi.api.readTargets(() => {})
-rpcApi.api.getProfiles(() => {})
-rpcApi.api.refreshTargets(() => {})
+var backendApi = require('./routes/backend-api.js')
+backendApi.api.getAppMeta(() => {})
+backendApi.api.getPlugins(() => {})
+backendApi.api.getCreative(() => {})
+backendApi.api.readTargets(() => {})
+backendApi.api.getProfiles(() => {})
+backendApi.api.refreshTargets(() => {})
 
 /* -- ROUTES ----------------------------------------------
  *
@@ -92,26 +89,26 @@ portManager
 	.then(port => {
 		global.servePort = port
 		// start server and install duplex RPC
-		sock.install(
-			app.listen(global.servePort, global.serveIp, () => {
-				global.origin = `http://${global.serveIp}:${global.servePort}`
-				global.app = `${global.origin}/app`
-				global.api = `${global.origin}/api`
-				log(`Origin: ${global.origin}`)
-				log(`API: ${global.api}`)
-				log(``)
-				log(`Server running at ${global.app}`)
-				// open browser, after server is ready
-				if ('browser' in argv) {
-					open(`${global.app}`)
-				}
-				// start request timeout, if requested
-				if ('timeout' in argv) {
-					timeout.setCsTimeout(Number(argv.timeout), cleanup)
-				}
-			}),
-			'/dnode'
-		)
+		// sock.install(
+		app.listen(global.servePort, global.serveIp, () => {
+			global.origin = `http://${global.serveIp}:${global.servePort}`
+			global.app = `${global.origin}/app`
+			global.api = `${global.origin}/api`
+			log(`Origin: ${global.origin}`)
+			log(`API: ${global.api}`)
+			log(``)
+			log(`Server running at ${global.app}`)
+			// open browser, after server is ready
+			if ('browser' in argv) {
+				open(`${global.app}`)
+			}
+			// start request timeout, if requested
+			if ('timeout' in argv) {
+				timeout.setCsTimeout(Number(argv.timeout), cleanup)
+			}
+		})
+		// '/dnode'
+		// )
 	})
 	.catch(err => {
 		log(`Unable to start server!`)

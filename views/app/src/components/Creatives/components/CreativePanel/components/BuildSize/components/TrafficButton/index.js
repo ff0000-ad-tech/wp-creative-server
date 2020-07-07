@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import _ from 'lodash'
 
-import Rpc from 'AppSrc/lib/rpc.js'
+import Backend from 'AppSrc/lib/backend.js'
 import { TRAFFIC_FOLDER } from 'Root/lib/utils.js'
 import { xhr, getOutputRoute } from 'AppSrc/lib/utils.js'
 import { updateWatch } from 'AppSrc/services/targets/actions.js'
@@ -25,7 +25,7 @@ import arrowIcon from './images/arrow-right.svg'
 class TrafficButton extends PureComponent {
 	constructor(props) {
 		super(props)
-		this.rpc = new Rpc()
+		this.backend = new Backend()
 		this.state = {
 			showCopiedDialog: false
 		}
@@ -47,16 +47,16 @@ class TrafficButton extends PureComponent {
 	}
 	onChecked = e => {
 		if (e.target.checked) {
-			this.rpc.addDeployTargets(this.props.profiles, this.props.currentProfile.name, this.props.ad)
+			this.backend.addDeployTargets(this.props.profiles, this.props.currentProfile.name, this.props.ad)
 		} else {
-			this.rpc.removeDeployTargets(this.props.profiles, this.props.currentProfile.name, this.props.ad)
+			this.backend.removeDeployTargets(this.props.profiles, this.props.currentProfile.name, this.props.ad)
 		}
 	}
 
 	// copy command to clipboard
 	webpackOnClick = e => {
-		this.rpc.addDeployTargets(this.props.profiles, this.props.currentProfile.name, this.props.ad)
-		this.rpc.copyWpCmd(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, () => {
+		this.backend.addDeployTargets(this.props.profiles, this.props.currentProfile.name, this.props.ad)
+		this.backend.copyWpCmd(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, () => {
 			this.setState({
 				showCopiedDialog: true
 			})
@@ -70,7 +70,7 @@ class TrafficButton extends PureComponent {
 
 	// run deploy
 	startCompiling = e => {
-		this.rpc.addDeployTargets(this.props.profiles, this.props.currentProfile.name, this.props.ad)
+		this.backend.addDeployTargets(this.props.profiles, this.props.currentProfile.name, this.props.ad)
 		this.props.dispatch(
 			updateWatch(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, {
 				processing: true
