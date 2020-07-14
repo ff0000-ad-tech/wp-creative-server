@@ -88,8 +88,6 @@ portManager
 	.getNextAvailable(app, global.serveIp, global.servePort)
 	.then(port => {
 		global.servePort = port
-		// start server and install duplex RPC
-		// sock.install(
 		app.listen(global.servePort, global.serveIp, () => {
 			global.origin = `http://${global.serveIp}:${global.servePort}`
 			global.app = `${global.origin}/app`
@@ -107,8 +105,6 @@ portManager
 				timeout.setCsTimeout(Number(argv.timeout), cleanup)
 			}
 		})
-		// '/dnode'
-		// )
 	})
 	.catch(err => {
 		log(`Unable to start server!`)
