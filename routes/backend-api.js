@@ -1,6 +1,3 @@
-const dnode = require('dnode')
-const shoe = require('shoe')
-
 const pluginsBackend = require('../lib/managers/plugins.js')
 const creativeBackend = require('../lib/managers/creative.js')
 const targetsBackend = require('../lib/managers/targets.js')
@@ -34,20 +31,7 @@ const api = {
 	copyToClipboard: miscBackend.copyToClipboard
 }
 
-// connect dnode
-function connect(options) {
-	log('Connecting Backend-API')
-	// log(api)
-	// on request
-	var sock = shoe(function(stream) {
-		var d = dnode(api)
-		d.pipe(stream).pipe(d)
-	})
-	return sock
-}
-
 // NOTE: Backend methods need to be exposed on the API, not as exports to the backend
 module.exports = {
-	connect,
 	api
 }
