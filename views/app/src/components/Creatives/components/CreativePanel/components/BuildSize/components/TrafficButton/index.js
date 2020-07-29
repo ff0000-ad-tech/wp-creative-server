@@ -72,7 +72,7 @@ class TrafficButton extends PureComponent {
 	}
 
 	// run deploy
-	startCompiling = e => {
+	startCompiling = async e => {
 		/* this.backend.addDeployTargets(this.props.profiles, this.props.currentProfile.name, this.props.ad)
 		this.props.dispatch(
 			updateWatch(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, {
@@ -86,36 +86,18 @@ class TrafficButton extends PureComponent {
 		)
 		xhr(`/api/compile-start/${this.props.currentProfile.name}/${this.props.ad.size}/${this.props.ad.index}`) */
 		rowLog('startCompiling()')
-		let myExecutorFunc = resolve => {
-			rowLog('	myExecutorFunc()')
-			this.backend.addDeployTargets(this.props.profiles, this.props.currentProfile.name, this.props.ad)
-			resolve()
-			return
-		}
-		const myPromise = new Promise(myExecutorFunc)
-			.then(() => {
-				rowLog('	updateWatch()')
-				this.props.dispatch(
-					updateWatch(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, {
-						processing: true
-					})
-				)
+		await this.backend.addDeployTargets(this.props.profiles, this.props.currentProfile.name, this.props.ad)
+		this.props.dispatch(
+			updateWatch(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, {
+				processing: true
 			})
-			.then(() => {
-				rowLog('	updateDeployAt()')
-				this.props.dispatch(
-					updateDeployAt(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, {
-						deployAt: '...'
-					})
-				)
+		)
+		this.props.dispatch(
+			updateDeployAt(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, {
+				deployAt: '...'
 			})
-			.then(() => {
-				rowLog('	/api/compile-start/')
-				xhr(`/api/compile-start/${this.props.currentProfile.name}/${this.props.ad.size}/${this.props.ad.index}`)
-			})
-			.catch(err => {
-				throw err
-			})
+		)
+		xhr(`/api/compile-start/${this.props.currentProfile.name}/${this.props.ad.size}/${this.props.ad.index}`)
 	}
 	stopCompiling = e => {
 		xhr(`/api/compile-stop/${this.props.currentProfile.name}/${this.props.ad.size}/${this.props.ad.index}`)
@@ -164,17 +146,7 @@ class TrafficButton extends PureComponent {
 			</div>
 		)
 	}
-	getWebpackLogo() {
-		const dialog = this.state.showCopiedDialog ? 'show' : ''
-		return (
-			<div className="webpack" title="Copy deploy command to clipboard">
-				<div onClick={this.webpackOnClick}>
-					<img src={webpackLogo} width="21" height="21" />
-				</div>
-				<div className={`action-dialog ${dialog}`}>Copied!</div>
-			</div>
-		)
-	}
+	getWebpackLogo() {}
 	getStateIcon() {
 		if (!(this.props.currentProfile.name in this.props.ad.watching)) {
 			return

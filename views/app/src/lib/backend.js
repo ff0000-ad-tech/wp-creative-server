@@ -187,7 +187,7 @@ export default class Backend {
 				alert(error.message)
 			})
 	}
-	addDeployTargets(profiles, name, target) {
+	async addDeployTargets(profiles, name, target) {
 		rowLog('addDeployTargets()')
 		rowLog('		target:', target)
 		// temp add target (to make state snappy)
@@ -199,17 +199,21 @@ export default class Backend {
 		this.store.dispatch(profilesUpdate(profiles))
 
 		// backend add target
-		axios
-			.post('/api/add-deploy-targets', {
-				name: name,
-				target: target
-			})
-			.then(res => {
-				this.getProfiles()
-			})
-			.catch(error => {
-				alert(error.message)
-			})
+		return new Promise((resolve, reject) => {
+			axios
+				.post('/api/add-deploy-targets', {
+					name: name,
+					target: target
+				})
+				.then(res => {
+					this.getProfiles()
+					resolve()
+				})
+				.catch(error => {
+					alert(error.message)
+					reject(error)
+				})
+		})
 	}
 	removeDeployTargets(profiles, name, target) {
 		rowLog('removeDeployTargets()')
