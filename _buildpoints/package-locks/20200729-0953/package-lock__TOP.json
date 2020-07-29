@@ -1,6 +1,6 @@
 {
 	"name": "@ff0000-ad-tech/wp-creative-server",
-	"version": "2.0.2",
+	"version": "2.0.0",
 	"lockfileVersion": 1,
 	"requires": true,
 	"dependencies": {
@@ -6359,9 +6359,9 @@
 			}
 		},
 		"lodash": {
-			"version": "4.17.19",
-			"resolved": "https://registry.npmjs.org/lodash/-/lodash-4.17.19.tgz",
-			"integrity": "sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ=="
+			"version": "4.17.13",
+			"resolved": "https://registry.npmjs.org/lodash/-/lodash-4.17.13.tgz",
+			"integrity": "sha512-vm3/XWXfWtRua0FkUyEHBZy8kCPjErNBT9fJx8Zvs+U6zjqPbTUOpkaoum3O5uiA8sm+yNMHXfYkTUHFoMxFNA=="
 		},
 		"lodash-es": {
 			"version": "4.17.10",
@@ -6682,9 +6682,9 @@
 			}
 		},
 		"minimist": {
-			"version": "1.2.3",
-			"resolved": "https://registry.npmjs.org/minimist/-/minimist-1.2.3.tgz",
-			"integrity": "sha512-+bMdgqjMN/Z77a6NlY/I3U5LlRDbnmaAk6lDveAPKwSpcPM4tKAuYsvYF8xjhOPXhOYGe/73vVLVez5PW+jqhw=="
+			"version": "1.2.0",
+			"resolved": "https://registry.npmjs.org/minimist/-/minimist-1.2.0.tgz",
+			"integrity": "sha1-o1AIsg9BOD7sH7kU9M1d95omQoQ="
 		},
 		"minimist-options": {
 			"version": "3.0.2",

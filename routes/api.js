@@ -17,6 +17,9 @@ const profiles = require('../lib/profiles.js')
 
 const debug = require('@ff0000-ad-tech/debug')
 var log = debug('wp-creative-server:route:api')
+const rowLog = (...args) => {
+	log(...args)
+}
 
 module.exports = (app, express) => {
 	var routes = {
@@ -70,7 +73,7 @@ module.exports = (app, express) => {
 
 	// get webpack command
 	app.get('/api/get-wp-cmd/:type/:size/:index', [mw.markActivity], (req, res) => {
-		log(req.url)
+		rowLog(req.url)
 		const cmd = watching.getWpCmd(targets, req.params.type, req.params.size, req.params.index)
 		if (cmd instanceof Error) {
 			res.status(500).send({ error: cmd.message })
@@ -81,13 +84,13 @@ module.exports = (app, express) => {
 
 	// watching - called by wp-process-manager
 	app.get('/api/watch-start/:type/:size/:index/:pid', [mw.markActivity], (req, res) => {
-		log(req.url)
+		rowLog(req.url)
 		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
 		watching.startWatching(req.params.type, target, req.params.pid)
 		res.sendStatus(200)
 	})
 	app.get('/api/watch-stop/:type/:size/:index/:pid', [mw.markActivity], (req, res) => {
-		log(req.url)
+		rowLog(req.url)
 		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
 		watching.stopWatching(req.params.type, target)
 		res.sendStatus(200)
@@ -100,13 +103,13 @@ module.exports = (app, express) => {
 
 	// compiling - user requests from application
 	app.get('/api/compile-start/:type/:size/:index', [mw.markActivity], (req, res) => {
-		log(req.url)
+		rowLog(req.url)
 		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
 		background.compile(req.params.type, target)
 		res.sendStatus(200)
 	})
 	app.get('/api/compile-stop/:type/:size/:index', [mw.markActivity], (req, res) => {
-		log(req.url)
+		rowLog(req.url)
 		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
 		background.kill(req.params.type, target)
 		res.sendStatus(200)
@@ -126,7 +129,7 @@ module.exports = (app, express) => {
 
 	// error - called by wp-process-manager
 	app.get('/api/error-dispatch/:type/:size/:index', [mw.markActivity], (req, res) => {
-		log(req.url)
+		rowLog(req.url)
 		const target = state.getTargets(targets.generateId(req.params.size, req.params.index))
 		watching.setError(req.params.type, target, true)
 		res.sendStatus(200)
@@ -158,7 +161,7 @@ module.exports = (app, express) => {
 	*/
 	// get App Meta
 	app.get('/api/get-app-meta', (req, res) => {
-		log('/api/get-app-meta')
+		rowLog('/api/get-app-meta')
 		backendApi.api.getAppMeta(resp => {
 			if (resp instanceof Error) {
 				res.status(500).send({ error: resp.message })
@@ -175,7 +178,7 @@ module.exports = (app, express) => {
 	*/
 	// get plugins
 	app.get('/api/get-plugins', (req, res) => {
-		log('/api/get-plugins')
+		rowLog('/api/get-plugins')
 		backendApi.api.getPlugins(resp => {
 			if (resp instanceof Error) {
 				res.status(500).send({ error: resp.message })
@@ -202,7 +205,7 @@ module.exports = (app, express) => {
 	*
 	*/
 	app.get('/api/get-creative', (req, res) => {
-		log('/api/get-creative')
+		// rowLog('/api/get-creative')
 		backendApi.api.getCreative(resp => {
 			if (resp instanceof Error) {
 				res.status(500).send({ error: resp.message })
@@ -218,7 +221,7 @@ module.exports = (app, express) => {
 	*
 	*/
 	app.get('/api/read-targets', (req, res) => {
-		log('/api/read-targets')
+		// rowLog('/api/read-targets')
 		backendApi.api.readTargets(resp => {
 			if (resp instanceof Error) {
 				res.status(500).send({ error: resp.message })
@@ -229,7 +232,7 @@ module.exports = (app, express) => {
 	})
 
 	app.get('/api/refresh-targets', (req, res) => {
-		log('/api/refresh-targets')
+		// rowLog('/api/refresh-targets')
 		backendApi.api.refreshTargets(resp => {
 			if (resp instanceof Error) {
 				res.status(500).send({ error: resp.message })
@@ -245,7 +248,7 @@ module.exports = (app, express) => {
 	*
 	*/
 	app.post('/api/copy-wp-cmd', (req, res) => {
-		log('/api/copy-wp-cmd')
+		// rowLog('/api/copy-wp-cmd')
 		const body = req.body
 		backendApi.api.copyWpCmd(body.type, body.size, body.index, resp => {
 			if (resp instanceof Error) {
@@ -262,7 +265,7 @@ module.exports = (app, express) => {
 	*
 	*/
 	app.get('/api/get-profiles', (req, res) => {
-		log('/api/get-profiles')
+		// rowLog('/api/get-profiles')
 		backendApi.api.getProfiles(
 			resp => {
 				res.status(200).send(resp)

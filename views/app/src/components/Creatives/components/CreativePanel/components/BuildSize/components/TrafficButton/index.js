@@ -15,6 +15,9 @@ import './style.scss'
 
 import debug from '@ff0000-ad-tech/debug'
 const log = debug('wp-cs:app:TrafficButton')
+const rowLog = (...args) => {
+	log(...args)
+}
 
 import processingGif from '../../images/preloader.gif'
 import errorIcon from '../../images/error.png'
@@ -70,7 +73,7 @@ class TrafficButton extends PureComponent {
 
 	// run deploy
 	startCompiling = e => {
-		this.backend.addDeployTargets(this.props.profiles, this.props.currentProfile.name, this.props.ad)
+		/* this.backend.addDeployTargets(this.props.profiles, this.props.currentProfile.name, this.props.ad)
 		this.props.dispatch(
 			updateWatch(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, {
 				processing: true
@@ -81,7 +84,38 @@ class TrafficButton extends PureComponent {
 				deployAt: '...'
 			})
 		)
-		xhr(`/api/compile-start/${this.props.currentProfile.name}/${this.props.ad.size}/${this.props.ad.index}`)
+		xhr(`/api/compile-start/${this.props.currentProfile.name}/${this.props.ad.size}/${this.props.ad.index}`) */
+		rowLog('startCompiling()')
+		let myExecutorFunc = resolve => {
+			rowLog('	myExecutorFunc()')
+			this.backend.addDeployTargets(this.props.profiles, this.props.currentProfile.name, this.props.ad)
+			resolve()
+			return
+		}
+		const myPromise = new Promise(myExecutorFunc)
+			.then(() => {
+				rowLog('	updateWatch()')
+				this.props.dispatch(
+					updateWatch(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, {
+						processing: true
+					})
+				)
+			})
+			.then(() => {
+				rowLog('	updateDeployAt()')
+				this.props.dispatch(
+					updateDeployAt(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, {
+						deployAt: '...'
+					})
+				)
+			})
+			.then(() => {
+				rowLog('	/api/compile-start/')
+				xhr(`/api/compile-start/${this.props.currentProfile.name}/${this.props.ad.size}/${this.props.ad.index}`)
+			})
+			.catch(err => {
+				throw err
+			})
 	}
 	stopCompiling = e => {
 		xhr(`/api/compile-stop/${this.props.currentProfile.name}/${this.props.ad.size}/${this.props.ad.index}`)

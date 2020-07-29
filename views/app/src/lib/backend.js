@@ -7,6 +7,9 @@ import { update as profilesUpdate } from '../services/profiles/actions.js'
 import debug from '@ff0000-ad-tech/debug'
 const log = debug('wp-cs:app:backend')
 const log1 = debug('wp-cs:app:backend+')
+const rowLog = (...args) => {
+	// log(...args)
+}
 debug.disable('wp-cs:app:backend+') // comment this line to get an idea of the pace of the update cycle
 
 const axios = require('axios').default
@@ -28,15 +31,15 @@ export default class Backend {
 	*
 	*/
 	getAppMeta(cb) {
-		log('getAppMeta()')
+		rowLog('getAppMeta()')
 		axios
 			.get('/api/get-app-meta')
 			.then(res => {
-				log('		getAppMeta() res.data:', res.data)
+				rowLog('		getAppMeta() res.data:', res.data)
 				this.store.dispatch(appMetaUpdate(res.data))
 			})
 			.catch(error => {
-				log(error)
+				rowLog(error)
 			})
 	}
 
@@ -46,15 +49,15 @@ export default class Backend {
 	*
 	*/
 	getPlugins() {
-		log('getPlugins()')
+		rowLog('getPlugins()')
 		axios
 			.get('/api/get-plugins')
 			.then(res => {
-				log('		getPlugins().res.data:', res.data)
+				rowLog('		getPlugins().res.data:', res.data)
 				this.store.dispatch(pluginsUpdate(res.data))
 			})
 			.catch(error => {
-				log(error)
+				rowLog(error)
 			})
 	}
 
@@ -64,15 +67,15 @@ export default class Backend {
 	*
 	*/
 	getCreative() {
-		log('getCreative()')
+		rowLog('getCreative()')
 		axios
 			.get('/api/get-creative')
 			.then(res => {
-				log('		getCreative:', res.data)
+				rowLog('		getCreative:', res.data)
 				this.store.dispatch(creativeUpdate(res.data))
 			})
 			.catch(error => {
-				log(error)
+				rowLog(error)
 			})
 	}
 
@@ -82,7 +85,7 @@ export default class Backend {
 	*
 	*/
 	readTargets() {
-		log('readTargets()')
+		rowLog('readTargets()')
 		axios
 			.get('/api/read-targets')
 			.then(res => {
@@ -90,7 +93,7 @@ export default class Backend {
 				this.store.dispatch(targetsUpdate(res.data))
 			})
 			.catch(error => {
-				log(error)
+				rowLog(error)
 			})
 	}
 	refreshTargets() {
@@ -101,7 +104,7 @@ export default class Backend {
 				this.store.dispatch(targetsUpdate(res.data))
 			})
 			.catch(error => {
-				log(error)
+				rowLog(error)
 			})
 	}
 
@@ -111,7 +114,7 @@ export default class Backend {
 	*
 	*/
 	copyWpCmd(ctype, size, index, cb) {
-		log('copyWpCmd()')
+		rowLog('copyWpCmd()')
 		axios
 			.post('/api/copy-wp-cmd', {
 				type: ctype,
@@ -119,11 +122,11 @@ export default class Backend {
 				index: index
 			})
 			.then(res => {
-				log('	res.data.shell', res.data.shell)
+				rowLog('	res.data.shell', res.data.shell)
 				cb()
 			})
 			.catch(error => {
-				log(error)
+				rowLog(error)
 			})
 	}
 
@@ -144,7 +147,7 @@ export default class Backend {
 			})
 	}
 	newProfile(name) {
-		log('newProfile()')
+		rowLog('newProfile()')
 		axios
 			.post('/api/new-profile', {
 				name: name
@@ -158,7 +161,7 @@ export default class Backend {
 			})
 	}
 	updateProfile(name, profile) {
-		log('updateProfile()')
+		rowLog('updateProfile()')
 		axios
 			.post('/api/update-profile', {
 				name: name,
@@ -172,7 +175,7 @@ export default class Backend {
 			})
 	}
 	deleteProfile(name) {
-		log('deleteProfile()')
+		rowLog('deleteProfile()')
 		axios
 			.post('/api/delete-profile', {
 				name: name
@@ -185,8 +188,8 @@ export default class Backend {
 			})
 	}
 	addDeployTargets(profiles, name, target) {
-		log('addDeployTargets()')
-		log('		target:', target)
+		rowLog('addDeployTargets()')
+		rowLog('		target:', target)
 		// temp add target (to make state snappy)
 		profiles[name].targets.push({
 			size: target.size,
@@ -209,7 +212,7 @@ export default class Backend {
 			})
 	}
 	removeDeployTargets(profiles, name, target) {
-		log('removeDeployTargets()')
+		rowLog('removeDeployTargets()')
 		// temp remove target (to make state snappy)
 		profiles[name].targets = profiles[name].targets.filter(ptarget => {
 			if (ptarget.size === target.size && ptarget.index === target.index) {
@@ -242,17 +245,17 @@ export default class Backend {
 	// npm install git+ssh://git@stash.ff0000.com:7999/at/ad-es6-particles.git --save
 	// npm install latest --save
 	copyPluginInstallCmd(dep, cb) {
-		log('copyPluginInstallCmd()')
+		rowLog('copyPluginInstallCmd()')
 		axios
 			.post('/api/copy-plugin-install-cmd', {
 				plugin: dep
 			})
 			.then(res => {
-				log('	res.data', res.data)
+				rowLog('	res.data', res.data)
 				cb()
 			})
 			.catch(error => {
-				log(error)
+				rowLog(error)
 			})
 	}
 
@@ -262,7 +265,7 @@ export default class Backend {
 	*
 	*/
 	copyToClipboard(str, cb) {
-		log('copyToClipboard()')
+		rowLog('copyToClipboard()')
 		this.remote.copyToClipboard(str, cb, err => {
 			alert(err.message)
 		})
