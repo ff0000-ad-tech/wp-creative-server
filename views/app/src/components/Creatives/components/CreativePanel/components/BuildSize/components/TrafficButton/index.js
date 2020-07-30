@@ -73,18 +73,6 @@ class TrafficButton extends PureComponent {
 
 	// run deploy
 	startCompiling = async e => {
-		/* this.backend.addDeployTargets(this.props.profiles, this.props.currentProfile.name, this.props.ad)
-		this.props.dispatch(
-			updateWatch(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, {
-				processing: true
-			})
-		)
-		this.props.dispatch(
-			updateDeployAt(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, {
-				deployAt: '...'
-			})
-		)
-		xhr(`/api/compile-start/${this.props.currentProfile.name}/${this.props.ad.size}/${this.props.ad.index}`) */
 		rowLog('startCompiling()')
 		await this.backend.addDeployTargets(this.props.profiles, this.props.currentProfile.name, this.props.ad)
 		this.props.dispatch(
