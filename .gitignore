@@ -60,6 +60,8 @@ node_modules/
 
 !.gitkeep
 
+_buildpoints/
+
 # for some reson zsh has started putting these everywhere
 .oh-my-zsh
 
