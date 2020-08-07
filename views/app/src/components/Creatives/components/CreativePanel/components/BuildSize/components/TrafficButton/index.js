@@ -15,7 +15,7 @@ import './style.scss'
 
 import debug from '@ff0000-ad-tech/debug'
 const log = debug('wp-cs:app:TrafficButton')
-const rowLog = (...args) => {
+const mLog = (...args) => {
 	log(...args)
 }
 
@@ -73,7 +73,7 @@ class TrafficButton extends PureComponent {
 
 	// run deploy
 	startCompiling = async e => {
-		rowLog('startCompiling()')
+		mLog('startCompiling()')
 		await this.backend.addDeployTargets(this.props.profiles, this.props.currentProfile.name, this.props.ad)
 		this.props.dispatch(
 			updateWatch(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, {

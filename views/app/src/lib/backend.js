@@ -7,7 +7,7 @@ import { update as profilesUpdate } from '../services/profiles/actions.js'
 import debug from '@ff0000-ad-tech/debug'
 const log = debug('wp-cs:app:backend')
 const log1 = debug('wp-cs:app:backend+')
-const rowLog = (...args) => {
+const mLog = (...args) => {
 	// log(...args)
 }
 debug.disable('wp-cs:app:backend+') // comment this line to get an idea of the pace of the update cycle
@@ -26,66 +26,66 @@ export default class Backend {
 	}
 
 	/* -- APP META -------------------------
-	*
-	*
-	*
-	*/
+	 *
+	 *
+	 *
+	 */
 	getAppMeta(cb) {
-		rowLog('getAppMeta()')
+		mLog('getAppMeta()')
 		axios
 			.get('/api/get-app-meta')
 			.then(res => {
-				rowLog('		getAppMeta() res.data:', res.data)
+				mLog('		getAppMeta() res.data:', res.data)
 				this.store.dispatch(appMetaUpdate(res.data))
 			})
 			.catch(error => {
-				rowLog(error)
+				mLog(error)
 			})
 	}
 
 	/* -- PLUGINS -------------------------
-	*
-	*
-	*
-	*/
+	 *
+	 *
+	 *
+	 */
 	getPlugins() {
-		rowLog('getPlugins()')
+		mLog('getPlugins()')
 		axios
 			.get('/api/get-plugins')
 			.then(res => {
-				rowLog('		getPlugins().res.data:', res.data)
+				mLog('		getPlugins().res.data:', res.data)
 				this.store.dispatch(pluginsUpdate(res.data))
 			})
 			.catch(error => {
-				rowLog(error)
+				mLog(error)
 			})
 	}
 
 	/* -- CREATIVE -------------------------
-	*
-	*
-	*
-	*/
+	 *
+	 *
+	 *
+	 */
 	getCreative() {
-		rowLog('getCreative()')
+		mLog('getCreative()')
 		axios
 			.get('/api/get-creative')
 			.then(res => {
-				rowLog('		getCreative:', res.data)
+				mLog('		getCreative:', res.data)
 				this.store.dispatch(creativeUpdate(res.data))
 			})
 			.catch(error => {
-				rowLog(error)
+				mLog(error)
 			})
 	}
 
 	/* -- TARGETS -------------------------
-	*
-	*
-	*
-	*/
+	 *
+	 *
+	 *
+	 */
 	readTargets() {
-		rowLog('readTargets()')
+		mLog('readTargets()')
 		axios
 			.get('/api/read-targets')
 			.then(res => {
@@ -93,7 +93,7 @@ export default class Backend {
 				this.store.dispatch(targetsUpdate(res.data))
 			})
 			.catch(error => {
-				rowLog(error)
+				mLog(error)
 			})
 	}
 	refreshTargets() {
@@ -104,17 +104,17 @@ export default class Backend {
 				this.store.dispatch(targetsUpdate(res.data))
 			})
 			.catch(error => {
-				rowLog(error)
+				mLog(error)
 			})
 	}
 
 	/* -- COMPILING -------------------------
-	*
-	*
-	*
-	*/
+	 *
+	 *
+	 *
+	 */
 	copyWpCmd(ctype, size, index, cb) {
-		rowLog('copyWpCmd()')
+		mLog('copyWpCmd()')
 		axios
 			.post('/api/copy-wp-cmd', {
 				type: ctype,
@@ -122,19 +122,19 @@ export default class Backend {
 				index: index
 			})
 			.then(res => {
-				rowLog('	res.data.shell', res.data.shell)
+				mLog('	res.data.shell', res.data.shell)
 				cb()
 			})
 			.catch(error => {
-				rowLog(error)
+				mLog(error)
 			})
 	}
 
 	/* -- PROFILES -------------------------
-	*
-	*
-	*
-	*/
+	 *
+	 *
+	 *
+	 */
 	getProfiles() {
 		axios
 			.get('/api/get-profiles')
@@ -147,7 +147,7 @@ export default class Backend {
 			})
 	}
 	newProfile(name) {
-		rowLog('newProfile()')
+		mLog('newProfile()')
 		axios
 			.post('/api/new-profile', {
 				name: name
@@ -161,7 +161,7 @@ export default class Backend {
 			})
 	}
 	updateProfile(name, profile) {
-		rowLog('updateProfile()')
+		mLog('updateProfile()')
 		axios
 			.post('/api/update-profile', {
 				name: name,
@@ -175,7 +175,7 @@ export default class Backend {
 			})
 	}
 	deleteProfile(name) {
-		rowLog('deleteProfile()')
+		mLog('deleteProfile()')
 		axios
 			.post('/api/delete-profile', {
 				name: name
@@ -188,8 +188,8 @@ export default class Backend {
 			})
 	}
 	async addDeployTargets(profiles, name, target) {
-		rowLog('addDeployTargets()')
-		rowLog('		target:', target)
+		mLog('addDeployTargets()')
+		mLog('		target:', target)
 		// temp add target (to make state snappy)
 		profiles[name].targets.push({
 			size: target.size,
@@ -216,7 +216,7 @@ export default class Backend {
 		})
 	}
 	removeDeployTargets(profiles, name, target) {
-		rowLog('removeDeployTargets()')
+		mLog('removeDeployTargets()')
 		// temp remove target (to make state snappy)
 		profiles[name].targets = profiles[name].targets.filter(ptarget => {
 			if (ptarget.size === target.size && ptarget.index === target.index) {
@@ -242,34 +242,34 @@ export default class Backend {
 	}
 
 	/* -- PLUGINS -------------------------
-	*
-	*
-	*
-	*/
+	 *
+	 *
+	 *
+	 */
 	// npm install git+ssh://git@stash.ff0000.com:7999/at/ad-es6-particles.git --save
 	// npm install latest --save
 	copyPluginInstallCmd(dep, cb) {
-		rowLog('copyPluginInstallCmd()')
+		mLog('copyPluginInstallCmd()')
 		axios
 			.post('/api/copy-plugin-install-cmd', {
 				plugin: dep
 			})
 			.then(res => {
-				rowLog('	res.data', res.data)
+				mLog('	res.data', res.data)
 				cb()
 			})
 			.catch(error => {
-				rowLog(error)
+				mLog(error)
 			})
 	}
 
 	/* -- UTILS -------------------------
-	*
-	*  This function doesn't seem to actually be used. Remove??
-	*
-	*/
+	 *
+	 *  This function doesn't seem to actually be used. Remove??
+	 *
+	 */
 	copyToClipboard(str, cb) {
-		rowLog('copyToClipboard()')
+		mLog('copyToClipboard()')
 		this.remote.copyToClipboard(str, cb, err => {
 			alert(err.message)
 		})
