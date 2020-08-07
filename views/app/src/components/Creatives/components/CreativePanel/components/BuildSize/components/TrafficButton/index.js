@@ -145,7 +145,6 @@ class TrafficButton extends PureComponent {
 			</div>
 		)
 	}
-	getWebpackLogo() {}
 	getStateIcon() {
 		if (!(this.props.currentProfile.name in this.props.ad.watching)) {
 			return
