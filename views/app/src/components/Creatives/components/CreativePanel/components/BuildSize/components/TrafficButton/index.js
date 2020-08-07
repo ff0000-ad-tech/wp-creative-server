@@ -134,6 +134,17 @@ class TrafficButton extends PureComponent {
 			</div>
 		)
 	}
+	getWebpackLogo() {
+		const dialog = this.state.showCopiedDialog ? 'show' : ''
+		return (
+			<div className="webpack" title="Copy deploy command to clipboard">
+				<div onClick={this.webpackOnClick}>
+					<img src={webpackLogo} width="21" height="21" />
+				</div>
+				<div className={`action-dialog ${dialog}`}>Copied!</div>
+			</div>
+		)
+	}
 	getWebpackLogo() {}
 	getStateIcon() {
 		if (!(this.props.currentProfile.name in this.props.ad.watching)) {
@@ -204,7 +215,7 @@ class TrafficButton extends PureComponent {
 
 /* -- Data/State ----
  *
- * 
+ *
  */
 TrafficButton.propTypes = {
 	ad: PropTypes.object.isRequired
