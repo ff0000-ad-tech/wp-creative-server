@@ -7,6 +7,9 @@ import { update as profilesUpdate } from '../services/profiles/actions.js'
 import debug from '@ff0000-ad-tech/debug'
 const log = debug('wp-cs:app:backend')
 const log1 = debug('wp-cs:app:backend+')
+const mLog = (...args) => {
+	// log(...args)
+}
 debug.disable('wp-cs:app:backend+') // comment this line to get an idea of the pace of the update cycle
 
 const axios = require('axios').default
@@ -23,66 +26,66 @@ export default class Backend {
 	}
 
 	/* -- APP META -------------------------
-	*
-	*
-	*
-	*/
+	 *
+	 *
+	 *
+	 */
 	getAppMeta(cb) {
-		log('getAppMeta()')
+		mLog('getAppMeta()')
 		axios
 			.get('/api/get-app-meta')
 			.then(res => {
-				log('		getAppMeta() res.data:', res.data)
+				mLog('		getAppMeta() res.data:', res.data)
 				this.store.dispatch(appMetaUpdate(res.data))
 			})
 			.catch(error => {
-				log(error)
+				mLog(error)
 			})
 	}
 
 	/* -- PLUGINS -------------------------
-	*
-	*
-	*
-	*/
+	 *
+	 *
+	 *
+	 */
 	getPlugins() {
-		log('getPlugins()')
+		mLog('getPlugins()')
 		axios
 			.get('/api/get-plugins')
 			.then(res => {
-				log('		getPlugins().res.data:', res.data)
+				mLog('		getPlugins().res.data:', res.data)
 				this.store.dispatch(pluginsUpdate(res.data))
 			})
 			.catch(error => {
-				log(error)
+				mLog(error)
 			})
 	}
 
 	/* -- CREATIVE -------------------------
-	*
-	*
-	*
-	*/
+	 *
+	 *
+	 *
+	 */
 	getCreative() {
-		log('getCreative()')
+		mLog('getCreative()')
 		axios
 			.get('/api/get-creative')
 			.then(res => {
-				log('		getCreative:', res.data)
+				mLog('		getCreative:', res.data)
 				this.store.dispatch(creativeUpdate(res.data))
 			})
 			.catch(error => {
-				log(error)
+				mLog(error)
 			})
 	}
 
 	/* -- TARGETS -------------------------
-	*
-	*
-	*
-	*/
+	 *
+	 *
+	 *
+	 */
 	readTargets() {
-		log('readTargets()')
+		mLog('readTargets()')
 		axios
 			.get('/api/read-targets')
 			.then(res => {
@@ -90,7 +93,7 @@ export default class Backend {
 				this.store.dispatch(targetsUpdate(res.data))
 			})
 			.catch(error => {
-				log(error)
+				mLog(error)
 			})
 	}
 	refreshTargets() {
@@ -101,17 +104,17 @@ export default class Backend {
 				this.store.dispatch(targetsUpdate(res.data))
 			})
 			.catch(error => {
-				log(error)
+				mLog(error)
 			})
 	}
 
 	/* -- COMPILING -------------------------
-	*
-	*
-	*
-	*/
+	 *
+	 *
+	 *
+	 */
 	copyWpCmd(ctype, size, index, cb) {
-		log('copyWpCmd()')
+		mLog('copyWpCmd()')
 		axios
 			.post('/api/copy-wp-cmd', {
 				type: ctype,
@@ -119,19 +122,19 @@ export default class Backend {
 				index: index
 			})
 			.then(res => {
-				log('	res.data.shell', res.data.shell)
+				mLog('	res.data.shell', res.data.shell)
 				cb()
 			})
 			.catch(error => {
-				log(error)
+				mLog(error)
 			})
 	}
 
 	/* -- PROFILES -------------------------
-	*
-	*
-	*
-	*/
+	 *
+	 *
+	 *
+	 */
 	getProfiles() {
 		axios
 			.get('/api/get-profiles')
@@ -144,7 +147,7 @@ export default class Backend {
 			})
 	}
 	newProfile(name) {
-		log('newProfile()')
+		mLog('newProfile()')
 		axios
 			.post('/api/new-profile', {
 				name: name
@@ -158,7 +161,7 @@ export default class Backend {
 			})
 	}
 	updateProfile(name, profile) {
-		log('updateProfile()')
+		mLog('updateProfile()')
 		axios
 			.post('/api/update-profile', {
 				name: name,
@@ -172,7 +175,7 @@ export default class Backend {
 			})
 	}
 	deleteProfile(name) {
-		log('deleteProfile()')
+		mLog('deleteProfile()')
 		axios
 			.post('/api/delete-profile', {
 				name: name
@@ -184,9 +187,9 @@ export default class Backend {
 				alert(error.message)
 			})
 	}
-	addDeployTargets(profiles, name, target) {
-		log('addDeployTargets()')
-		log('		target:', target)
+	async addDeployTargets(profiles, name, target) {
+		mLog('addDeployTargets()')
+		mLog('		target:', target)
 		// temp add target (to make state snappy)
 		profiles[name].targets.push({
 			size: target.size,
@@ -196,20 +199,24 @@ export default class Backend {
 		this.store.dispatch(profilesUpdate(profiles))
 
 		// backend add target
-		axios
-			.post('/api/add-deploy-targets', {
-				name: name,
-				target: target
-			})
-			.then(res => {
-				this.getProfiles()
-			})
-			.catch(error => {
-				alert(error.message)
-			})
+		return new Promise((resolve, reject) => {
+			axios
+				.post('/api/add-deploy-targets', {
+					name: name,
+					target: target
+				})
+				.then(res => {
+					this.getProfiles()
+					resolve()
+				})
+				.catch(error => {
+					alert(error.message)
+					reject(error)
+				})
+		})
 	}
 	removeDeployTargets(profiles, name, target) {
-		log('removeDeployTargets()')
+		mLog('removeDeployTargets()')
 		// temp remove target (to make state snappy)
 		profiles[name].targets = profiles[name].targets.filter(ptarget => {
 			if (ptarget.size === target.size && ptarget.index === target.index) {
@@ -235,34 +242,34 @@ export default class Backend {
 	}
 
 	/* -- PLUGINS -------------------------
-	*
-	*
-	*
-	*/
+	 *
+	 *
+	 *
+	 */
 	// npm install git+ssh://git@stash.ff0000.com:7999/at/ad-es6-particles.git --save
 	// npm install latest --save
 	copyPluginInstallCmd(dep, cb) {
-		log('copyPluginInstallCmd()')
+		mLog('copyPluginInstallCmd()')
 		axios
 			.post('/api/copy-plugin-install-cmd', {
 				plugin: dep
 			})
 			.then(res => {
-				log('	res.data', res.data)
+				mLog('	res.data', res.data)
 				cb()
 			})
 			.catch(error => {
-				log(error)
+				mLog(error)
 			})
 	}
 
 	/* -- UTILS -------------------------
-	*
-	*  This function doesn't seem to actually be used. Remove??
-	*
-	*/
+	 *
+	 *  This function doesn't seem to actually be used. Remove??
+	 *
+	 */
 	copyToClipboard(str, cb) {
-		log('copyToClipboard()')
+		mLog('copyToClipboard()')
 		this.remote.copyToClipboard(str, cb, err => {
 			alert(err.message)
 		})

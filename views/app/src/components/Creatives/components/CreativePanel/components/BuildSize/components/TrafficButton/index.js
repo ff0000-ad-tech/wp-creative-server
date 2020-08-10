@@ -15,6 +15,9 @@ import './style.scss'
 
 import debug from '@ff0000-ad-tech/debug'
 const log = debug('wp-cs:app:TrafficButton')
+const mLog = (...args) => {
+	log(...args)
+}
 
 import processingGif from '../../images/preloader.gif'
 import errorIcon from '../../images/error.png'
@@ -69,8 +72,9 @@ class TrafficButton extends PureComponent {
 	}
 
 	// run deploy
-	startCompiling = e => {
-		this.backend.addDeployTargets(this.props.profiles, this.props.currentProfile.name, this.props.ad)
+	startCompiling = async e => {
+		mLog('startCompiling()')
+		await this.backend.addDeployTargets(this.props.profiles, this.props.currentProfile.name, this.props.ad)
 		this.props.dispatch(
 			updateWatch(this.props.currentProfile.name, this.props.ad.size, this.props.ad.index, {
 				processing: true
@@ -210,7 +214,7 @@ class TrafficButton extends PureComponent {
 
 /* -- Data/State ----
  *
- * 
+ *
  */
 TrafficButton.propTypes = {
 	ad: PropTypes.object.isRequired
