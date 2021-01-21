@@ -36,14 +36,6 @@ log(` Serve path is: ${global.servePath}`)
  *
  *
  */
-// CHECK TO BACKUP PACKAGE-LOCKS
-log('Checking to backup NPM package-locks')
-try {
-	const packageLocks = require('./lib/package-locks.js')
-	packageLocks.checkToBackupPkgs()
-} catch (err) {}
-
-// express set up
 var app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
@@ -62,12 +54,12 @@ state.reset()
  *
  */
 var backendApi = require('./routes/backend-api.js')
-backendApi.api.getAppMeta(() => {})
-backendApi.api.getPlugins(() => {})
-backendApi.api.getCreative(() => {})
-backendApi.api.readTargets(() => {})
-backendApi.api.getProfiles(() => {})
-backendApi.api.refreshTargets(() => {})
+backendApi.api.getAppMeta(() => { })
+backendApi.api.getPlugins(() => { })
+backendApi.api.getCreative(() => { })
+backendApi.api.readTargets(() => { })
+backendApi.api.getProfiles(() => { })
+backendApi.api.refreshTargets(() => { })
 
 /* -- ROUTES ----------------------------------------------
  *
