@@ -23,23 +23,27 @@ global.api
 // set app-path
 global.appPath = __dirname
 
-// --browser, will automatically open a browser
-
 // set creative-path with --context,
 // ex: `node ./node_modules/@ff0000-ad-tech/wp-creative-server/index.js --context ./`
 global.servePath = path.resolve('context' in argv ? argv.context : global.appPath)
 log(`Requested --context ${argv.context}`)
 log(` Serve-path: ${global.servePath}`)
 
-// force external wp-deploy-manager usage with --wpScope
-// ex: `... --wpScope ./node_modules/@ff0000-ad-tech/wp-deploy-manager`
-if (argv.wpScope) {
-	global.wpScope = path.resolve(argv.wpScope)
-	log(`Specified --wpScope`)
-	log(` Webpack at: ${global.wpScope}`)
-} else {
-	log(` Webpack at: ${global.servePath}`)
+// cwd, by default is the creative-path
+global.cwd = global.servePath
+if (argv.cwd) {
+	log(`Specified --cwd`)
+	global.cwd = argv.cwd
 }
+log(` Working directory is: ${global.cwd}`)
+
+// wp-deploy-manager (webpack.config.js) location, by default is the creative-path
+global.wpDmPath = global.servePath
+if (argv.wpDmPath) {
+	log(`Specified --wpDmPath`)
+	global.wpDmPath = argv.wpDmPath
+}
+log(` Deploy-Manager (webpack.config.js) at: ${global.wpDmPath}`)
 
 /* -- Setup -----------------------------------------------
  *
