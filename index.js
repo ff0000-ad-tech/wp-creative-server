@@ -1,4 +1,5 @@
 const express = require('express')
+const compression = require('compression')
 
 const argv = require('minimist')(process.argv.slice(2))
 const path = require('path')
@@ -53,6 +54,7 @@ log(` Deploy-Manager (webpack.config.js) at: ${global.wpDmPath}`)
 var app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+app.use(compression())
 
 /* -- STATE ----------------------------------------------
  *
