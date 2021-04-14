@@ -139,7 +139,7 @@ class BrowsePanel extends Component {
 	}
 	openExternal = e => {
 		const iframeRoute = this.getIframeRoute(this.iframe.contentWindow.location)
-		window.open(this.props.browser.origin + iframeRoute, '_blank')
+		window.open(this.props.browser.origin + iframeRoute, 'cs-external')
 	}
 }
 
