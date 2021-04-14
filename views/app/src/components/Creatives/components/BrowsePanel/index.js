@@ -7,7 +7,7 @@ import Breadcrumbs from './components/Breadcrumbs'
 import debug from '@ff0000-ad-tech/debug'
 const log = debug('wp-cs:BrowsePanel')
 const log1 = debug('wp-cs:BrowsePanel+')
-debug.disable('wp-cs:BrowsePanel+')
+// debug.disable('wp-cs:BrowsePanel+')
 
 import './style.scss'
 
@@ -54,22 +54,22 @@ class BrowsePanel extends Component {
 	}
 	// redux changes to browser route will cause component to receive new props
 	componentWillReceiveProps(next) {
-		if (next.browser.route !== this.props.browser.route) {
-			if (next.browser.renderIframe) {
-				log1('recvd props WILL UPDATE::::')
-				log1(' THIS:', this.props.browser.route)
-				log1(' NEXT:', next.browser.route)
-				this.setState(
-					{
-						iframeSrc: next.browser.origin + next.browser.route,
-						iframeSrcCanUpdateState: false // don't respond to iframe load event
-					},
-					() => {
-						this.forceUpdate()
-					}
-				)
-			}
+		// if (next.browser.route !== this.props.browser.route) {
+		if (next.browser.renderIframe) {
+			log1('recvd props WILL UPDATE::::')
+			log1(' THIS:', this.props.browser.route)
+			log1(' NEXT:', next.browser.route)
+			this.setState(
+				{
+					iframeSrc: next.browser.origin + next.browser.route,
+					iframeSrcCanUpdateState: false // don't respond to iframe load event
+				},
+				() => {
+					this.forceUpdate()
+				}
+			)
 		}
+		// }
 	}
 
 	// any time the iframe reloads
@@ -143,7 +143,7 @@ class BrowsePanel extends Component {
 	}
 }
 
-const mapStateToProps = function(state) {
+const mapStateToProps = function (state) {
 	return {
 		browser: state.browser
 	}
