@@ -120,8 +120,8 @@ portManager
 	})
 
 const background = require('./lib/compiling/background.js')
-function cleanup() {
-	background.killAll()
+const cleanup = async () => {
+	await background.killAll()
 	log('Goodbye~')
 	process.exit()
 }
