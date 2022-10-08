@@ -9,7 +9,7 @@ export function xhr(url, err, callback) {
 	request.onreadystatechange = function() {
 		if (request.readyState === 4) {
 			if (request.status !== 200) {
-				if (err) err(request.statusText)
+				if (err) err(request.responseText)
 			} else {
 				if (callback) callback(request.responseText)
 			}

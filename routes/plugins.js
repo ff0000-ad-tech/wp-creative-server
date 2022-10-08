@@ -39,7 +39,7 @@ module.exports = (app, express) => {
 						res.status(200).send(result)
 					})
 					.catch(err => {
-						res.status(500).send(err)
+						res.status(500).send(err.message)
 					})
 			})
 
@@ -50,7 +50,7 @@ module.exports = (app, express) => {
 						res.status(200).send(result)
 					})
 					.catch(err => {
-						res.status(500).send(err)
+						res.status(500).send(err.message)
 					})
 			})
 		}
@@ -136,11 +136,7 @@ function executePluginApi(pluginPath, routes, params) {
 		log(`API -> ${cmd}`)
 		exec(cmd, (err, stdout, stderr) => {
 			if (err) {
-				resolve({
-					stdout,
-					stderr,
-					error: err.message
-				})
+				reject(err)
 			} else {
 				resolve({
 					stdout,
