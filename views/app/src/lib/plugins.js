@@ -94,7 +94,7 @@ export function execute(req, cb) {
 		xhr(
 			req.url,
 			err => {
-				alert(err)
+				alert(`${err}\n\n(Note: This window blocks the Creative Server API.)`)
 			},
 			result => {
 				if (cb) {

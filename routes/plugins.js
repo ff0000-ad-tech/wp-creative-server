@@ -136,7 +136,7 @@ function executePluginApi(pluginPath, routes, params) {
 		log(`API -> ${cmd}`)
 		exec(cmd, (err, stdout, stderr) => {
 			if (err) {
-				reject(err)
+				reject(new Error(stderr))
 			} else {
 				resolve({
 					stdout,
