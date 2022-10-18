@@ -4,16 +4,16 @@ import debug from '@ff0000-ad-tech/debug'
 const log = debug('wp-cs:app:plugins')
 
 /* notes
-	*	plugins may "hook" into various points in creative server by defining api callbacks.
-	*	each hook will send different inputs to the callback
-	*/
+ *	plugins may "hook" into various points in creative server by defining api callbacks.
+ *	each hook will send different inputs to the callback
+ */
 export function getPluginControls(plugins, hook) {
 	if (!plugins) {
 		return
 	}
 	// look for plugins that have the requested hook
 	let controls = {}
-	Object.keys(plugins.installed).forEach(plugin => {
+	Object.keys(plugins.installed).forEach((plugin) => {
 		const settings = getPluginSettings(plugins, plugin)
 		if (hasHook(settings, hook)) {
 			// we expect only one command-per-hook
@@ -43,7 +43,7 @@ export function getPluginRequest(plugin, route, args) {
 	const query = p.query ? `?${p.query}&` : `?`
 	let qs = ''
 	if (args) {
-		Object.keys(args).forEach(arg => {
+		Object.keys(args).forEach((arg) => {
 			let value = args[arg]
 			// serialize arg values that are objects
 			if (typeof value === 'object') {
@@ -66,7 +66,7 @@ function getPluginRoute(str) {
 	let query
 	if (parts.length > 1) {
 		let args = parts[1].split('&')
-		args = args.map(arg => {
+		args = args.map((arg) => {
 			const keyVal = arg.split('=')
 			return `${encodeURIComponent(keyVal[0])}=${encodeURIComponent(keyVal[1])}`
 		})
@@ -87,16 +87,16 @@ function getPluginRoute(str) {
 export function execute(req, cb) {
 	// "app" type urls open a new window
 	if (req.type === 'app') {
-		location.href = req.url
+		window.open(req.url, 'cs-plugin')
 	}
 	// "api" type urls XHR data
 	else {
 		xhr(
 			req.url,
-			err => {
+			(err) => {
 				alert(`${err}\n\n(Note: This window blocks the Creative Server API.)`)
 			},
-			result => {
+			(result) => {
 				if (cb) {
 					cb(result)
 				}
